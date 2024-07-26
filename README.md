@@ -24,8 +24,11 @@ This extension provides syntax highlighting, formatting, and file icons for the 
 
 Feel free to submit issues and pull requests for new features and improvements.
 
+## Madeby
+This extension is made by Baslael Workineh
+
 ## License
 
 [MIT](LICENSE)
 # MeTTa_vscode_extension
-# MeTTa_vscode_extension
+
