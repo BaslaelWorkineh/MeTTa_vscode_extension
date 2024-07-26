@@ -28,3 +28,4 @@ Feel free to submit issues and pull requests for new features and improvements.
 
 [MIT](LICENSE)
 # MeTTa_vscode_extension
+# MeTTa_vscode_extension
