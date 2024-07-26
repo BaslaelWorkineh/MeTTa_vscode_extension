@@ -3,7 +3,7 @@
     "displayName": "MeTTa Lang Formatter + Highlighter + Icon",
     "description": "Provides syntax formatting, highlighting, and file icons for MeTTa language.",
     "version": "0.0.1",
-    "publisher": "Baslael-Workineh-Ayele",
+    "publisher": "BaslaelWorkinehAyele",
     "engines": {
       "vscode": "^1.60.0"
     },

@@ -1,12 +1,12 @@
 # Metta Language Support
 
-This extension provides syntax highlighting, formatting, and file icons for the Metta programming language.
+This extension provides syntax highlighting, formatting, and file icon(only for MeTTa not for others though) for the Metta programming language.
 
 ## Features
 
 - Syntax highlighting for Metta language
 - Document formatting for Metta files
-- Custom file icons for `.metta` files
+- Custom file icon for `.metta` files (I only added 1 icon for MeTTa. I will add others later if necessary)
 
 ## Installation
 
