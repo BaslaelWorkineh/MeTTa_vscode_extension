@@ -24,9 +24,6 @@ This extension provides syntax highlighting, formatting, and file icon(only for 
 
 Feel free to submit issues and pull requests for new features and improvements.
 
-## Madeby
-This extension is made by Baslael Workineh
-
 ## License
 
 [MIT](LICENSE)
