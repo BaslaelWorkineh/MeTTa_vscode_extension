@@ -42,6 +42,10 @@
     "scripts": {
       "vscode:prepublish": "npm run build",
       "build": "echo 'No build step required.'"
-    }
+    },
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/BaslaelWorkineh/MeTTa_vscode_extension.git"
+  }
   }
   
