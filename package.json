@@ -1,0 +1,59 @@
+{
+  "name": "metta-extension",
+  "displayName": "Metta Language Support",
+  "description": "Syntax highlighting, formatting, and icons for Metta language",
+  "version": "0.1.0",
+  "publisher": "your-name",
+  "engines": {
+    "vscode": "^1.50.0"
+  },
+  "categories": ["Programming Languages"],
+  "contributes": {
+    "languages": [
+      {
+        "id": "metta",
+        "aliases": ["Metta", "metta"],
+        "extensions": [".metta"],
+        "configuration": "./src/language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "metta",
+        "scopeName": "source.metta",
+        "path": "./src/syntaxes/metta.tmLanguage.json"
+      }
+    ],
+    "icons": {
+      "fileExtensions": ["metta"],
+      "light": {
+        "iconPath": "./icons/file-icon.png"
+      },
+      "dark": {
+        "iconPath": "./icons/file-icon.png"
+      }
+    },
+    "commands": [
+      {
+        "command": "extension.formatMetta",
+        "title": "Format Metta Document"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.formatMetta",
+        "key": "ctrl+shift+f",
+        "when": "editorTextFocus && editorLangId == metta"
+      }
+    ]
+  },
+  "main": "./src/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "vscode": "^1.1.36",
+    "vsce": "^1.84.0"
+  }
+}

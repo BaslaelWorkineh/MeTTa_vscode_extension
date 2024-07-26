@@ -1,0 +1,33 @@
+{
+  "scopeName": "source.metta",
+  "patterns": [
+    {
+      "name": "keyword.control.metta",
+      "match": "\\b(if|else|case|then|while|for|def|return|and|or)\\b"
+    },
+    {
+      "name": "variable.metta",
+      "match": "\\$\\w+"
+    },
+    {
+      "name": "punctuation.definition.comment.metta",
+      "match": ";.*"
+    }
+  ],
+  "repository": {
+    "comment": {
+      "name": "comment.line.semicolon.metta",
+      "begin": ";",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.comment.metta"
+        }
+      },
+      "end": "$",
+      "name": "comment.line.semicolon.metta"
+    }
+  },
+  "scopeName": "source.metta",
+  "fileTypes": ["metta"],
+  "name": "Metta"
+}
