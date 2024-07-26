@@ -1,23 +1,56 @@
-function format(text) {
-  const indent = '  ';
-  let formatted = '';
-  let indentLevel = 0;
+function formatMettaCode(text) {
+    const lines = text.split('\n');
+    let formattedLines = [];
+    let indentLevel = 0;
+    let inTopLevelExpression = false;
+    let bracketStack = [];
+    let previousLineEmpty = false;
 
-  text.split('\n').forEach(line => {
-    line = line.trim();
+    lines.forEach((line) => {
+        let trimmedLine = line.trim();
 
-    if (line.startsWith(')')) {
-      indentLevel--;
-    }
+        if (trimmedLine === "") {
+            if (!previousLineEmpty) {
+                formattedLines.push('');
+                previousLineEmpty = true;
+            }
+            return;
+        } else {
+            previousLineEmpty = false;
+        }
 
-    formatted += indent.repeat(indentLevel) + line + '\n';
+        let commentIndex = trimmedLine.indexOf(';');
+        if (commentIndex !== -1) {
+            let beforeComment = trimmedLine.slice(0, commentIndex).trim();
+            let comment = trimmedLine.slice(commentIndex).trim();
+            trimmedLine = beforeComment + ' ' + comment; // Preserve the comment text
+        }
 
-    if (line.endsWith('(')) {
-      indentLevel++;
-    }
-  });
+        trimmedLine = trimmedLine.replace(/\s+/g, ' ');
 
-  return formatted;
+        formattedLines.push(' '.repeat(indentLevel * 4) + trimmedLine);
+
+        for (let char of trimmedLine) {
+            if (char === '(') {
+                bracketStack.push('(');
+                indentLevel++;
+                inTopLevelExpression = true;
+            } else if (char === ')') {
+                if (bracketStack.length > 0) {
+                    bracketStack.pop();
+                    indentLevel = Math.max(indentLevel - 1, 0);
+                }
+            }
+        }
+
+        if (bracketStack.length === 0 && inTopLevelExpression) {
+            inTopLevelExpression = false;
+        }
+    });
+
+    return formattedLines.join('\n');
 }
 
-module.exports = { format };
+module.exports = {
+    formatMettaCode
+};

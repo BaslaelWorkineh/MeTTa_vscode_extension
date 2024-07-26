@@ -1,59 +1,47 @@
 {
-  "name": "metta-extension",
-  "displayName": "Metta Language Support",
-  "description": "Syntax highlighting, formatting, and icons for Metta language",
-  "version": "0.1.0",
-  "publisher": "your-name",
-  "engines": {
-    "vscode": "^1.50.0"
-  },
-  "categories": ["Programming Languages"],
-  "contributes": {
-    "languages": [
-      {
-        "id": "metta",
-        "aliases": ["Metta", "metta"],
-        "extensions": [".metta"],
-        "configuration": "./src/language-configuration.json"
-      }
-    ],
-    "grammars": [
-      {
-        "language": "metta",
-        "scopeName": "source.metta",
-        "path": "./src/syntaxes/metta.tmLanguage.json"
-      }
-    ],
-    "icons": {
-      "fileExtensions": ["metta"],
-      "light": {
-        "iconPath": "./icons/file-icon.png"
-      },
-      "dark": {
-        "iconPath": "./icons/file-icon.png"
-      }
+    "name": "metta-formatter-highlighter",
+    "displayName": "MeTTa Lang Formatter + Highlighter + Icon",
+    "description": "Provides syntax formatting, highlighting, and file icons for MeTTa language.",
+    "version": "0.0.1",
+    "publisher": "Baslael-Workineh-Ayele",
+    "engines": {
+      "vscode": "^1.60.0"
     },
-    "commands": [
-      {
-        "command": "extension.formatMetta",
-        "title": "Format Metta Document"
-      }
+    "categories": [
+      "Programming Languages"
     ],
-    "keybindings": [
-      {
-        "command": "extension.formatMetta",
-        "key": "ctrl+shift+f",
-        "when": "editorTextFocus && editorLangId == metta"
-      }
-    ]
-  },
-  "main": "./src/extension.js",
-  "scripts": {
-    "vscode:prepublish": "npm run package",
-    "package": "vsce package"
-  },
-  "devDependencies": {
-    "vscode": "^1.1.36",
-    "vsce": "^1.84.0"
+    "icon": "icons/metta-icon.png",
+    "contributes": {
+      "languages": [
+        {
+          "id": "metta",
+          "aliases": ["MeTTa", "metta"],
+          "extensions": [".metta"],
+          "configuration": "./language-configuration.json"
+        }
+      ],
+      "grammars": [
+        {
+          "language": "metta",
+          "scopeName": "source.metta",
+          "path": "./syntaxes/metta.tmLanguage.json"
+        }
+      ],
+      "iconThemes": [
+        {
+          "id": "metta-icon-theme",
+          "label": "MeTTa Icon Theme",
+          "path": "./icons/icon-theme.json"
+        }
+      ]
+    },
+    "activationEvents": [
+      "onLanguage:metta"
+    ],
+    "main": "./src/extension.js",
+    "scripts": {
+      "vscode:prepublish": "npm run build",
+      "build": "echo 'No build step required.'"
+    }
   }
-}
+  

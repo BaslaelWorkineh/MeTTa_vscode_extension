@@ -1,0 +1,21 @@
+(= (length ()) 0)
+(= (length (:: $x $xs))
+   (+ 1 (length $xs)))
+! (length (:: A (:: B (:: C ()))))
+
+(= (factorial $x)
+   (if (> $x 0)
+       (* $x (factorial (- $x 1)))
+       1))
+! (factorial 5) ; 120
+
+(= (zip $list1 $list2)
+   (case ($list1 $list2)
+         (((() ()) ())
+          (((:: $x $xs) (:: $y $ys)) (:: ($x $y) (zip $xs $ys)))
+          ($else ERROR)
+         )
+   )
+)
+! (zip (:: A (:: B ())) (:: 1 (:: 2 ()))) ; (:: (A 1) (:: (B 2) ()))
+! (zip (:: A (:: B ())) (:: 1 ())) ; (:: (A 1) ERROR)

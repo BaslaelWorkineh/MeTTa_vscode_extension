@@ -1,0 +1,74 @@
+{
+  "scopeName": "source.metta",
+  "patterns": [
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#variables"
+    },
+    {
+      "include": "#brackets"
+    },
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#specialKeywords"
+    }
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [
+        {
+          "match": "\\b(if|else|case|then|while|for|def|return|and|or)\\b",
+          "name": "keyword.control.metta"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "match": "\\$\\w+",
+          "name": "variable.parameter.metta"
+        }
+      ]
+    },
+    "brackets": {
+      "patterns": [
+        {
+          "match": "[()]",
+          "name": "punctuation.section.parens.metta"
+        },
+        {
+          "match": "[{}]",
+          "name": "punctuation.section.braces.metta"
+        },
+        {
+          "match": "[\\[\\]]",
+          "name": "punctuation.section.brackets.metta"
+        }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "match": ";.*$",
+          "name": "comment.line.semicolon.metta"
+        }
+      ]
+    },
+    "specialKeywords": {
+      "patterns": [
+        {
+          "match": "\\bERROR\\b",
+          "name": "keyword.error.metta"
+        },
+        {
+          "match": "\\bNil\\b",
+          "name": "constant.language.nil.metta"
+        }
+      ]
+    }
+  }
+}
