@@ -61,12 +61,8 @@
     "specialKeywords": {
       "patterns": [
         {
-          "match": "\\bERROR\\b",
+          "match": "\\b(ERROR|Nil|True|False)\\b",
           "name": "keyword.error.metta"
-        },
-        {
-          "match": "\\bNil\\b",
-          "name": "constant.language.nil.metta"
         }
       ]
     }
