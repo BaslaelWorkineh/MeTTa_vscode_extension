@@ -12,6 +12,7 @@ This extension provides syntax formatting, highlighting, linting, hovering, snip
 - Folding to make you code cleaner
 - Custom file icon for `.metta` files (I only added 1 icon for MeTTa. I will add others later if necessary)
 - More Features will be added
+- Simple Refactor with ctr + shift + R
 
 
 ## Installation
