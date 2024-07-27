@@ -1,6 +1,6 @@
 {
   "name": "metta-formatter-highlighter",
-  "displayName": "MeTTa Lang Formatter + Highlighter + Linter + Hover + etc...",
+  "displayName": "MeTTa Lang Formatter + Highlighter + Linter + Hover + Snippet + etc...",
   "description": "Provides syntax formatting, highlighting, linting, code snippet, code folding, simple refactor and file icon for MeTTa language.",
   "version": "0.0.7",
   "publisher": "BaslaelWorkinehAyele",
