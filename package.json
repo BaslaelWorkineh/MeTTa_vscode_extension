@@ -1,8 +1,8 @@
 {
   "name": "metta-formatter-highlighter",
-  "displayName": "MeTTa Lang Formatter + Highlighter + Icon",
-  "description": "Provides syntax formatting, highlighting, and file icon for MeTTa language.",
-  "version": "0.0.5",
+  "displayName": "MeTTa Lang Formatter + Highlighter + Linter + Hover + etc...",
+  "description": "Provides syntax formatting, highlighting, linting, code snippet, code folding, simple refactor and file icon for MeTTa language.",
+  "version": "0.0.6",
   "publisher": "BaslaelWorkinehAyele",
   "engines": {
     "vscode": "^1.60.0"
@@ -34,10 +34,25 @@
         "path": "./icons/icon-theme.json"
       }
     ],
+    "themes": [
+      {
+        "label": "Metta Theme",
+        "uiTheme": "vs-dark",
+        "path": "./themes/metta-theme-color-theme.json"
+      }
+    ],
     "commands": [
       {
         "command": "metta.commentSelection",
         "title": "Comment Selection"
+      },
+      {
+        "command": "metta.runLinter",
+        "title": "Run Linter"
+      },
+      {
+        "command": "metta.refactor",
+        "title": "Refactor Code"
       }
     ],
     "keybindings": [
@@ -50,7 +65,9 @@
   },
   "activationEvents": [
     "onLanguage:metta",
-    "onCommand:metta.commentSelection"
+    "onCommand:metta.commentSelection",
+    "onCommand:metta.runLinter",
+    "onCommand:metta.refactor"
   ],
   "main": "./src/extension.js",
   "scripts": {

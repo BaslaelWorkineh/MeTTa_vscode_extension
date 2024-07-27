@@ -1,0 +1,72 @@
+{
+    "name": "Metta Theme",
+    "type": "dark",
+    "tokenColors": [
+        {
+            "scope": "keyword.control.metta",
+            "settings": {
+                "foreground": "#ff7c7c" // Control keywords color
+            }
+        },
+        {
+            "scope": "variable.parameter.metta",
+            "settings": {
+                "foreground": "#dd9762" // Variable color
+            }
+        },
+        {
+            "scope": "punctuation.section.parens.metta",
+            "settings": {
+                "foreground": "#D4D4D4" // Parentheses color
+            }
+        },
+        {
+            "scope": "punctuation.section.braces.metta",
+            "settings": {
+                "foreground": "#D4D4D4" // Braces color
+            }
+        },
+        {
+            "scope": "punctuation.section.brackets.metta",
+            "settings": {
+                "foreground": "#D4D4D4" // Brackets color
+            }
+        },
+        {
+            "scope": "comment.line.semicolon.metta",
+            "settings": {
+                "foreground": "#6A9955" // Comments color
+            }
+        },
+        {
+            "scope": "keyword.error.metta",
+            "settings": {
+                "foreground": "#ff3737" // Error keywords color
+            }
+        },
+        {
+            "scope": "keyword.operator.match.metta",
+            "settings": {
+                "foreground": "#b66fb6" // Purple color for match keyword
+            }
+        },
+        {
+            "scope": "keyword.operator.metta",
+            "settings": {
+                "foreground": "#fe7171" // Red color for operators
+            }
+        },
+        {
+            "scope": "keyword.numbers.metta",
+            "settings": {
+                "foreground": "#8da2f5" // Red color for operators
+            }
+        },
+        {
+            "scope": "keyword.string.metta",
+            "settings": {
+                "foreground": "#92a7ff" // Red color for operators
+            }
+        }
+    ]
+}

@@ -1,0 +1,42 @@
+{
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "glassit.alpha": 250,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "playwright.reuseBrowser": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
+    "workbench.iconTheme": "material-icon-theme",
+    "[metta]": {
+        "editor.formatOnSave": true
+    },
+    "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "keyword.operator.controller.metta",
+        "settings": {
+          "foreground": "#fa6c6c" // Red color for controllers
+        }
+      },
+      {
+        "scope": "keyword.operator.match.metta",
+        "settings": {
+          "foreground": "#ee61ee" // Purple color for match
+        }
+      }
+    ]
+  }
+}

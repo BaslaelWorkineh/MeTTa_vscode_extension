@@ -1,0 +1,45 @@
+{
+    "If Statement": {
+        "prefix": "if",
+        "body": [
+            "(if $1",
+            "    $2",
+            "    $3)"
+        ],
+        "description": "If statement"
+    },
+    "Function Definition": {
+        "prefix": "def",
+        "body": [
+            "(def $1",
+            "    ($2)",
+            "    $3)"
+        ],
+        "description": "Function definition"
+    },
+    "For Loop": {
+        "prefix": "for",
+        "body": [
+            "(for ($1)",
+            "    $2)"
+        ],
+        "description": "For loop"
+    },
+    "While Loop": {
+        "prefix": "while",
+        "body": [
+            "(while $1",
+            "    $2)"
+        ],
+        "description": "While loop"
+    },
+    "Case Statement": {
+        "prefix": "case",
+        "body": [
+            "(case $1",
+            "    ($2 $3)",
+            "    ($4 $5))"
+        ],
+        "description": "Case statement"
+    }
+}

@@ -15,13 +15,16 @@
     },
     {
       "include": "#specialKeywords"
+    },
+    {
+      "include": "#controllers"
     }
   ],
   "repository": {
     "keywords": {
       "patterns": [
         {
-          "match": "\\b(if|else|case|then|while|for|def|return|and|or|empty)\\b",
+          "match": "\\b(if|let|not|else|case|then|while|for|def|return|and|or|empty)\\b",
           "name": "keyword.control.metta"
         }
       ]
@@ -29,8 +32,12 @@
     "variables": {
       "patterns": [
         {
-          "match": "\\$\\w+",
-          "name": "variable.parameter.metta"
+          "match": "\\$(\\w+)",
+          "captures": {
+            "1": {
+              "name": "variable.parameter.metta"
+            }
+          }
         }
       ]
     },
@@ -61,8 +68,32 @@
     "specialKeywords": {
       "patterns": [
         {
-          "match": "\\b(ERROR|Nil|True|False|\\b\\d+\\b)\\b",
+          "match": "\\b(ERROR)\\b",
           "name": "keyword.error.metta"
+        },
+        {
+          "match": "\\b(Nil|True|False|Bool|Number)\\b",
+          "name": "keyword.numbers.metta"
+        },
+        {
+          "match": "\\b(match|println!|trace!|assertEqualToResult|car-atom|collapse|superpose|bind!|import!|add-reduct|remove-atom|cdr-atom|cons-atom|new-space|quote|assertEqual|add-atom|get-type|get-metatype|unify)\\b",
+          "name": "keyword.operator.match.metta"
+        },
+        {
+          "match":"\\b\\d+\\b",
+          "name": "keyword.numbers.metta"
+        },
+        {
+          "match": "\"([^\"]*)\"",
+          "name":"keyword.string.metta"
+        }
+      ]
+    },
+    "controllers": {
+      "patterns": [
+        {
+          "match": "[+\\-*/=><]",
+          "name": "keyword.operator.metta"
         }
       ]
     }
