@@ -1,8 +1,8 @@
 {
     "name": "metta-formatter-highlighter",
     "displayName": "MeTTa Lang Formatter + Highlighter + Icon",
-    "description": "Provides syntax formatting, highlighting, and file icons for MeTTa language.",
-    "version": "0.0.2",
+    "description": "Provides syntax formatting, highlighting, and file icon for MeTTa language.",
+    "version": "0.0.3",
     "publisher": "BaslaelWorkinehAyele",
     "engines": {
       "vscode": "^1.60.0"
