@@ -21,7 +21,7 @@
     "keywords": {
       "patterns": [
         {
-          "match": "\\b(if|else|case|then|while|for|def|return|and|or)\\b",
+          "match": "\\b(if|else|case|then|while|for|def|return|and|or|empty)\\b",
           "name": "keyword.control.metta"
         }
       ]

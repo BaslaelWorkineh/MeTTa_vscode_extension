@@ -1,51 +1,64 @@
 {
-    "name": "metta-formatter-highlighter",
-    "displayName": "MeTTa Lang Formatter + Highlighter + Icon",
-    "description": "Provides syntax formatting, highlighting, and file icon for MeTTa language.",
-    "version": "0.0.4",
-    "publisher": "BaslaelWorkinehAyele",
-    "engines": {
-      "vscode": "^1.60.0"
-    },
-    "categories": [
-      "Programming Languages"
+  "name": "metta-formatter-highlighter",
+  "displayName": "MeTTa Lang Formatter + Highlighter + Icon",
+  "description": "Provides syntax formatting, highlighting, and file icon for MeTTa language.",
+  "version": "0.0.5",
+  "publisher": "BaslaelWorkinehAyele",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "icon": "icons/metta-icon.png",
+  "contributes": {
+    "languages": [
+      {
+        "id": "metta",
+        "aliases": ["MeTTa", "metta"],
+        "extensions": [".metta"],
+        "configuration": "./language-configuration.json"
+      }
     ],
-    "icon": "icons/metta-icon.png",
-    "contributes": {
-      "languages": [
-        {
-          "id": "metta",
-          "aliases": ["MeTTa", "metta"],
-          "extensions": [".metta"],
-          "configuration": "./language-configuration.json"
-        }
-      ],
-      "grammars": [
-        {
-          "language": "metta",
-          "scopeName": "source.metta",
-          "path": "./syntaxes/metta.tmLanguage.json"
-        }
-      ],
-      "iconThemes": [
-        {
-          "id": "metta-icon-theme",
-          "label": "MeTTa Icon Theme",
-          "path": "./icons/icon-theme.json"
-        }
-      ]
-    },
-    "activationEvents": [
-      "onLanguage:metta"
+    "grammars": [
+      {
+        "language": "metta",
+        "scopeName": "source.metta",
+        "path": "./syntaxes/metta.tmLanguage.json"
+      }
     ],
-    "main": "./src/extension.js",
-    "scripts": {
-      "vscode:prepublish": "npm run build",
-      "build": "echo 'No build step required.'"
-    },
-    "repository": {
+    "iconThemes": [
+      {
+        "id": "metta-icon-theme",
+        "label": "MeTTa Icon Theme",
+        "path": "./icons/icon-theme.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "metta.commentSelection",
+        "title": "Comment Selection"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "metta.commentSelection",
+        "key": "ctrl+;",
+        "when": "editorTextFocus && editorLangId == 'metta'"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onLanguage:metta",
+    "onCommand:metta.commentSelection"
+  ],
+  "main": "./src/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "echo 'No build step required.'"
+  },
+  "repository": {
     "type": "git",
     "url": "https://github.com/BaslaelWorkineh/MeTTa_vscode_extension.git"
   }
-  }
-  
+}
