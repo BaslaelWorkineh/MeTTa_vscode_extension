@@ -24,7 +24,7 @@
     "keywords": {
       "patterns": [
         {
-          "match": "\\b(if|let|not|else|case|then|while|for|def|return|and|or|empty)\\b",
+          "match": "\\b(if|let|let*|not|else|case|then|while|for|def|return|and|or|empty)\\b",
           "name": "keyword.control.metta"
         }
       ]
@@ -76,7 +76,7 @@
           "name": "keyword.numbers.metta"
         },
         {
-          "match": "\\b(match|println!|trace!|assertEqualToResult|car-atom|collapse|superpose|bind!|import!|add-reduct|remove-atom|cdr-atom|cons-atom|new-space|quote|assertEqual|add-atom|get-type|get-metatype|unify)\\b",
+          "match": "\\b(match|println!|trace!|assertEqualToResult|car-atom|collapse|superpose|bind!|import!|add-reduct|pragma!|remove-atom|cdr-atom|cons-atom|new-space|quote|assertEqual|add-atom|get-type|get-metatype|mod-space!|unify)\\b",
           "name": "keyword.operator.match.metta"
         },
         {

@@ -61,7 +61,13 @@
         "key": "ctrl+;",
         "when": "editorTextFocus && editorLangId == 'metta'"
       }
-    ]
+    ],
+    "snippets": [
+    {
+      "language": "metta",
+      "path": "./snippets/metta.json"
+    }
+  ]
   },
   "activationEvents": [
     "onLanguage:metta",

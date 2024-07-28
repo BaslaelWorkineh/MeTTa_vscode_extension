@@ -1,45 +1,1193 @@
 {
-    "If Statement": {
-        "prefix": "if",
+    "List Length": {
+        "prefix": "length",
         "body": [
-            "(if $1",
-            "    $2",
-            "    $3)"
+            "(= (length ()) 0)",
+            "(= (length (:: $x $xs))",
+            "    (+ 1 (length $xs)))",
+            "! (length (:: A (:: B (:: C ()))))"
         ],
-        "description": "If statement"
+        "description": "List Length"
     },
-    "Function Definition": {
-        "prefix": "def",
+    "Factorial Function": {
+        "prefix": "factorial",
         "body": [
-            "(def $1",
-            "    ($2)",
-            "    $3)"
+            "(= (factorial $x)",
+            "    (if (> $x 0)",
+            "        (* $x (factorial (- $x 1)))",
+            "        1))",
+            "! (factorial 5) ; 120"
         ],
-        "description": "Function definition"
+        "description": "Factorial Function"
     },
-    "For Loop": {
-        "prefix": "for",
+    "Zip Function": {
+        "prefix": "zip",
         "body": [
-            "(for ($1)",
-            "    $2)"
+            "(= (zip $list1 $list2)",
+            "    (case ($list1 $list2)",
+            "        (((() ()) ())",
+            "            (((:: $x $xs) (:: $y $ys)) (:: ($x $y) (zip $xs $ys)))",
+            "            ($else ERROR)",
+            "            )",
+            "        )",
+            "    )",
+            "! (zip (:: A (:: B ())) (:: 1 (:: 2 ()))) ; (:: (A 1) (:: (B 2) ()))",
+            "! (zip (:: A (:: B ())) (:: 1 ()))",
+            " ; (:: (A 1) ERROR)"
         ],
-        "description": "For loop"
+        "description": "Zip Function"
     },
-    "While Loop": {
-        "prefix": "while",
+    "Square Grid": {
+        "prefix": "grid",
         "body": [
-            "(while $1",
-            "    $2)"
+            "((9 9 9) (9 9 9) (9 9 9)) goal",
+            "(= (square $w) (* $w $w))",
+            "(= (triple $x) ($x $x $x))",
+            "(= (grid $y) (triple (triple $y)))",
+            "!(grid (square 3))"
         ],
-        "description": "While loop"
+        "description": "Square Grid"
     },
-    "Case Statement": {
-        "prefix": "case",
+    "Binary Functions": {
+        "prefix": "binary",
         "body": [
-            "(case $1",
-            "    ($2 $3)",
-            "    ($4 $5))"
+            "(= (bin) 0)",
+            "(= (bin) 1)",
+            "(= (triple $x) ($x $x $x))",
+            "!(triple (bin))",
+            "(= (bin2) ((bin) (bin)))",
+            "!(bin2)",
+            "!(triple (bin2))"
         ],
-        "description": "Case statement"
+        "description": "Binary Functions"
+    },
+    "Sum Function": {
+        "prefix": "sum",
+        "body": [
+            "(= (sum ($x $y $z)) (+ $x (+ $y $z)))",
+            "(= (sum ($x $y)) (+ $x $y))",
+            "!(triple (bin))",
+            "!(sum (triple(bin)))",
+            "!(sum (bin2))"
+        ],
+        "description": "Sum Function"
+    },
+    "Non-Deterministic Increment": {
+        "prefix": "inc",
+        "body": [
+            "(= (inc $x) (+ 1 $x))",
+            "(= (inc $x) (+ 0 $x))",
+            "!(inc (bin))"
+        ],
+        "description": "Non-Deterministic Increment"
+    },
+    "Length Function": {
+        "prefix": "Length",
+        "body": [
+            "(= (Length (Nil)) 0)",
+            "(= (Length (Cons $x $xs)) (+ 1 (Length $xs)))",
+            "!(Length (Cons A (Cons B (Cons C (Nil)))))"
+        ],
+        "description": "Length Function"
+    },
+    "Changing List Value": {
+        "prefix": "SquaredList",
+        "body": [
+            "(= (SquaredList $f Nil) 0)",
+            "(= (SquaredList $f ($x $xs))",
+            "    (+ ($f $x) (SquaredList $f $xs)))",
+            "(= (Square $x) (* $x $x))",
+            "!(SquaredList Square (1 (2 (3 (4 Nil)))))"
+        ],
+        "description": "Changing List Value"
+    },
+    "Conditional Statements": {
+        "prefix": "conditional",
+        "body": [
+            "(= (factorial $x)",
+            "    (if (> $x 0) (* $x (factorial (- $x 1))) 1))",
+            "!(factorial 5)"
+        ],
+        "description": "Conditional Statements"
+    },
+    "Merging Two Lists": {
+        "prefix": "merge",
+        "body": [
+            "(= (zip () ()) (Zipped))",
+            "(= (zip (:: $x $xs) (:: $y $ys))",
+            "    ((:: $x $y) (zip $xs $ys)))",
+            "!(zip (:: A (:: B (:: C ()))) (:: 1 (:: 2 (:: 3 ())))"
+        ],
+        "description": "Merging Two Lists"
+    },
+    "Pattern Matching": {
+        "prefix": "pattern_match",
+        "body": [
+            "(= (Zip $list1 $list2)",
+            "    (case ($list1 $list2)",
+            "        ( ((() ()) ())",
+            "            (((:: $x $xs) (:: $y $ys)) (:: $x $y (Zip $xs $ys)) )",
+            "            ($else ERROR)",
+            "            )",
+            "        )",
+            "    )",
+            "!(Zip (:: A (:: B (:: C ()))) (:: 1 (:: 2 (:: 3 ()))))"
+        ],
+        "description": "Pattern Matching"
+    },
+    "Basic Equalities": {
+        "prefix": "basic_equalities",
+        "body": [
+            "(= (Mother Martha) True)",
+            "(= (Woman Martha ) True)",
+            "(= (Mother Haset) False)",
+            "(= (Woman Haset) True)",
+            "(= (Big $x)",
+            "    (and (Mother $x) (Woman $x)))",
+            "!(if (Big $x) ($x is Big Person) ($x is Small Person))"
+        ],
+        "description": "Basic Equalities"
+    },
+    "Green Condition": {
+        "prefix": "green_condition",
+        "body": [
+            "(= (green $x)",
+            "    (if (Big $x) True (empty)))",
+            "!(if (green $x) ($x is green) ($x is not green))"
+        ],
+        "description": "Green Condition"
+    },
+    "Generate Random Binary": {
+        "prefix": "gen_rand_bin",
+        "body": [
+            "(= (bin) 0)",
+            "(= (bin) 1)",
+            "!(bin)",
+            "(= (gen_rand_bin $x)",
+            "    (if (> $x 0)",
+            "        (:: (bin) (gen_rand_bin (- $x 1)))",
+            "        ()))",
+            "!(gen_rand_bin 3)"
+        ],
+        "description": "Generate Random Binary"
+    },
+    "Binary List Generation": {
+        "prefix": "gen_bin_list",
+        "body": [
+            "(= (bin) 0)",
+            "(= (bin) 1)",
+            "(= (gen-bin-list ()) ())",
+            "(= (gen-bin-list (:: $x $xs))",
+            "    (:: (bin) (gen-bin-list $xs)))",
+            "!(gen-bin-list (:: it (:: it (:: it ()))))"
+        ],
+        "description": "Binary List Generation"
+    },
+    "Target Sum Finding": {
+        "prefix": "target_sum",
+        "body": [
+            "(= (bin) 0)",
+            "(= (bin) 1)",
+            "(= (gen-bin ()) ())",
+            "(= (gen-bin (:: $x $xs))",
+            "    (:: (bin) (gen-bin $xs)))",
+            "(= (Scalar-Multiple () ()) 0)",
+            "(= (Scalar-Multiple (:: $x $xs) (:: $y $ys))",
+            "    (+ (* $x $y) (Scalar-Multiple $xs $ys)))",
+            "(= (Final-Comb $solution $list $target)",
+            "    (if (== (Scalar-Multiple $solution $list ) $target)",
+            "        ($solution)",
+            "        (empty)))",
+            "(= (list) (:: 2 (:: 3(:: 4 ())))",
+            "(= (target) 7)",
+            "!(Final-Comb (gen-bin(list)) (list) (target))",
+            "!(Scalar-Multiple (:: 2 (:: 3(:: 4 ()))) (:: 2 (:: 3(:: 4 ()))))"
+        ],
+        "description": "Target Sum Finding"
+    },
+    "Parent Facts and Matching": {
+        "prefix": "parent_facts",
+        "body": [
+            "(Parent Tom Bob)",
+            "(Parent Pam Bob)",
+            "(Parent Tom Liz)",
+            "(Parent Bob Ann)",
+            "(Parent Bob Pat)",
+            "(Parent Pat Pat)",
+            "!(match &self (Parent $x $x) ($x $x))"
+        ],
+        "description": "Parent Facts and Matching"
+    },
+    "Only A": {
+        "prefix": "only_a",
+        "body": [
+            "(= (only-a A) (Input A is accepted))",
+            "!(only-a A)",
+            "!(match &self (= (only-a A) $result) $result)"
+        ],
+        "description": "Only A"
+    },
+    "Get Parent Entries": {
+        "prefix": "get_parent_entries",
+        "body": [
+            "(Parent Tom Bob)",
+            "(Parent Pam Bob)",
+            "(Parent Tom Liz)",
+            "(Parent Bob Ann)",
+            "(= (get-parent-entries $x $y)",
+            "    (match &self (Parent $x $y) (Parent $x $y)))",
+            "(= (get-parents $x)",
+            "    (match &self (Parent $y $x) $y))",
+            "!(get-parent-entries Tom $_)",
+            "!(get-parents Bob)"
+        ],
+        "description": "Get Parent Entries"
+    },
+    "Get Grand Parents": {
+        "prefix": "get_grand_parents",
+        "body": [
+            "(Parent Tom Bob)",
+            "(Parent Pam Bob)",
+            "(Parent Tom Liz)",
+            "(Parent Bob Ann)",
+            "(Parent Bob Pat)",
+            "(Parent Pat Jim)",
+            "(= (get-parents $x)",
+            "    (match &self (Parent $y $x) $y))",
+            "(= (get-grand-parents $x)",
+            "    (get-parents (get-parents $x)))",
+            "!(get-grand-parents Pat)"
+        ],
+        "description": "Get Grand Parents"
+    },
+    "Unify Function": {
+        "prefix": "unify",
+        "body": [
+            "(unify $1 ; the first pattern",
+            "       $2 ; the second pattern",
+            "       $3 ; the output for successful unification",
+            "       $4) ; fallback"
+        ],
+        "description": "Unify function"
+    },
+    "Parent-Child Relationship": {
+        "prefix": "parent_child",
+        "body": [
+            "(Parent $1 $2)"
+        ],
+        "description": "Parent-Child relationship"
+    },
+    "Implies Statement": {
+        "prefix": "implies",
+        "body": [
+            "(Implies ($1 $2) ($3 $4))"
+        ],
+        "description": "Implies statement"
+    },
+    "Match Function": {
+        "prefix": "match",
+        "body": [
+            "(match &self ($1 $2) $3)"
+        ],
+        "description": "Match function"
+    },
+    "Deduce Function": {
+        "prefix": "deduce",
+        "body": [
+            "(= (deduce $1)",
+            "   (match &self (Implies $2 $3)",
+            "          (match &self $2 $3)))"
+        ],
+        "description": "Deduce function"
+    },
+    "Conclude Function": {
+        "prefix": "conclude",
+        "body": [
+            "(= (conclude $1)",
+            "   (match &self (Implies $1 $2)",
+            "          (match &self $1 $2)))"
+        ],
+        "description": "Conclude function"
+    },
+    "Query Example": {
+        "prefix": "query_example",
+        "body": [
+            "! (deduce (Child $1 $2))",
+            "! (conclude (Parent $1 $2))"
+        ],
+        "description": "Example queries using deduce and conclude"
+    },
+    "Base and Recursive Case for List Length": {
+        "prefix": "list_length",
+        "body": [
+            "(= (Length (Nil)) 0)",
+            "(= (Length (Cons $1 $2)) (+ 1 (Length $2)))"
+        ],
+        "description": "Base and recursive case for calculating the length of a list"
+    },
+    "Generate Binary List": {
+        "prefix": "gen_bin_list",
+        "body": [
+            "(= (bin) 0)",
+            "(= (bin) 1)",
+            "(= (gen-bin-list ()) ())",
+            "(= (gen-bin-list (:: $1 $2))",
+            "    (:: (bin) (gen-bin-list $2)))"
+        ],
+        "description": "Generate binary list"
+    },
+    "Get Sister": {
+        "prefix": "get_sister",
+        "body": [
+            "(Female Pam)",
+            "(Male Tom)",
+            "(Male Bob)",
+            "(Female Liz)",
+            "(Female Pat)",
+            "(Female Ann)",
+            "(Male Jim)",
+            "(Parent Tom Bob)",
+            "(Parent Pam Bob)",
+            "(Parent Tom Liz)",
+            "(Parent Bob Ann)",
+            "(Parent Bob Pat)",
+            "(Parent Pat Jim)",
+            "",
+            "(= (get-sister $x)",
+            "   (match &self",
+            "     (, (Parent $y $x)",
+            "        (Parent $y $z)",
+            "        (Female $z))",
+            "     $z",
+            "   )",
+            ")",
+            "! (get-sister Bob)"
+        ],
+        "description": "Get Sister"
+    },
+    "Graph Traversal Recursion": {
+        "prefix": "graph_traversal",
+        "body": [
+            "(Parent Tom Bob)",
+            "(Parent Pam Bob)",
+            "(Parent Tom Liz)",
+            "(Parent Bob Ann)",
+            "(Parent Bob Pat)",
+            "(Parent Pat Jim)",
+            "(Parent Jim Lil)",
+            "",
+            "(= (parent $x $y) (match &self (Parent $x $y) $x))",
+            "(= (predecessor $x $z) (parent $x $z))",
+            "(= (predecessor $x $z) (predecessor $x (parent $y $z)))",
+            "; Who are predecessors of Lil",
+            "! (predecessor $x Lil)"
+        ],
+        "description": "Graph Traversal Recursion"
+    },
+    "Get Type": {
+        "prefix": "get_type",
+        "body": [
+            "(: a A)",
+            "(: b B)",
+            "(: A Type)",
+            "",
+            "! (get-type a) ; A",
+            "! (get-type b) ; B",
+            "! (get-type c) ; %Undefined%",
+            "! (get-type A) ; Type",
+            "! (get-type B) ; %Undefined%",
+            "",
+            "(: a A)",
+            "(: b B)",
+            "! (get-type (a b)) ; (A B)",
+            "",
+            "(: a A)",
+            "(: foo (-> A B))",
+            "! (get-type (foo a)) ; B"
+        ],
+        "description": "Get Type"
+    },
+    "Type Checking": {
+        "prefix": "type_checking",
+        "body": [
+            "(: foo (-> A B))",
+            "(: a A)",
+            "(: b B)",
+            "",
+            "! (foo a) ; no error",
+            "! (get-type (foo b)) ; no result",
+            "! (b foo) ; notice: no error",
+            "! (get-type (b foo)) ; (B (-> A B))",
+            "! (foo b) ; type error"
+        ],
+        "description": "Type Checking"
+    },
+    "Gradual Typing": {
+        "prefix": "gradual_typing",
+        "body": [
+            "(: foo (-> A B))",
+            "(: a A)",
+            "! (get-type (foo c))",
+            "! (get-type (g a))"
+        ],
+        "description": "Gradual Typing"
+    },
+    "Multiple Arguments Get Type": {
+        "prefix": "multiple_arguments_get_type",
+        "body": [
+            "(: foo2 (-> A B C))",
+            "(: a A)",
+            "(: b B)",
+            "",
+            "! (get-type (foo2 a b)) ; C",
+            "! (get-type (foo2 b a)) ; empty",
+            "! (get-type (foo2 a)) ; empty",
+            "! (foo2 a c) ; no error",
+            "! (foo2 b a) ; type error (the interpreter stops on error)",
+            "! (foo2 c) ; would also be type error"
+        ],
+        "description": "Multiple Arguments Get Type"
+    },
+    "Nested Expressions": {
+        "prefix": "nested_expressions",
+        "body": [
+            "(: foo (-> A B))",
+            "(: bar (-> B B A))",
+            "(: a A)",
+            "! (get-type (bar (foo a) (foo a)))",
+            "! (get-type (foo (bar (foo a) (foo a))))"
+        ],
+        "description": "Nested Expressions"
+    },
+    "Nested Type Signatures": {
+        "prefix": "nested_type_signatures",
+        "body": [
+            "(: foo-pair (-> (A B) C))",
+            "(: a A)",
+            "(: b B)",
+            "! (get-type (foo-pair a b)) ; empty",
+            "! (get-type (foo-pair (a b))) ; C"
+        ],
+        "description": "Nested Type Signatures"
+    },
+    "Grounded Atoms": {
+        "prefix": "grounded_atoms",
+        "body": [
+            "! (get-type 1) ; Number",
+            "! (get-type 1.1) ; Number",
+            "! (get-type +) ; (-> Number Number Number)",
+            "! (get-type (+ 1 2.1)) ; Number",
+            "",
+            "(: a A)",
+            "! (get-type (+ 1 a)) ; empty",
+            "! (get-type (+ 1 b)) ; Number",
+            "! (+ 1 b) ; no error, not reduced",
+            "! (+ 1 a) ; type error"
+        ],
+        "description": "Grounded Atoms"
+    },
+    "Peano Numbers": {
+        "prefix": "peano_numbers",
+        "body": [
+            "(: Z Nat) ; Z is \"zero\"",
+            "(: S (-> Nat Nat)) ; S \"constructs\" the next number",
+            "! (S Z) ; this is \"one\"",
+            "! (S (S Z)) ; this is \"two\"",
+            "! (get-type (S (S (S Z)))) ; Nat",
+            "! (get-type (S S)) ; not Nat",
+            "",
+            "(: Z Nat)",
+            "(: S (-> Nat Nat))",
+            "(: Greater (-> Nat Nat Bool))",
+            "(= (Greater (S $x) Z)",
+            "   True)",
+            "(= (Greater Z $x)",
+            "   False)",
+            "(= (Greater (S $x) (S $y))",
+            "   (Greater $x $y))",
+            "! (Greater (S Z) (S Z)) ; False",
+            "! (Greater (S (S Z)) (S Z)) ; True"
+        ],
+        "description": "Peano Numbers"
+    },
+    "List of Numbers": {
+        "prefix": "list_of_numbers",
+        "body": [
+            "(: NilNum ListNum)",
+            "(: ConsNum (-> Number ListNum ListNum))",
+            "! (get-type (ConsNum 1 (ConsNum 2 (ConsNum 3 NilNum)))) ; ListNum",
+            "! (ConsNum 1 (ConsNum \"S\" NilNum)) ; BadType"
+        ],
+        "description": "List of Numbers"
+    },
+    "Comparison Operator": {
+        "prefix": "comparison_operator",
+        "body": [
+            "! (get-type ==)",
+            "! (== 1 \"S\")",
+            "",
+            "[(-> $t#1665 $t#1665 Bool)]",
+            "[(Error \"S\" BadType)]"
+        ],
+        "description": "Comparison Operator"
+    },
+    "Variable Output Type": {
+        "prefix": "variable_output_type",
+        "body": [
+            "(: apply (-> (-> $tx $ty) $tx $ty))",
+            "(= (apply $f $x) ($f $x))",
+            "! (apply not False) ; True",
+            "! (get-type (apply not False)) ; Bool",
+            "! (unify (-> (-> $tx  $ty)  $tx  $ty)",
+            "         (-> (-> Bool Bool) Bool $result)",
+            "         $result",
+            "         BadType) ; Bool",
+            "! (apply not 1) ; BadType",
+            "",
+            "[True]",
+            "[Bool]",
+            "[Bool]",
+            "[(Error 1 BadType)]"
+        ],
+        "description": "Variable Output Type"
+    },
+    "Type of Cons": {
+        "prefix": "type_of_cons",
+        "body": [
+            "! (unify (-> $t     (List $t) (List $t))",
+            "         (-> Number (List $t) $result)",
+            "         $result",
+            "         BadType)",
+            "",
+            "[(List Number)]"
+        ],
+        "description": "Type of Cons"
+    },
+    "Parametric Types": {
+        "prefix": "parametric_types",
+        "body": [
+            "(: Nil (List $t))",
+            "(: Cons (-> $t (List $t) (List $t)))",
+            "(: first (-> (List $t) $t))",
+            "(: append (-> (List $t) (List $t) (List $t)))",
+            "! (get-type",
+            "    (+ 1",
+            "      (first (append (Cons 1 Nil)",
+            "                     (Cons 2 Nil)))))"
+        ],
+        "description": "Parametric Types"
+    },
+    "Get Metatype": {
+        "prefix": "get_metatype",
+        "body": [
+            "! (get-metatype 1) ; Grounded",
+            "! (get-metatype +) ; Grounded",
+            "! (get-metatype (+ 1 2)) ; Expression",
+            "! (get-metatype a) ; Symbol",
+            "! (get-metatype (a b)) ; Expression",
+            "! (get-metatype $x) ; Variable"
+        ],
+        "description": "Get Metatype"
+    },
+    "Error Expressions": {
+        "prefix": "error_expressions",
+        "body": [
+            "! (get-type Error) ; (-> Atom Atom ErrorType)",
+            "! (get-metatype Error) ; just Symbol",
+            "! (get-type (Error Foo Boo)) ; ErrorType",
+            "! (Error (+ 1 2) (+ 1 +)) ; arguments are not evaluated"
+        ],
+        "description": "Error Expressions"
+    },
+    "Quote": {
+        "prefix": "quote",
+        "body": [
+            "! (get-type quote)",
+            "! (quote (+ 1 2))",
+            "! (get-type if)"
+        ],
+        "description": "Quote"
+    },
+    "If Implementation": {
+        "prefix": "if_implementation",
+        "body": [
+            "(= (if True $then $else) $then)",
+            "(= (if False $then $else) $else)",
+            "",
+            "(: my-if (-> Bool Atom Atom Atom))",
+            "(= (my-if True $then $else) $then)",
+            "(= (my-if False $then $else) $else)",
+            "(= (loop) (loop))",
+            "(= (OK) OK!)",
+            "! (my-if (> 0 1) (loop) (OK))"
+        ],
+        "description": "If Implementation"
+    },
+    "Sequential And Function": {
+        "prefix": "seq_and_function",
+        "body": [
+            "(: seq-and (-> ... ... Bool))",
+            "(= (seq-and ... ...) ...)",
+            "(= (seq-and ... ...) ...)",
+            "(: loop (-> Bool Bool))",
+            "! (seq-and False (loop)) ; should be False",
+            "! (seq-and True True) ; should be True"
+        ],
+        "description": "Sequential And Function"
+    },
+    "Swap Arguments Atom": {
+        "prefix": "swap_arguments_atom",
+        "body": [
+            "(: swap-arguments-atom (-> Atom Atom))",
+            "(= (swap-arguments-atom ($op $arg1 $arg2))",
+            "   ($op $arg2 $arg1)",
+            ")",
+            "! (swap-arguments-atom (- 15 8))"
+        ],
+        "description": "Swap Arguments Atom"
+    },
+    "Swap Arguments Without Typing": {
+        "prefix": "swap_arguments_without_typing",
+        "body": [
+            "(= (swap-arguments ($op $arg1 $arg2))",
+            "   ($op $arg2 $arg1)",
+            ")",
+            "! (swap-arguments (- 15 8))"
+        ],
+        "description": "Swap Arguments Without Typing"
+    },
+    "Atom Equality": {
+        "prefix": "atom_equality",
+        "body": [
+            "(: atom-eq (-> Atom Atom Bool))",
+            "(= (atom-eq $x $x) True)",
+            "",
+            "; These expressions are identical:",
+            "! (atom-eq (+ 1 2) (+ 1 2))",
+            "",
+            "; the following will not be reduced because the expressions are not the same",
+            "; (even though the result of their evaluation would be)",
+            "! (atom-eq 3 (+ 1 2))"
+        ],
+        "description": "Atom Equality"
+    },
+    "Green Evaluation": {
+        "prefix": "green_evaluation",
+        "body": [
+            "(Green Sam)",
+            "(= (Green Tod) True)",
+            "! ($who (Green $who)) ; (Tod True)",
+            "! (match &self (Green $who) $who) ; Sam"
+        ],
+        "description": "Green Evaluation"
+    },
+    "Personal Assistant Knowledge Base": {
+        "prefix": "personal_assistant_kb",
+        "body": [
+            "(= (message-to-user $task)",
+            "   (Today you have $task))",
+            "(= (add-task-and-notify $task)",
+            "    (let () (add-atom &self (TASK $task))",
+            "            (message-to-user $task))",
+            ")",
+            "! (get-type add-atom) ; (-> hyperon::space::DynSpace Atom (->))",
+            "! (add-task-and-notify (Something to do))",
+            "! (match &self (TASK $t) $t) ; (Something to do)"
+        ],
+        "description": "Personal Assistant Knowledge Base"
+    },
+    "Call By Value Wrapper": {
+        "prefix": "call_by_value_wrapper",
+        "body": [
+            "(= (call-by-value $f $arg)",
+            "   ($f $arg))",
+            "! (call-by-value quote (+ 1 2)) ; (quote 3)"
+        ],
+        "description": "Call By Value Wrapper"
+    },
+    "Type Checking with Pragma": {
+        "prefix": "type_checking_with_pragma",
+        "body": [
+            "! (pragma! type-check auto) ; ()",
+            "(: foo (-> Number Bool))",
+            "(= (foo $x) (+ $x 1)) ; BadType"
+        ],
+        "description": "Type Checking with Pragma"
+    },
+    "Nested Queries": {
+        "prefix": "nested_queries",
+        "body": [
+            "(Green Sam)",
+            "(Likes Sam Emi)",
+            "(Likes Tod Kat)",
+            "! (match &self (Green $who)",
+            "    (match &self (Likes $who $x) $x))",
+            "! (match &self (Green $who)",
+            "    (match &self (Likes $boo $x) $x))",
+            "! (match &self (Likes $who $x)",
+            "    (match &self (Green $x) $x))",
+            "! (match &self (Likes $who $x)",
+            "    (match &self (Green $boo) $boo))",
+            "",
+            "[Emi]",
+            "[Kat, Emi]",
+            "[]",
+            "[Sam, Sam]"
+        ],
+        "description": "Nested Queries"
+    },
+    "Badly Typed Expression": {
+        "prefix": "badly_typed_expression",
+        "body": [
+            "(+ 1 False)",
+            "! (match &self (+ 1 False) OK) ; OK",
+            "! (match &self (+ 1 $x) $x) ; False"
+        ],
+        "description": "Badly Typed Expression"
+    },
+    "Type Guarantee with Equalities": {
+        "prefix": "type_guarantee_with_equalities",
+        "body": [
+            "(: foo (-> Number Bool))",
+            "(= (foo $x) (+ $x 1))",
+            "! (get-type (foo $x)) ; Bool",
+            "! (get-type (+ $x 1)) ; Number",
+            "! (get-type =) ; (-> $t $t Atom)",
+            "! (= (foo $x) (+ $x 1)) ; BadType",
+            "",
+            "Reset",
+            "[Bool]",
+            "[Number]",
+            "[(-> $t#1926 $t#1926 Atom)]",
+            "[(Error (+ $x 1) BadType)]"
+        ],
+        "description": "Type Guarantee with Equalities"
+    },
+    "Let Expressions": {
+        "prefix": "let_expressions",
+        "body": [
+            "! (let $x (+ 1 2) (quote $x)) ; (quote 3)",
+            "(: Z Nat)",
+            "! (get-metatype (get-type Z)) ; (get-type Z) is Expression",
+            "! (let $x (get-type Z) (get-metatype $x)) ; Nat is Symbol",
+            "",
+            "Reset",
+            "[(quote 3)]",
+            "[Expression]",
+            "[Symbol]"
+        ],
+        "description": "Let Expressions"
+    },
+    "Evaluate Subexpressions for Pattern-Matching": {
+        "prefix": "evaluate_subexpressions",
+        "body": [
+            "(= (age Bob) 5)",
+            "(= (age Sam) 8)",
+            "(= (age Ann) 3)",
+            "(= (age Tom) 5)",
+            "(= (of-same-age $who)",
+            "   (let $age (age $who)",
+            "        (match &self (= (age $other) $age)",
+            "               $other)))",
+            "! (of-same-age Bob) ; [Bob, Tom]",
+            "; without `of-same-age`:",
+            "! (let $age (age Bob)",
+            "       (match &self (= (age $other) $age)",
+            "              $other)) ; also [Bob, Tom]",
+            "! (match &self (= (age $other) (age Bob))",
+            "         $other) ; does not pattern-match",
+            "; evaluating the whole pattern is a bad idea",
+            "! (let $pattern (= (age $other) (age Bob))",
+            "       $pattern) ; [(= 5 5), (= 8 5), (= 5 5), (= 3 5)]",
+            "! (let $pattern (= (age $other) (age Bob))",
+            "       (match &self $pattern $other)) ; does not pattern-match"
+        ],
+        "description": "Evaluate Subexpressions for Pattern-Matching"
+    },
+    "Personal Assistant System Knowledge Base": {
+        "prefix": "personal_assistant_kb",
+        "body": [
+            "(= (message-to-user $task)",
+            "   (Today you have $task))",
+            "(= (add-task-and-notify $task)",
+            "    (let () (add-atom &self (TASK $task))",
+            "            (message-to-user $task)))",
+            "! (get-type add-atom) ; (-> hyperon::space::DynSpace Atom (->))",
+            "! (add-task-and-notify (Something to do))",
+            "! (match &self (TASK $t) $t) ; (Something to do)"
+        ],
+        "description": "Personal Assistant System Knowledge Base"
+    },
+    "Logical Operations": {
+        "prefix": "logical_operations",
+        "body": [
+            "; Test if both the given expressions are True",
+            "! (and (> 4 2) (== \"This is a string\" \"Just a string\")) ; False",
+            "",
+            "; Test if any of the given expressions is True",
+            "! (or (> 4 2) (== \"This is a string\" \"Just a string\")) ; True",
+            "",
+            "; Negates the result of a given Bool value",
+            "! (not (== 5 5)) ; False",
+            "! (not (and (> 4 2) (< 4 3))) ; True"
+        ],
+        "description": "Logical Operations"
+    },
+    "Println! Function": {
+        "prefix": "println_function",
+        "body": [
+            "! (println! \"This is a string\")",
+            "! (println! ($v1 \"string\" 5))",
+            "Reset",
+            "[STDOUT] \"This is a string\"",
+            "[STDOUT] ($v1 \"string\" 5)",
+            "[()]",
+            "[()]",
+            "",
+            "(Parent Bob Ann)",
+            "! (match &self (Parent Bob Ann) (Ann is Bob`s child))",
+            "! (println! (match &self (Parent Bob Ann) (Bob is Ann`s parent)))"
+        ],
+        "description": "Println! Function"
+    },
+    "Trace! Function": {
+        "prefix": "trace_function",
+        "body": [
+            "! (get-type (trace! (Expecting 3) (+ 1 2))) ; Number",
+            "",
+            "(: my-trace (-> %Undefined% $a $a))",
+            "(= (my-trace $out $res)",
+            "   (let () (println! $out) $res))",
+            "! (my-trace (Expecting 3) (+ 1 2))",
+            "",
+            "(Parent Bob Ann)",
+            "! (trace! \"Who is Anna`s parent?\"",
+            "   (match &self (Parent $x Ann)",
+            "          ($x is Ann`s parent)))",
+            "! (trace! \"Who is Bob`s child?\"",
+            "   (match &self (Parent Bob $x)",
+            "          ($x is Bob`s child)))",
+            "",
+            "(Parent Bob Ann)",
+            "! (trace! ((Expected: (Bob is Ann`s parent))",
+            "           (Got: (match &self (Parent $x Ann) ($x is Ann`s parent))))",
+            "   ())"
+        ],
+        "description": "Trace! Function"
+    },
+    "Quote Example": {
+        "prefix": "quote_example",
+        "body": [
+            "(Fruit apple)",
+            "(= (fruit $x)",
+            "   (match &self (Fruit $x) $x))",
+            "! (fruit $x) ; apple",
+            "! (quote (fruit $x)) ; (quote (fruit $x))"
+        ],
+        "description": "Quote Example"
+    },
+    "Trace! with Quote and Let": {
+        "prefix": "trace_with_quote_and_let",
+        "body": [
+            "(= (add-bin $x)",
+            "   (let $r (+ $x 1)",
+            "        (trace! (quote ((add-bin $x) is $r))",
+            "                $r)))",
+            "(= (add-bin $x)",
+            "   (trace! (quote ((add-bin $x) is $x))",
+            "           $x))",
+            "; (quote ((add-bin 1) is 1)) and (quote ((add-bin 1) is 2)) will be printed",
+            "! (add-bin 1) ; [1, 2]"
+        ],
+        "description": "Trace! with Quote and Let"
+    },
+    "AssertEqual": {
+        "prefix": "assert_equal",
+        "body": [
+            "(Parent Bob Ann)",
+            "! (assertEqual",
+            "   (match &self (Parent $x Ann) $x)",
+            "   (unify (Parent $x Ann) (Parent Bob $y) $x Failed)) ; ()",
+            "! (assertEqual (+ 1 2) 3) ; ()",
+            "! (assertEqual (+ 1 2) (+ 1 4)) ; Error-expression"
+        ],
+        "description": "AssertEqual"
+    },
+    "AssertEqualToResult": {
+        "prefix": "assert_equal_to_result",
+        "body": [
+            "(Parent Bob Ann)",
+            "(Parent Pam Ann)",
+            "! (assertEqualToResult",
+            "   (match &self (Parent $x Ann) $x)",
+            "   (Bob Pam))  ; ()",
+            "(= (bin) 0)",
+            "(= (bin) 1)",
+            "! (assertEqualToResult (bin) (0 1)) ; ()",
+            "! (assertEqualToResult (+ 1 2) (3)) ; ()",
+            "! (assertEqualToResult",
+            "   (+ 1 untyped-symbol)",
+            "   ((+ 1 untyped-symbol))) ; ()",
+            "! (assertEqualToResult (+ 1 2) ((+ 1 2))) ; Error",
+            "",
+            "(= (bin) 0)",
+            "(= (bin) 1)",
+            "(= (bin2) (superpose (0 1)))",
+            "! (bin) ; [0, 1]",
+            "! (bin2) ; [0, 1]",
+            "Reset",
+            "[0, 1]",
+            "[0, 1]",
+            "",
+            "! (+ 2 (superpose (3 4 5))) ; [5, 6, 7]"
+        ],
+        "description": "AssertEqualToResult"
+    },
+    "Superpose with AssertEqual": {
+        "prefix": "superpose_with_assert_equal",
+        "body": [
+            "(= (ikb) international-klein-blue)",
+            "(= (color) green)",
+            "(= (color) yellow)",
+            "(= (color) (ikb))",
+            "",
+            "!(assertEqual",
+            "  (match &self (= (color) $x) $x)",
+            "  (superpose ((ikb) yellow green))) ; ()",
+            "!(assertEqualToResult",
+            "   (match &self (= (color) $x) $x)",
+            "  ((ikb) yellow green)) ; Error"
+        ],
+        "description": "Superpose with AssertEqual"
+    },
+    "AssertEqual Example": {
+        "prefix": "assertEqual_example",
+        "body": [
+            "(Parent Bob Ann)",
+            "! (assertEqual",
+            "    (match &self (Parent Tom $x) $x)",
+            "    (empty)) ; ()",
+            "! (assertEqualToResult",
+            "    (match &self (Parent Tom $x) $x)",
+            "    ()) ; ()"
+        ],
+        "description": "AssertEqual and AssertEqualToResult Examples"
+    },
+    "Equality Example": {
+        "prefix": "eq_example",
+        "body": [
+            "(= (eq $x $x) True)",
+            "! (eq a b) ; (eq a b)",
+            "(= (eq $x $y) (empty))",
+            "! (eq a b) ; no result"
+        ],
+        "description": "Equality Examples"
+    },
+    "Collapse Example": {
+        "prefix": "collapse_example",
+        "body": [
+            "(= (color) red)",
+            "(= (color) green)",
+            "(= (color) blue)",
+            "! (color) ; three results: [blue, red, green]",
+            "! (collapse (color)) ; one result: [(blue red green)]"
+        ],
+        "description": "Collapse Example"
+    },
+    "Superpose Example": {
+        "prefix": "superpose_example",
+        "body": [
+            "(= (color) green)",
+            "(= (color) yellow)",
+            "(= (color) red)",
+            "! (color) ; [green, yellow, red]",
+            "! (collapse (color)) ; [(green yellow red)]",
+            "! (let $x (collapse (color))",
+            "    (superpose $x))  ; [green, yellow, red]",
+            "! (superpose (1 2 3)) ; [1, 2, 3]",
+            "! (collapse (superpose (1 2 3)))",
+            "! (let $x (superpose (1 2 3)) ; [(1 2 3)]",
+            "    (collapse $x))    ; [(1), (2), (3)]"
+        ],
+        "description": "Superpose and Collapse Examples"
+    },
+    "Add Foo Eq Example": {
+        "prefix": "add_foo_eq_example",
+        "body": [
+            "(: add-foo-eq (-> Atom (->)))",
+            "(= (add-foo-eq $x)",
+            "   (add-atom &self (= (foo) $x)))",
+            "! (foo) ; (foo) - not reduced",
+            "! (add-foo-eq (+ 1 2)) ; () - OK",
+            "! (add-foo-eq (+ 3 4)) ; () - OK",
+            "! (foo) ; [3, 7]",
+            "! (match &self (= (foo) $x)",
+            "    (quote $x)) ; [(quote (+ 1 2)), (quote (+ 3 4))]"
+        ],
+        "description": "Add Foo Eq Example"
+    },
+    "Remove Atom Example": {
+        "prefix": "remove_atom_example",
+        "body": [
+            "(Atom to remove)",
+            "! (match &self (Atom to remove) \"Atom exists\") ; \"Atom exists\"",
+            "! (remove-atom &self (Atom to remove)) ; ()",
+            "! (match &self (Atom to remove) \"Unexpected\") ; nothing",
+            "! (remove-atom &self (Atom to remove)) ; ()"
+        ],
+        "description": "Remove Atom Example"
+    },
+    "Graph Rewriting Example": {
+        "prefix": "graph_rewriting_example",
+        "body": [
+            "(link A B)",
+            "(link B C)",
+            "(link C A)",
+            "(link C E)",
+            "",
+            "! (match &self (, (link $x $y)",
+            "                      (link $y $z)",
+            "                      (link $z $x))",
+            "                   (let () (remove-atom &self (link $x $y))",
+            "                           (add-atom &self (link $y $x)))",
+            "      ) ; [(), (), ()]",
+            "! (match &self (link $x $y)",
+            "        (link $x $y)) ; [(link A C), (link C B), (link B A), (link C E)]"
+        ],
+        "description": "Graph Rewriting Example"
+    },
+    "Space Reference Example": {
+        "prefix": "space_reference_example",
+        "body": [
+            "! (add-reduct &self (= (get-space) (new-space))) ; ()",
+            "! (add-atom (get-space) (Parent Bob Ann)) ; ()",
+            "! (get-space) ; GroundingSpace-addr",
+            "! (match (get-space) (Parent $x $y) ($x $y)) ; (Bob Ann)"
+        ],
+        "description": "Space Reference Example"
+    },
+    "Bind Example": {
+        "prefix": "bind_example",
+        "body": [
+            "(= (get-hello) &hello)",
+            "! (bind! &hello (Hello world)) ; ()",
+            "! (get-metatype &hello) ; Expression",
+            "! &hello ; (Hello world)",
+            "! (get-hello) ; &hello",
+            "",
+            "! (bind! &space (new-space)) ; ()",
+            "! (add-atom &space (Parent Bob Ann)) ; ()",
+            "! &space ; GroundingSpace-addr",
+            "! (match &space (Parent $x $y) ($x $y)) ; (Bob Ann)",
+            "! (match &self (Parent $x $y) ($x $y)) ; empty"
+        ],
+        "description": "Bind Example"
+    },
+    "Import Example": {
+        "prefix": "import_example",
+        "body": [
+            "; people_kb.metta",
+            "(Female Pam)",
+            "(Male Tom)",
+            "(Male Bob)",
+            "(Female Liz)",
+            "(Female Pat)",
+            "(Female Ann)",
+            "(Male Jim)",
+            "(Parent Tom Bob)",
+            "(Parent Pam Bob)",
+            "(Parent Tom Liz)",
+            "(Parent Bob Ann)",
+            "(Parent Bob Pat)",
+            "(Parent Pat Jim)",
+            "",
+            "; main.metta",
+            "! (import! &people people_kb)",
+            "(= (get-sister $x)",
+            "   (match &people",
+            "     (, (Parent $y $x)",
+            "        (Parent $y $z)",
+            "        (Female $z))",
+            "     $z",
+            "   )",
+            ")",
+            "! (get-sister Bob)"
+        ],
+        "description": "Import Example"
+    },
+    "Car Atom Example": {
+        "prefix": "car_atom_example",
+        "body": [
+            "! (get-type car-atom) ; (-> Expression %Undefined%)",
+            "! (car-atom (1 2 3)) ; 1",
+            "! (car-atom (Cons X Nil)) ; Cons",
+            "! (car-atom (seg (point 1 1) (point 1 4))) ; seg"
+        ],
+        "description": "Car Atom Example"
+    },
+    "Cdr Atom Example": {
+        "prefix": "cdr_atom_example",
+        "body": [
+            "! (get-type cdr-atom) ; (-> Expression %Undefined%)",
+            "! (cdr-atom (1 2 3)) ; (2 3)",
+            "! (cdr-atom (Cons X Nil)) ; (X Nil)",
+            "! (cdr-atom (seg (point 1 1) (point 1 4))) ; ((point 1 1) (point 1 4))"
+        ],
+        "description": "Cdr Atom Example"
+    },
+    "Cons Atom Example": {
+        "prefix": "cons_atom_example",
+        "body": [
+            "(= (reconstruct $xs)",
+            "   (let* (($head (car-atom $xs))",
+            "          ($tail (cdr-atom $xs)))",
+            "     (cons-atom $head $tail))",
+            ")",
+            "! (reconstruct (1 2 3)) ; (1 2 3)",
+            "! (reconstruct (Cons X Nil)) ; (Cons X Nil)"
+        ],
+        "description": "Cons Atom Example"
+    },
+    "Map Example": {
+        "prefix": "map_example",
+        "body": [
+            "(: map (-> (-> $t $t) Expression Expression))",
+            "(= (map $f Nil) Nil)",
+            "(= (map $f (Cons $x $xs))",
+            "   (Cons ($f $x) (map $f $xs)))",
+            "! (map not (Cons False (Cons True (Cons False (Cons False Nil)))))"
+        ],
+        "description": "Map Example"
+    },
+    "To List Example": {
+        "prefix": "to_list_example",
+        "body": [
+            "(= (to-list $expr)",
+            "   (if (== $expr ()) Nil",
+            "     (Cons (car-atom $expr)",
+            "           (to-list (cdr-atom $expr)))",
+            "   )",
+            ")",
+            "! (to-list (False (True False) False False))"
+        ],
+        "description": "To List Example"
+    },
+    "To Tree Example": {
+        "prefix": "to_tree_example",
+        "body": [
+            "(= (to-tree $expr)",
+            "   (case (get-metatype $expr)",
+            "      ((Expression",
+            "         (if (== $expr ()) Nil",
+            "             (Cons (to-tree (car-atom $expr))",
+            "                   (to-tree (cdr-atom $expr)))",
+            "         ))",
+            "       ($_ $expr)",
+            "      )",
+            "   )",
+            ")",
+            "! (to-tree (False (True False) False False))"
+        ],
+        "description": "To Tree Example"
     }
 }

@@ -1,0 +1,891 @@
+
+composite query
+
+(Female Pam)
+(Male Tom)
+(Male Bob)
+(Female Liz)
+(Female Pat)
+(Female Ann)
+(Male Jim)
+(Parent Tom Bob)
+(Parent Pam Bob)
+(Parent Tom Liz)
+(Parent Bob Ann)
+(Parent Bob Pat)
+(Parent Pat Jim)
+
+(= (get-sister $x)
+   (match &self
+     (, (Parent $y $x)
+        (Parent $y $z)
+        (Female $z))
+     $z
+   )
+)
+! (get-sister Bob)
+
+
+
+Recursion for graph traversal
+
+(Parent Tom Bob)
+(Parent Pam Bob)
+(Parent Tom Liz)
+(Parent Bob Ann)
+(Parent Bob Pat)
+(Parent Pat Jim)
+(Parent Jim Lil)
+
+(= (parent $x $y) (match &self (Parent $x $y) $x))
+(= (predecessor $x $z) (parent $x $z))
+(= (predecessor $x $z) (predecessor $x (parent $y $z)))
+; Who are predecessors of Lil
+! (predecessor $x Lil)
+
+
+get-type
+
+(: a A)
+(: b B)
+(: A Type)
+
+! (get-type a) ; A
+! (get-type b) ; B
+! (get-type c) ; %Undefined%
+! (get-type A) ; Type
+! (get-type B) ; %Undefined%
+
+(: a A)
+(: b B)
+! (get-type (a b)) ; (A B)
+
+(: a A)
+(: foo (-> A B))
+! (get-type (foo a)) ; B
+
+
+Type-checking
+Types can protect against incorrectly constructed expressions including misuse of a function, when we want it to accept arguments of a certain type.
+
+metta
+; This function accepts an atom of type A and returns an atom of type B
+(: foo (-> A B))
+(: a A)
+(: b B)
+
+! (foo a) ; no error
+! (get-type (foo b)) ; no result
+! (b foo) ; notice: no error
+! (get-type (b foo)) ; (B (-> A B))
+! (foo b) ; type error
+
+
+Gradual typing
+Let us consider what types will expressions have, when some of their elements are %Undefined%. Run the following program to check the currently implemented behavior
+
+metta
+(: foo (-> A B))
+(: a A)
+! (get-type (foo c))
+! (get-type (g a))
+
+
+Multiple arguments
+Functions can have more than one argument. In their type signature, types of their parameters are listed first, and the return type is put at the end much like for functions with one argument.
+
+The wrong order of arguments with different types as well as the wrong number of arguments will render the type of the whole expression to be empty (invalid).
+
+; This function takes two atoms of type A and B and returns an atom of type C
+(: foo2 (-> A B C))
+(: a A)
+(: b B)
+
+! (get-type (foo2 a b)) ; C
+! (get-type (foo2 b a)) ; empty
+! (get-type (foo2 a)) ; empty
+! (foo2 a c) ; no error
+! (foo2 b a) ; type error (the interpreter stops on error)
+! (foo2 c) ; would also be type error
+
+
+
+Nested expressions
+Types of nested expressions are inferred from innermost expressions outside. You can try nesting typed expressions in the sandbox below and see what goes wrong.
+
+(: foo (-> A B))
+(: bar (-> B B A))
+(: a A)
+! (get-type (bar (foo a) (foo a)))
+! (get-type (foo (bar (foo a) (foo a))))
+
+
+Note that type signatures can be nested expressions by themselves:
+
+metta
+(: foo-pair (-> (A B) C))
+(: a A)
+(: b B)
+
+! (get-type (foo-pair a b)) ; empty
+! (get-type (foo-pair (a b))) ; C
+
+
+
+Grounded atoms
+Grounded atoms are also typed. One can check their types with get-type as well:
+
+metta
+! (get-type 1) ; Number
+! (get-type 1.1) ; Number
+! (get-type +) ; (-> Number Number Number)
+! (get-type (+ 1 2.1)) ; Number
+
+
+(: a A)
+! (get-type (+ 1 a)) ; empty
+! (get-type (+ 1 b)) ; Number
+! (+ 1 b) ; no error, not reduced
+! (+ 1 a) ; type error
+
+
+
+Consider the simple example of Peano numbers:
+
+metta
+(: Z Nat) ; Z is "zero"
+(: S (-> Nat Nat)) ; S "constructs" the next number
+! (S Z) ; this is "one"
+! (S (S Z)) ; this is "two"
+! (get-type (S (S (S Z)))) ; Nat
+! (get-type (S S)) ; not Nat
+
+
+The following code shows, how Nat as a recursive data type is processed by pattern matching.
+
+metta
+(: Z Nat)
+(: S (-> Nat Nat))
+(: Greater (-> Nat Nat Bool))
+(= (Greater (S $x) Z)
+   True)
+(= (Greater Z $x)
+   False)
+(= (Greater (S $x) (S $y))
+   (Greater $x $y))
+! (Greater (S Z) (S Z)) ; False
+! (Greater (S (S Z)) (S Z)) ; True
+
+
+
+More practical use of recursive data structures is in the form of containers to store data. We already constructed them in the previous tutorials, but without types. Let us add typing information and define the type of list of numbers:
+
+metta
+(: NilNum ListNum)
+(: ConsNum (-> Number ListNum ListNum))
+! (get-type (ConsNum 1 (ConsNum 2 (ConsNum 3 NilNum)))) ; ListNum
+! (ConsNum 1 (ConsNum "S" NilNum)) ; BadType
+
+Stdlib contains a comparison operator ==. The following code
+
+metta
+! (get-type ==)
+! (== 1 "S")
+
+[(-> $t#1665 $t#1665 Bool)]
+[(Error "S" BadType)]
+
+
+It deserves noting that the output type can also be variable, e.g.
+
+metta
+(: apply (-> (-> $tx $ty) $tx $ty))
+(= (apply $f $x) ($f $x))
+! (apply not False) ; True
+! (get-type (apply not False)) ; Bool
+! (unify (-> (-> $tx  $ty)  $tx  $ty)
+         (-> (-> Bool Bool) Bool $result)
+         $result
+         BadType) ; Bool
+! (apply not 1) ; BadType
+
+[True]
+[Bool]
+[Bool]
+[(Error 1 BadType)]
+
+
+Let us consider how the type of (Cons 2 Nil) is derived. These arguments of Cons suppose its type signature to be undergo the following unification:
+
+metta
+! (unify (-> $t     (List $t) (List $t))
+         (-> Number (List $t) $result)
+         $result
+         BadType)
+
+[(List Number)]
+
+
+Functions can receive arguments of parametric types, and type-checking will help to catch possible mistakes. Consider the following example
+
+(: Nil (List $t))
+(: Cons (-> $t (List $t) (List $t)))
+(: first (-> (List $t) $t))
+(: append (-> (List $t) (List $t) (List $t)))
+! (get-type
+    (+ 1
+      (first (append (Cons 1 Nil)
+                     (Cons 2 Nil)))))
+
+One can use get-metatype to retrieve the metatype of an atom
+
+metta
+! (get-metatype 1) ; Grounded
+! (get-metatype +) ; Grounded
+! (get-metatype (+ 1 2)) ; Expression
+! (get-metatype a) ; Symbol
+! (get-metatype (a b)) ; Expression
+! (get-metatype $x) ; Variable
+
+
+
+Quoting MeTTa code
+We encountered error expressions. These expressions can contain unreduced atoms, because Error expects the arguments of Atom type:
+
+metta
+! (get-type Error) ; (-> Atom Atom ErrorType)
+! (get-metatype Error) ; just Symbol
+! (get-type (Error Foo Boo)) ; ErrorType
+! (Error (+ 1 2) (+ 1 +)) ; arguments are not evaluated
+
+
+It does nothing except of wrapping its argument and preventing it from being evaluated.
+
+metta
+! (get-type quote)
+! (quote (+ 1 2))
+! (get-type if)
+
+
+However, its implementation in MeTTa can be done with the following equalities
+
+metta
+(= (if True $then $else) $then)
+(= (if False $then $else) $else)
+
+Consider the following example
+
+(: my-if (-> Bool Atom Atom Atom))
+(= (my-if True $then $else) $then)
+(= (my-if False $then $else) $else)
+(= (loop) (loop))
+(= (OK) OK!)
+! (my-if (> 0 1) (loop) (OK))
+
+Can you imagine how a "sequential and" function can be written, which evaluates its second argument, only if the first argument is True?
+(: seq-and (-> ... ... Bool))
+(= (seq-and ... ...) ...)
+(= (seq-and ... ...) ...)
+(: loop (-> Bool Bool))
+! (seq-and False (loop)) ; should be False
+! (seq-and True True) ; should be True
+
+
+Let us consider a very simple example with swapping the arguments of a function. The code below will give -7 as a result
+
+metta
+(: swap-arguments-atom (-> Atom Atom))
+(= (swap-arguments-atom ($op $arg1 $arg2))
+   ($op $arg2 $arg1)
+)
+! (swap-arguments-atom (- 15 8))
+
+
+
+At the same time, the same code without typing will not work properly and will return [(swap-arguments 7)], because (- 15 8) will be reduced by the interpreter before passing to the swap-arguments and will not be pattern-matched against ($op $arg1 $arg2)
+
+metta
+(= (swap-arguments ($op $arg1 $arg2))
+   ($op $arg2 $arg1)
+)
+! (swap-arguments (- 15 8)
+
+
+One more example of using the Atom type is comparing expressions
+
+metta
+; `atom-eq` returns True, when arguments are identical
+; (can be unified with the same variable)
+(: atom-eq (-> Atom Atom Bool))
+(= (atom-eq $x $x) True)
+
+; These expressions are identical:
+! (atom-eq (+ 1 2) (+ 1 2))
+
+; the following will not be reduced because the expressions are not the same 
+; (even though the result of their evaluation would be)
+! (atom-eq 3 (+ 1 2))
+
+
+In the following example, (Green $who) is evaluated to True for $who bound to Tod due to the corresponding equality.
+
+metta
+(Green Sam)
+(= (Green Tod) True)
+! ($who (Green $who)) ; (Tod True)
+! (match &self (Green $who) $who) ; Sam
+
+
+Let us consider a simple knowledge base for a personal assistant system. The knowledge base contains information about the tasks the user is supposed to do. A new atom in this context would be a new task.
+
+metta
+(= (message-to-user $task)
+   (Today you have $task))
+(= (add-task-and-notify $task)
+    (let () (add-atom &self (TASK $task))
+            (message-to-user $task))
+)
+! (get-type add-atom) ; (-> hyperon::space::DynSpace Atom (->))
+! (add-task-and-notify (Something to do))
+! (match &self (TASK $t) $t) # (Somthing to do)
+
+
+One trick could be to write a wrapper function like this
+
+metta
+(= (call-by-value $f $arg)
+   ($f $arg))
+! (call-by-value quote (+ 1 2)) ; (quote 3)
+
+
+Programs can contain badly typed expressions as we discussed earlier. However, this may permit badly defined functions. ! (pragma! type-check auto) can be used to enable automatic detection of such errors:
+
+metta
+! (pragma! type-check auto) ; ()
+(: foo (-> Number Bool))
+(= (foo $x) (+ $x 1)) ; BadType
+
+
+Returning output patterns with substituted variables before further evaluation is very convenient for nested queries. Consider the following example:
+
+metta
+(Green Sam)
+(Likes Sam Emi)
+(Likes Tod Kat)
+! (match &self (Green $who)
+    (match &self (Likes $who $x) $x))
+! (match &self (Green $who)
+    (match &self (Likes $boo $x) $x))
+! (match &self (Likes $who $x)
+    (match &self (Green $x) $x))
+! (match &self (Likes $who $x)
+    (match &self (Green $boo) $boo))
+
+[Emi]
+[Kat, Emi]
+[]
+[Sam, Sam]
+
+
+The following program contains a badly typed expression, which can still be pattern-matched (and match can accept a badly typed pattern):
+
+metta
+(+ 1 False)
+! (match &self (+ 1 False) OK) ; OK
+! (match &self (+ 1 $x) $x) ; False
+Reset
+[OK]
+[False]
+
+
+MeTTa programs typically contain many equalities. But is there a guarantee that the function will indeed return the declared type? This is achieved by requiring that both parts of equalities are of the same type. Consider the following code:
+
+metta
+(: foo (-> Number Bool))
+(= (foo $x) (+ $x 1))
+! (get-type (foo $x)) ; Bool
+! (get-type (+ $x 1)) ; Number
+! (get-type =) ; (-> $t $t Atom)
+! (= (foo $x) (+ $x 1)) ; BadType
+Reset
+[Bool]
+[Number]
+[(-> $t#1926 $t#1926 Atom)]
+[(Error (+ $x 1) BadType)]
+
+
+
+let takes three arguments:
+
+a variable atom (or, more generally, a pattern)
+an expression to be evaluated and bound to the variable (or, more generally, matched against the pattern in the first argument)
+the output expression (which typically contains a variable to be substituted)
+metta
+! (let $x (+ 1 2) (quote $x)) ; (quote 3)
+(: Z Nat)
+! (get-metatype (get-type Z)) ; (get-type Z) is Expression
+! (let $x (get-type Z) (get-metatype $x)) ; Nat is Symbol
+Reset
+[(quote 3)]
+[Expression]
+[Symbol]
+
+
+
+
+One may also want to evaluate some subexpression before constructing an expression for pattern-matching
+
+metta
+(= (age Bob) 5)
+(= (age Sam) 8)
+(= (age Ann) 3)
+(= (age Tom) 5)
+(= (of-same-age $who)
+   (let $age (age $who)
+        (match &self (= (age $other) $age)
+               $other)))
+! (of-same-age Bob) ; [Bob, Tom]
+; without `of-same-age`:
+! (let $age (age Bob)
+       (match &self (= (age $other) $age)
+              $other)) ; also [Bob, Tom]
+! (match &self (= (age $other) (age Bob))
+         $other) ; does not pattern-match
+; evaluating the whole pattern is a bad idea
+! (let $pattern (= (age $other) (age Bob))
+       $pattern) ; [(= 5 5), (= 8 5), (= 5 5), (= 3 5)]
+! (let $pattern (= (age $other) (age Bob))
+       (match &self $pattern $other)) ; does not pattern-match
+Run
+It can be seen that let helps to evaluate (age Bob) before constructing a pattern for retrieval. However, evaluating the whole pattern is typically a bad idea. That is why patterns in match are of Atom type, and let is used when something should be evaluated beforehand.
+
+
+
+
+Let us consider a simple knowledge base for a personal assistant system. The knowledge base contains information about the tasks the user is supposed to do. A new atom in this context would be a new task.
+
+metta
+(= (message-to-user $task)
+   (Today you have $task))
+(= (add-task-and-notify $task)
+    (let () (add-atom &self (TASK $task))
+            (message-to-user $task))
+)
+! (get-type add-atom) ; (-> hyperon::space::DynSpace Atom (->))
+! (add-task-and-notify (Something to do))
+! (match &self (TASK $t) $t) # (Somthing to do)
+
+
+
+Logical operations in stdlib deal with True and False values of Bool type, and have signatures (-> Bool Bool) and (-> Bool Bool Bool) for unary and binary cases.
+
+metta
+; Test if both the given expressions are True
+! (and (> 4 2) (== "This is a string" "Just a string")) ; False
+
+; Test if any of the given expressions is True
+! (or (> 4 2) (== "This is a string" "Just a string")) ; True
+
+; Negates the result of a given Bool value
+! (not (== 5 5)) ; False
+! (not (and (> 4 2) (< 4 3))) ; True
+
+
+The function accepts only a single argument, but multiple values can be printed by enclosing them within parentheses to form a single atom:
+
+metta
+! (println! "This is a string")
+! (println! ($v1 "string" 5))
+Reset
+[STDOUT] "This is a string"
+[STDOUT] ($v1 "string" 5)
+[()]
+[()]
+
+
+The argument of println! is evaluated before println! is called (its type is not Atom but %Undefined%), so the following code
+
+metta
+(Parent Bob Ann)
+! (match &self (Parent Bob Ann) (Ann is Bob`s child))
+! (println! (match &self (Parent Bob Ann) (Bob is Ann`s parent)))
+
+
+trace! accepts two arguments, the first is the atom to print, and the second is the atom to return. Both are evaluated before passing to trace!, which type is (-> %Undefined% $a $a), meaning that the reduced type of the whole trace! expression is the same as the reduced type of the second argument:
+
+metta
+! (get-type (trace! (Expecting 3) (+ 1 2))) ; Number
+
+
+trace! can be considered as a syntactic sugar for the following construction using println! and let (see this section of the tutorial for more detail):
+
+metta
+(: my-trace (-> %Undefined% $a $a))
+(= (my-trace $out $res)
+   (let () (println! $out) $res))
+! (my-trace (Expecting 3) (+ 1 2))
+
+
+
+It can be used as a debugging tool that allows printing out a message to the terminal, along with valuating an atom.
+
+metta
+(Parent Bob Ann)
+! (trace! "Who is Anna`s parent?" ; print this expression
+   (match &self (Parent $x Ann)
+          ($x is Ann`s parent)))  ; return the result of this expression
+!(trace! "Who is Bob`s child?"  ; print this expression
+   (match &self (Parent Bob $x)
+          ($x is Bob`s child))) ; return the result of this expression
+
+          The first argument does not have to be a pure string, which makes trace! work fine on its own
+
+          metta
+          (Parent Bob Ann)
+          ! (trace! ((Expected: (Bob is Ann`s parent))
+                     (Got: (match &self (Parent $x Ann) ($x is Ann`s parent)))
+                    )
+             ())
+
+             The following is the basic example of the effect of quote:
+
+             metta
+             (Fruit apple)
+             (= (fruit $x)
+                (match &self (Fruit $x) $x))
+             ! (fruit $x) ; apple
+             ! (quote (fruit $x)) ; (quote (fruit $x))
+
+
+             Another pattern of using trace! with quote and let is to add tracing to the function itself. We first calculate the result (if needed), and then use trace! to print some debugging information and return the result:
+
+             metta
+             (= (add-bin $x)
+                (let $r (+ $x 1)
+                     (trace! (quote ((add-bin $x) is $r))
+                             $r)))
+             (= (add-bin $x)
+                (trace! (quote ((add-bin $x) is $x))
+                        $x))
+             ; (quote ((add-bin 1) is 1)) and (quote ((add-bin 1) is 2)) will be printed
+             ! (add-bin 1) ; [1, 2]   
+
+
+             assertEqual compares (sets of) results of evaluation of two expressions. Its type is (-> Atom Atom Atom), so it interprets expressions internally and can compare erroneous expressions. If sets of results are equal, it outputs the unit value ().
+
+             metta
+             (Parent Bob Ann)
+             ! (assertEqual
+                (match &self (Parent $x Ann) $x)
+                (unify (Parent $x Ann) (Parent Bob $y) $x Failed)) ; ()
+             ! (assertEqual (+ 1 2) 3) ; ()
+             ! (assertEqual (+ 1 2) (+ 1 4)) ; Error-expression
+
+             assertEqualToResult has the same type as assertEqual, namely (-> Atom Atom Atom), and it evaluates the first expression. However, it doesn't evaluate the second expression, but considers it a set of expected results of the first expression.
+
+             metta
+             (Parent Bob Ann)
+             (Parent Pam Ann)
+             ! (assertEqualToResult
+                 (match &self (Parent $x Ann) $x)
+                 (Bob Pam))  ; ()
+             (= (bin) 0)
+             (= (bin) 1)
+             ! (assertEqualToResult (bin) (0 1)) ; ()
+             ! (assertEqualToResult (+ 1 2) (3)) ; ()
+             ! (assertEqualToResult
+                 (+ 1 untyped-symbol)
+                ((+ 1 untyped-symbol))) ; ()
+             ! (assertEqualToResult (+ 1 2) ((+ 1 2))) ; Error
+    
+             (= (bin) 0)
+             (= (bin) 1)
+             (= (bin2) (superpose (0 1)))
+             ! (bin) ; [0, 1]
+             ! (bin2) ; [0, 1]
+             Reset
+             [0, 1]
+             [0, 1]
+
+             ! (+ 2 (superpose (3 4 5))) ; [5, 6, 7]
+
+
+
+
+
+             Another example, where using superpose explicitly is useful is for checking a set of nondeterministic results with assertEqual, when both arguments still require evaluation (so assertEqualToResult is not convenient to apply). In the following example, we want to check that we didn't forget any equality for (color), but we may not be interested what exact value they are reduced to (i.e., whether (ikb) is reduced to international-klein-blue or something else).
+
+metta
+(= (ikb) international-klein-blue)
+(= (color) green)
+(= (color) yellow)
+(= (color) (ikb))
+
+!(assertEqual
+  (match &self (= (color) $x) $x)
+  (superpose ((ikb) yellow green))) ; ()
+!(assertEqualToResult
+   (match &self (= (color) $x) $x)
+  ((ikb) yellow green)) ; Error
+Reset
+[()]
+[(Error (assertEqualToResult (match GroundingSpace-top (= (color) $x) $x) ((ikb) yellow green)) 
+Expected: [(ikb), yellow, green]
+Got: [international-klein-blue, green, yellow]
+Missed result: (ikb))]
+
+
+
+(empty) could be useful in the construction of the asserts (assertEqual (...) (empty)), but (assertEqualToResult (...) ()) can also work.
+
+metta
+(Parent Bob Ann)
+! (assertEqual
+    (match &self (Parent Tom $x) $x)
+    (empty)) ; ()
+! (assertEqualToResult
+    (match &self (Parent Tom $x) $x)
+    ()) ; ()
+
+
+    Since expressions without suitable equalities remain unreduced in MeTTa, (empty) can be used to alter this behavior, when desirable, e.g.
+
+    metta
+    (= (eq $x $x) True)
+    ! (eq a b) ; (eq a b)
+    (= (eq $x $y) (empty))
+    ! (eq a b) ; no result
+
+    
+    collapse is a grounded function, which runs the interpreter on the given atom and wraps the returned results into an expression.
+
+    metta
+    (= (color) red)
+    (= (color) green)
+    (= (color) blue)
+    ! (color) ; three results: [blue, red, green]
+    ! (collapse (color)) ; one result: [(blue red green)]
+
+
+
+
+    The superpose function reverts the collapse result
+
+metta
+(= (color) green)
+(= (color) yellow)
+(= (color) red)
+! (color) ; [green, yellow, red]
+! (collapse (color)) ; [(green yellow red)]
+! (let $x (collapse (color))
+    (superpose $x))  ; [green, yellow, red]
+! (superpose (1 2 3)) ; [1, 2, 3]
+! (collapse (superpose (1 2 3)))
+! (let $x (superpose (1 2 3)) ; [(1 2 3)]
+    (collapse $x))    ; [(1), (2), (3)]
+
+
+
+    In the following program, add-foo-eq is a function, which adds an equality for foo to the program space whenever called. Then, it is checked that the expressions are added to the space without reduction.
+
+metta
+(: add-foo-eq (-> Atom (->)))
+(= (add-foo-eq $x)
+   (add-atom &self (= (foo) $x)))
+! (foo) ; (foo) - not reduced
+! (add-foo-eq (+ 1 2)) ; () - OK
+! (add-foo-eq (+ 3 4)) ; () - OK
+! (foo) ; [3, 7]
+! (match &self (= (foo) $x)
+    (quote $x)) ; [(quote (+ 1 2)), (quote (+ 3 4))]
+
+
+
+
+    The first argument is a reference to the space from which the Atom needs to be removed, the second is the atom to be removed. Notice that if the given atom is not in the space, remove-atom currently neither raises a error nor returns the empty result.
+
+    metta
+    (Atom to remove)
+    ! (match &self (Atom to remove) "Atom exists") ; "Atom exists"
+    ! (remove-atom &self (Atom to remove)) ; ()
+    ! (match &self (Atom to remove) "Unexpected") ; nothing
+    ! (remove-atom &self (Atom to remove)) ; ()
+
+
+
+    Combination of remove-atom and add-atom can be used for graph rewriting. Consider the following example.
+
+    metta
+    (link A B)
+    (link B C)
+    (link C A)
+    (link C E)
+    
+    ! (match &self (, (link $x $y)
+                      (link $y $z)
+                      (link $z $x))
+                   (let () (remove-atom &self (link $x $y))
+                           (add-atom &self (link $y $x)))
+      ) ; [(), (), ()]
+    ! (match &self (link $x $y)
+        (link $x $y)) ; [(link A C), (link C B), (link B A), (link C E)]
+
+
+        we will get something like GroundingSpace-0x10703b398 as a textual representation space atom. But how can we refer to this space in other parts of the program? Notice that the following code will not work as desired
+
+        metta
+        (= (get-space) (new-space))
+        ! (add-atom (get-space) (Parent Bob Ann)) ; ()
+        ! (match (get-space) (Parent $x $y) ($x $y)) ; nothing
+
+        
+        This approach has its own merits. However, a more direct fix for (= (get-space) (new-space)) would be just to evaluate (new-space) before adding it to the program:
+
+metta
+! (add-reduct &self (= (get-space) (new-space))) ; ()
+! (add-atom (get-space) (Parent Bob Ann)) ; ()
+! (get-space) ; GroundingSpace-addr
+! (match (get-space) (Parent $x $y) ($x $y)) ; (Bob Ann)
+
+
+
+The first argument has type Symbol, so technically we can use any valid symbol as the token name, but conventionally the token should start with &, when it is bound to a custom grounded atom, to distinguish it from symbols. The second argument is the atom, which is associated with the token after reduction. This atom should not necessarily be a grounded atom. bind! returns the unit value () similar to println! or add-atom.
+
+Consider the following program:
+
+metta
+(= (get-hello) &hello)
+! (bind! &hello (Hello world)) ; ()
+! (get-metatype &hello) ; Expression
+! &hello ; (Hello world)
+! (get-hello) ; &hello
+
+
+
+
+Using bind! for unique grounded atoms intensively used in the program can be more reasonable. Binding spaces created with (new-space) to tokens is one of possible use cases:
+
+metta
+! (bind! &space (new-space)) ; ()
+! (add-atom &space (Parent Bob Ann)) ; ()
+! &space ; GroundingSpace-addr
+! (match &space (Parent $x $y) ($x $y)) ; (Bob Ann)
+! (match &self (Parent $x $y) ($x $y)) ; empty
+
+
+
+
+
+
+
+Imports
+Stdlib has operations for importing scripts and modules. One such operation is import!. It accepts two arguments. The first argument is a symbol, which is turned into the token for accessing the imported module. The second argument is the module name. For example, the program from the tutorial could be split into two scripts - one containing knowledge, and another one querying it.
+
+metta
+; people_kb.metta
+(Female Pam)
+(Male Tom)
+(Male Bob)
+(Female Liz)
+(Female Pat)
+(Female Ann)
+(Male Jim)
+(Parent Tom Bob)
+(Parent Pam Bob)
+(Parent Tom Liz)
+(Parent Bob Ann)
+(Parent Bob Pat)
+(Parent Pat Jim)
+metta
+; main.metta
+! (import! &people people_kb)
+(= (get-sister $x)
+   (match &people
+     (, (Parent $y $x)
+        (Parent $y $z)
+        (Female $z))
+     $z
+   )
+)
+! (get-sister Bob)
+Here, (import! &people people_kb) looks similar to (bind! &people (new-space)), but import! fills in the loaded space with atoms from the script. Let us note that import! does more work than just loading the script into a space. It interacts with the module system, which is described in another tutorial.
+
+
+
+
+car-atom and cdr-atom are fundamental operations that are used to manipulate atoms. They are named after 'car' and 'cdr' operations in Lisp and other similar programming languages.
+
+The car-atom function extracts the first atom of an expression as a tuple.
+
+metta
+! (get-type car-atom) ; (-> Expression %Undefined%)
+! (car-atom (1 2 3)) ; 1
+! (car-atom (Cons X Nil)) ; Cons
+! (car-atom (seg (point 1 1) (point 1 4))) ; seg
+
+
+
+The cdr-atom function extracts the tail of an expression, that is, all the atoms of the argument except the first one.
+
+metta
+! (get-type cdr-atom) ; (-> Expression %Undefined%)
+! (cdr-atom (1 2 3)) ; (2 3)
+! (cdr-atom (Cons X Nil)) ; (X Nil)
+! (cdr-atom (seg (point 1 1) (point 1 4))) ; ((point 1 1) (point 1 4))
+
+
+
+
+cons-atom reverses the results of car-atom and cdr-atom:
+
+metta
+(= (reconstruct $xs)
+   (let* (($head (car-atom $xs))
+          ($tail (cdr-atom $xs)))
+     (cons-atom $head $tail))
+)
+! (reconstruct (1 2 3)) ; (1 2 3)
+! (reconstruct (Cons X Nil)) ; (Cons X Nil)
+
+
+But one can implement recursive processing without car and cons:
+
+metta
+(: map (-> (-> $t $t) Expression Expression))
+(= (map $f Nil) Nil)
+(= (map $f (Cons $x $xs))
+   (Cons ($f $x) (map $f $xs)))
+! (map not (Cons False (Cons True (Cons False (Cons False Nil)))))
+
+
+
+Typical usage
+car-atom and cdr-atom are typically used for recursive traversal of an expression. One basic example is creation of lists from tuples. In case of reducible non-nested lists, the code is simple:
+
+metta
+(= (to-list $expr)
+   (if (== $expr ()) Nil
+     (Cons (car-atom $expr)
+           (to-list (cdr-atom $expr)))
+   )
+)
+! (to-list (False (True False) False False))
+
+
+One more fundamental use case for analyzing expressions is implementation of custom interpretation schemes, if they go beyond the default MeTTa interpretation process and domain specific languages. A separate tutorial will be devoted to this topic. But let us note here that combining car-atom and cdr-atom with get-metatype will be a typical pattern here. Here, we provide a simple example for parsing nested tuples:
+
+metta
+(= (to-tree $expr)
+   (case (get-metatype $expr)
+      ((Expression
+         (if (== $expr ()) Nil
+             (Cons (to-tree (car-atom $expr))
+                   (to-tree (cdr-atom $expr)))
+         ))
+       ($_ $expr)
+      )
+   )
+)
+! (to-tree (False (True False) False False))
+
+
