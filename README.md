@@ -1,6 +1,6 @@
 # Metta Language Support
 
-This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering, Snippet, Folding and File-Icon only for the Metta programming language.
+This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering for detail, Code Snippets, Folding and File-Icon only for the Metta programming language.
 
 ## Instructions
 
@@ -33,6 +33,9 @@ This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering,
 
 - Open a `.metta` file to see the syntax highlighting and file icon.
 - Press `Ctrl+S` to format the document.
+- `CTR + SHIFT + P` then choose Metta Theme for Highlighting Perfectly (Note: It doesn't support other languages)
+- Hover over the Keywords to read the detail on it
+- Go over the Number column to see the Folding arrow.
 
 ## Contributing
 
