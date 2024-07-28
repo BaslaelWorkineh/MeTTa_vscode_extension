@@ -3,8 +3,8 @@
         "prefix": "length",
         "body": [
             "(= (length ()) 0)",
-            "(= (length (:: $x $xs))",
-            "    (+ 1 (length $xs)))",
+            "(= (length (:: \\$x \\$xs))",
+            "    (+ 1 (length \\$xs)))",
             "! (length (:: A (:: B (:: C ()))))"
         ],
         "description": "List Length"
@@ -12,9 +12,9 @@
     "Factorial Function": {
         "prefix": "factorial",
         "body": [
-            "(= (factorial $x)",
-            "    (if (> $x 0)",
-            "        (* $x (factorial (- $x 1)))",
+            "(= (factorial \\$x)",
+            "    (if (> \\$x 0)",
+            "        (* \\$x (factorial (- \\$x 1)))",
             "        1))",
             "! (factorial 5) ; 120"
         ],
@@ -23,17 +23,16 @@
     "Zip Function": {
         "prefix": "zip",
         "body": [
-            "(= (zip $list1 $list2)",
-            "    (case ($list1 $list2)",
+            "(= (zip \\$list1 \\$list2)",
+            "    (case (\\$list1 \\$list2)",
             "        (((() ()) ())",
-            "            (((:: $x $xs) (:: $y $ys)) (:: ($x $y) (zip $xs $ys)))",
-            "            ($else ERROR)",
+            "            (((:: \\$x \\$xs) (:: \\$y \\$ys)) (:: (\\$x \\$y) (zip \\$xs \\$ys)))",
+            "            (\\$else ERROR)",
             "            )",
             "        )",
             "    )",
             "! (zip (:: A (:: B ())) (:: 1 (:: 2 ()))) ; (:: (A 1) (:: (B 2) ()))",
-            "! (zip (:: A (:: B ())) (:: 1 ()))",
-            " ; (:: (A 1) ERROR)"
+            "! (zip (:: A (:: B ())) (:: 1 ())) ; (:: (A 1) ERROR)"
         ],
         "description": "Zip Function"
     },
@@ -41,9 +40,9 @@
         "prefix": "grid",
         "body": [
             "((9 9 9) (9 9 9) (9 9 9)) goal",
-            "(= (square $w) (* $w $w))",
-            "(= (triple $x) ($x $x $x))",
-            "(= (grid $y) (triple (triple $y)))",
+            "(= (square \\$w) (* \\$w \\$w))",
+            "(= (triple \\$x) (\\$x \\$x \\$x))",
+            "(= (grid \\$y) (triple (triple \\$y)))",
             "!(grid (square 3))"
         ],
         "description": "Square Grid"
@@ -53,30 +52,25 @@
         "body": [
             "(= (bin) 0)",
             "(= (bin) 1)",
-            "(= (triple $x) ($x $x $x))",
-            "!(triple (bin))",
-            "(= (bin2) ((bin) (bin)))",
-            "!(bin2)",
-            "!(triple (bin2))"
+            "!(bin)"
         ],
         "description": "Binary Functions"
     },
     "Sum Function": {
         "prefix": "sum",
         "body": [
-            "(= (sum ($x $y $z)) (+ $x (+ $y $z)))",
-            "(= (sum ($x $y)) (+ $x $y))",
-            "!(triple (bin))",
-            "!(sum (triple(bin)))",
-            "!(sum (bin2))"
+            "(= (sum \\$x \\$y) (+ \\$x \\$y))",
+            "! (sum 3 4) ; 7"
         ],
         "description": "Sum Function"
     },
     "Non-Deterministic Increment": {
-        "prefix": "inc",
+        "prefix": "incement-binary",
         "body": [
-            "(= (inc $x) (+ 1 $x))",
-            "(= (inc $x) (+ 0 $x))",
+            "(= (bin) 0)",
+            "(= (bin) 1)",
+            "(= (inc \\$x) (+ 1 \\$x))",
+            "(= (inc \\$x) (+ 0 \\$x))",
             "!(inc (bin))"
         ],
         "description": "Non-Deterministic Increment"
@@ -85,7 +79,7 @@
         "prefix": "Length",
         "body": [
             "(= (Length (Nil)) 0)",
-            "(= (Length (Cons $x $xs)) (+ 1 (Length $xs)))",
+            "(= (Length (Cons \\$x \\$xs)) (+ 1 (Length \\$xs)))",
             "!(Length (Cons A (Cons B (Cons C (Nil)))))"
         ],
         "description": "Length Function"
@@ -93,10 +87,10 @@
     "Changing List Value": {
         "prefix": "SquaredList",
         "body": [
-            "(= (SquaredList $f Nil) 0)",
-            "(= (SquaredList $f ($x $xs))",
-            "    (+ ($f $x) (SquaredList $f $xs)))",
-            "(= (Square $x) (* $x $x))",
+            "(= (SquaredList \\$f Nil) 0)",
+            "(= (SquaredList \\$f (\\$x \\$xs))",
+            "    ((\\$f \\$x) (SquaredList \\$f \\$xs)))",
+            "(= (Square \\$x) (* \\$x \\$x))",
             "!(SquaredList Square (1 (2 (3 (4 Nil)))))"
         ],
         "description": "Changing List Value"
@@ -104,30 +98,30 @@
     "Conditional Statements": {
         "prefix": "conditional",
         "body": [
-            "(= (factorial $x)",
-            "    (if (> $x 0) (* $x (factorial (- $x 1))) 1))",
+            "(= (factorial \\$x)",
+            "    (if (> \\$x 0) (* \\$x (factorial (- \\$x 1))) 1))",
             "!(factorial 5)"
         ],
         "description": "Conditional Statements"
     },
     "Merging Two Lists": {
-        "prefix": "merge",
+        "prefix": "Zipping",
         "body": [
             "(= (zip () ()) (Zipped))",
-            "(= (zip (:: $x $xs) (:: $y $ys))",
-            "    ((:: $x $y) (zip $xs $ys)))",
-            "!(zip (:: A (:: B (:: C ()))) (:: 1 (:: 2 (:: 3 ())))"
+            "(= (zip (:: \\$x \\$xs) (:: \\$y \\$ys))",
+            "    ((:: \\$x \\$y) (zip \\$xs \\$ys)))",
+            "!(zip (:: A (:: B (:: C ()))) (:: 1 (:: 2 (:: 3 ()))))"
         ],
         "description": "Merging Two Lists"
     },
     "Pattern Matching": {
         "prefix": "pattern_match",
         "body": [
-            "(= (Zip $list1 $list2)",
-            "    (case ($list1 $list2)",
+            "(= (Zip \\$list1 \\$list2)",
+            "    (case (\\$list1 \\$list2)",
             "        ( ((() ()) ())",
-            "            (((:: $x $xs) (:: $y $ys)) (:: $x $y (Zip $xs $ys)) )",
-            "            ($else ERROR)",
+            "            (((:: \\$x \\$xs) (:: \\$y \\$ys)) (:: \\$x \\$y (Zip \\$xs \\$ys)) )",
+            "            (\\$else ERROR)",
             "            )",
             "        )",
             "    )",
@@ -142,18 +136,24 @@
             "(= (Woman Martha ) True)",
             "(= (Mother Haset) False)",
             "(= (Woman Haset) True)",
-            "(= (Big $x)",
-            "    (and (Mother $x) (Woman $x)))",
-            "!(if (Big $x) ($x is Big Person) ($x is Small Person))"
+            "(= (Big \\$x)",
+            "    (and (Mother \\$x) (Woman \\$x)))",
+            "!(if (Big \\$x) (\\$x is Big Person) (\\$x is Small Person))"
         ],
         "description": "Basic Equalities"
     },
     "Green Condition": {
         "prefix": "green_condition",
         "body": [
-            "(= (green $x)",
-            "    (if (Big $x) True (empty)))",
-            "!(if (green $x) ($x is green) ($x is not green))"
+            "(= (Mother Martha) True)",
+            "(= (Woman Martha ) True)",
+            "(= (Mother Haset) False)",
+            "(= (Woman Haset) True)",
+            "(= (Big \\$x)",
+            "    (and (Mother \\$x) (Woman \\$x)))",
+            "(= (green \\$x)",
+            "    (if (Big \\$x) True (empty)))",
+            "!(if (green \\$x) (\\$x is green) (\\$x is not green))"
         ],
         "description": "Green Condition"
     },
@@ -162,10 +162,9 @@
         "body": [
             "(= (bin) 0)",
             "(= (bin) 1)",
-            "!(bin)",
-            "(= (gen_rand_bin $x)",
-            "    (if (> $x 0)",
-            "        (:: (bin) (gen_rand_bin (- $x 1)))",
+            "(= (gen_rand_bin \\$x)",
+            "    (if (> \\$x 0)",
+            "        (:: (bin) (gen_rand_bin (- \\$x 1)))",
             "        ()))",
             "!(gen_rand_bin 3)"
         ],
@@ -177,28 +176,28 @@
             "(= (bin) 0)",
             "(= (bin) 1)",
             "(= (gen-bin-list ()) ())",
-            "(= (gen-bin-list (:: $x $xs))",
-            "    (:: (bin) (gen-bin-list $xs)))",
+            "(= (gen-bin-list (:: \\$x \\$xs))",
+            "    (:: (bin) (gen-bin-list \\$xs)))",
             "!(gen-bin-list (:: it (:: it (:: it ()))))"
         ],
         "description": "Binary List Generation"
     },
     "Target Sum Finding": {
-        "prefix": "target_sum",
+        "prefix": "target_sum_from_list",
         "body": [
             "(= (bin) 0)",
             "(= (bin) 1)",
             "(= (gen-bin ()) ())",
-            "(= (gen-bin (:: $x $xs))",
-            "    (:: (bin) (gen-bin $xs)))",
+            "(= (gen-bin (:: \\$x \\$xs))",
+            "    (:: (bin) (gen-bin \\$xs)))",
             "(= (Scalar-Multiple () ()) 0)",
-            "(= (Scalar-Multiple (:: $x $xs) (:: $y $ys))",
-            "    (+ (* $x $y) (Scalar-Multiple $xs $ys)))",
-            "(= (Final-Comb $solution $list $target)",
-            "    (if (== (Scalar-Multiple $solution $list ) $target)",
-            "        ($solution)",
+            "(= (Scalar-Multiple (:: \\$x \\$xs) (:: \\$y \\$ys))",
+            "    (+ (* \\$x \\$y) (Scalar-Multiple \\$xs \\$ys)))",
+            "(= (Final-Comb \\$solution \\$list \\$target)",
+            "    (if (== (Scalar-Multiple \\$solution \\$list ) \\$target)",
+            "        (\\$solution)",
             "        (empty)))",
-            "(= (list) (:: 2 (:: 3(:: 4 ())))",
+            "(= (list) (:: 2 (:: 3(:: 4 ()))))",
             "(= (target) 7)",
             "!(Final-Comb (gen-bin(list)) (list) (target))",
             "!(Scalar-Multiple (:: 2 (:: 3(:: 4 ()))) (:: 2 (:: 3(:: 4 ()))))"
@@ -206,7 +205,7 @@
         "description": "Target Sum Finding"
     },
     "Parent Facts and Matching": {
-        "prefix": "parent_facts",
+        "prefix": "parent_match",
         "body": [
             "(Parent Tom Bob)",
             "(Parent Pam Bob)",
@@ -214,18 +213,18 @@
             "(Parent Bob Ann)",
             "(Parent Bob Pat)",
             "(Parent Pat Pat)",
-            "!(match &self (Parent $x $x) ($x $x))"
+            "!(match &self (Parent \\$x \\$x) (\\$x \\$x))"
         ],
         "description": "Parent Facts and Matching"
     },
-    "Only A": {
-        "prefix": "only_a",
+    "Direct Matching and match": {
+        "prefix": "direct_matching_and_match",
         "body": [
             "(= (only-a A) (Input A is accepted))",
             "!(only-a A)",
-            "!(match &self (= (only-a A) $result) $result)"
+            "!(match &self (= (only-a A) \\$result) \\$result)"
         ],
-        "description": "Only A"
+        "description": "Reduced and Unreduced with Interpreter and Direct Matching"
     },
     "Get Parent Entries": {
         "prefix": "get_parent_entries",
@@ -234,11 +233,11 @@
             "(Parent Pam Bob)",
             "(Parent Tom Liz)",
             "(Parent Bob Ann)",
-            "(= (get-parent-entries $x $y)",
-            "    (match &self (Parent $x $y) (Parent $x $y)))",
-            "(= (get-parents $x)",
-            "    (match &self (Parent $y $x) $y))",
-            "!(get-parent-entries Tom $_)",
+            "(= (get-parent-entries \\$x \\$y)",
+            "    (match &self (Parent \\$x \\$y) (Parent \\$x \\$y)))",
+            "(= (get-parents \\$x)",
+            "    (match &self (Parent \\$y \\$x) \\$y))",
+            "!(get-parent-entries Tom \\$_)",
             "!(get-parents Bob)"
         ],
         "description": "Get Parent Entries"
@@ -252,10 +251,10 @@
             "(Parent Bob Ann)",
             "(Parent Bob Pat)",
             "(Parent Pat Jim)",
-            "(= (get-parents $x)",
-            "    (match &self (Parent $y $x) $y))",
-            "(= (get-grand-parents $x)",
-            "    (get-parents (get-parents $x)))",
+            "(= (get-parents \\$x)",
+            "    (match &self (Parent \\$y \\$x) \\$y))",
+            "(= (get-grand-parents \\$x)",
+            "    (get-parents (get-parents \\$x)))",
             "!(get-grand-parents Pat)"
         ],
         "description": "Get Grand Parents"
@@ -263,65 +262,65 @@
     "Unify Function": {
         "prefix": "unify",
         "body": [
-            "(unify $1 ; the first pattern",
-            "       $2 ; the second pattern",
-            "       $3 ; the output for successful unification",
-            "       $4) ; fallback"
+            "(unify \\$1 ; the first pattern",
+            "       \\$2 ; the second pattern",
+            "       \\$3 ; the output for successful unification",
+            "       \\$4) ; fallback"
         ],
         "description": "Unify function"
     },
     "Parent-Child Relationship": {
         "prefix": "parent_child",
         "body": [
-            "(Parent $1 $2)"
+            "(Parent \\$1 \\$2)"
         ],
         "description": "Parent-Child relationship"
     },
     "Implies Statement": {
         "prefix": "implies",
         "body": [
-            "(Implies ($1 $2) ($3 $4))"
+            "(Implies (\\$1 \\$2) (\\$3 \\$4))"
         ],
         "description": "Implies statement"
     },
     "Match Function": {
         "prefix": "match",
         "body": [
-            "(match &self ($1 $2) $3)"
+            "(match &self (\\$1 \\$2) \\$3)"
         ],
         "description": "Match function"
     },
     "Deduce Function": {
         "prefix": "deduce",
         "body": [
-            "(= (deduce $1)",
-            "   (match &self (Implies $2 $3)",
-            "          (match &self $2 $3)))"
+            "(= (deduce \\$1)",
+            "   (match &self (Implies \\$2 \\$3)",
+            "          (match &self \\$2 \\$3)))"
         ],
         "description": "Deduce function"
     },
     "Conclude Function": {
         "prefix": "conclude",
         "body": [
-            "(= (conclude $1)",
-            "   (match &self (Implies $1 $2)",
-            "          (match &self $1 $2)))"
+            "(= (conclude \\$1)",
+            "   (match &self (Implies \\$1 \\$2)",
+            "          (match &self \\$1 \\$2)))"
         ],
         "description": "Conclude function"
     },
     "Query Example": {
-        "prefix": "query_example",
+        "prefix": "query_example_deduce_conclude",
         "body": [
-            "! (deduce (Child $1 $2))",
-            "! (conclude (Parent $1 $2))"
+            "! (deduce (Child \\$1 \\$2))",
+            "! (conclude (Parent \\$1 \\$2))"
         ],
         "description": "Example queries using deduce and conclude"
     },
     "Base and Recursive Case for List Length": {
-        "prefix": "list_length",
+        "prefix": "list_length_base_recursive",
         "body": [
             "(= (Length (Nil)) 0)",
-            "(= (Length (Cons $1 $2)) (+ 1 (Length $2)))"
+            "(= (Length (Cons \\$1 \\$2)) (+ 1 (Length \\$2)))"
         ],
         "description": "Base and recursive case for calculating the length of a list"
     },
@@ -331,8 +330,8 @@
             "(= (bin) 0)",
             "(= (bin) 1)",
             "(= (gen-bin-list ()) ())",
-            "(= (gen-bin-list (:: $1 $2))",
-            "    (:: (bin) (gen-bin-list $2)))"
+            "(= (gen-bin-list (:: \\$1 \\$2))",
+            "    (:: (bin) (gen-bin-list \\$2)))"
         ],
         "description": "Generate binary list"
     },
@@ -353,12 +352,12 @@
             "(Parent Bob Pat)",
             "(Parent Pat Jim)",
             "",
-            "(= (get-sister $x)",
+            "(= (get-sister \\$x)",
             "   (match &self",
-            "     (, (Parent $y $x)",
-            "        (Parent $y $z)",
-            "        (Female $z))",
-            "     $z",
+            "     (, (Parent \\$y \\$x)",
+            "        (Parent \\$y \\$z)",
+            "        (Female \\$z))",
+            "     \\$z",
             "   )",
             ")",
             "! (get-sister Bob)"
@@ -376,11 +375,11 @@
             "(Parent Pat Jim)",
             "(Parent Jim Lil)",
             "",
-            "(= (parent $x $y) (match &self (Parent $x $y) $x))",
-            "(= (predecessor $x $z) (parent $x $z))",
-            "(= (predecessor $x $z) (predecessor $x (parent $y $z)))",
+            "(= (parent \\$x \\$y) (match &self (Parent \\$x \\$y) \\$x))",
+            "(= (predecessor \\$x \\$z) (parent \\$x \\$z))",
+            "(= (predecessor \\$x \\$z) (predecessor \\$x (parent \\$y \\$z)))",
             "; Who are predecessors of Lil",
-            "! (predecessor $x Lil)"
+            "! (predecessor \\$x Lil)"
         ],
         "description": "Graph Traversal Recursion"
     },
@@ -499,12 +498,12 @@
             "(: Z Nat)",
             "(: S (-> Nat Nat))",
             "(: Greater (-> Nat Nat Bool))",
-            "(= (Greater (S $x) Z)",
+            "(= (Greater (S \\$x) Z)",
             "   True)",
-            "(= (Greater Z $x)",
+            "(= (Greater Z \\$x)",
             "   False)",
-            "(= (Greater (S $x) (S $y))",
-            "   (Greater $x $y))",
+            "(= (Greater (S \\$x) (S \\$y))",
+            "   (Greater \\$x \\$y))",
             "! (Greater (S Z) (S Z)) ; False",
             "! (Greater (S (S Z)) (S Z)) ; True"
         ],
@@ -526,7 +525,7 @@
             "! (get-type ==)",
             "! (== 1 \"S\")",
             "",
-            "[(-> $t#1665 $t#1665 Bool)]",
+            "[(-> \\$t#1665 \\$t#1665 Bool)]",
             "[(Error \"S\" BadType)]"
         ],
         "description": "Comparison Operator"
@@ -534,13 +533,13 @@
     "Variable Output Type": {
         "prefix": "variable_output_type",
         "body": [
-            "(: apply (-> (-> $tx $ty) $tx $ty))",
-            "(= (apply $f $x) ($f $x))",
+            "(: apply (-> (-> \\$tx \\$ty) \\$tx \\$ty))",
+            "(= (apply \\$f \\$x) (\\$f \\$x))",
             "! (apply not False) ; True",
             "! (get-type (apply not False)) ; Bool",
-            "! (unify (-> (-> $tx  $ty)  $tx  $ty)",
-            "         (-> (-> Bool Bool) Bool $result)",
-            "         $result",
+            "! (unify (-> (-> \\$tx  \\$ty)  \\$tx  \\$ty)",
+            "         (-> (-> Bool Bool) Bool \\$result)",
+            "         \\$result",
             "         BadType) ; Bool",
             "! (apply not 1) ; BadType",
             "",
@@ -554,9 +553,9 @@
     "Type of Cons": {
         "prefix": "type_of_cons",
         "body": [
-            "! (unify (-> $t     (List $t) (List $t))",
-            "         (-> Number (List $t) $result)",
-            "         $result",
+            "! (unify (-> \\$t     (List \\$t) (List \\$t))",
+            "         (-> Number (List \\$t) \\$result)",
+            "         \\$result",
             "         BadType)",
             "",
             "[(List Number)]"
@@ -566,10 +565,10 @@
     "Parametric Types": {
         "prefix": "parametric_types",
         "body": [
-            "(: Nil (List $t))",
-            "(: Cons (-> $t (List $t) (List $t)))",
-            "(: first (-> (List $t) $t))",
-            "(: append (-> (List $t) (List $t) (List $t)))",
+            "(: Nil (List \\$t))",
+            "(: Cons (-> \\$t (List \\$t) (List \\$t)))",
+            "(: first (-> (List \\$t) \\$t))",
+            "(: append (-> (List \\$t) (List \\$t) (List \\$t)))",
             "! (get-type",
             "    (+ 1",
             "      (first (append (Cons 1 Nil)",
@@ -585,7 +584,7 @@
             "! (get-metatype (+ 1 2)) ; Expression",
             "! (get-metatype a) ; Symbol",
             "! (get-metatype (a b)) ; Expression",
-            "! (get-metatype $x) ; Variable"
+            "! (get-metatype \\$x) ; Variable"
         ],
         "description": "Get Metatype"
     },
@@ -611,12 +610,12 @@
     "If Implementation": {
         "prefix": "if_implementation",
         "body": [
-            "(= (if True $then $else) $then)",
-            "(= (if False $then $else) $else)",
+            "(= (if True \\$then \\$else) \\$then)",
+            "(= (if False \\$then \\$else) \\$else)",
             "",
             "(: my-if (-> Bool Atom Atom Atom))",
-            "(= (my-if True $then $else) $then)",
-            "(= (my-if False $then $else) $else)",
+            "(= (my-if True \\$then \\$else) \\$then)",
+            "(= (my-if False \\$then \\$else) \\$else)",
             "(= (loop) (loop))",
             "(= (OK) OK!)",
             "! (my-if (> 0 1) (loop) (OK))"
@@ -639,8 +638,8 @@
         "prefix": "swap_arguments_atom",
         "body": [
             "(: swap-arguments-atom (-> Atom Atom))",
-            "(= (swap-arguments-atom ($op $arg1 $arg2))",
-            "   ($op $arg2 $arg1)",
+            "(= (swap-arguments-atom (\\$op \\$arg1 \\$arg2))",
+            "   (\\$op \\$arg2 \\$arg1)",
             ")",
             "! (swap-arguments-atom (- 15 8))"
         ],
@@ -649,8 +648,8 @@
     "Swap Arguments Without Typing": {
         "prefix": "swap_arguments_without_typing",
         "body": [
-            "(= (swap-arguments ($op $arg1 $arg2))",
-            "   ($op $arg2 $arg1)",
+            "(= (swap-arguments (\\$op \\$arg1 \\$arg2))",
+            "   (\\$op \\$arg2 \\$arg1)",
             ")",
             "! (swap-arguments (- 15 8))"
         ],
@@ -660,7 +659,7 @@
         "prefix": "atom_equality",
         "body": [
             "(: atom-eq (-> Atom Atom Bool))",
-            "(= (atom-eq $x $x) True)",
+            "(= (atom-eq \\$x \\$x) True)",
             "",
             "; These expressions are identical:",
             "! (atom-eq (+ 1 2) (+ 1 2))",
@@ -676,31 +675,31 @@
         "body": [
             "(Green Sam)",
             "(= (Green Tod) True)",
-            "! ($who (Green $who)) ; (Tod True)",
-            "! (match &self (Green $who) $who) ; Sam"
+            "! (\\$who (Green \\$who)) ; (Tod True)",
+            "! (match &self (Green \\$who) \\$who) ; Sam"
         ],
         "description": "Green Evaluation"
     },
     "Personal Assistant Knowledge Base": {
         "prefix": "personal_assistant_kb",
         "body": [
-            "(= (message-to-user $task)",
-            "   (Today you have $task))",
-            "(= (add-task-and-notify $task)",
-            "    (let () (add-atom &self (TASK $task))",
-            "            (message-to-user $task))",
+            "(= (message-to-user \\$task)",
+            "   (Today you have \\$task))",
+            "(= (add-task-and-notify \\$task)",
+            "    (let () (add-atom &self (TASK \\$task))",
+            "            (message-to-user \\$task))",
             ")",
             "! (get-type add-atom) ; (-> hyperon::space::DynSpace Atom (->))",
             "! (add-task-and-notify (Something to do))",
-            "! (match &self (TASK $t) $t) ; (Something to do)"
+            "! (match &self (TASK \\$t) \\$t) ; (Something to do)"
         ],
         "description": "Personal Assistant Knowledge Base"
     },
     "Call By Value Wrapper": {
         "prefix": "call_by_value_wrapper",
         "body": [
-            "(= (call-by-value $f $arg)",
-            "   ($f $arg))",
+            "(= (call-by-value \\$f \\$arg)",
+            "   (\\$f \\$arg))",
             "! (call-by-value quote (+ 1 2)) ; (quote 3)"
         ],
         "description": "Call By Value Wrapper"
@@ -710,7 +709,7 @@
         "body": [
             "! (pragma! type-check auto) ; ()",
             "(: foo (-> Number Bool))",
-            "(= (foo $x) (+ $x 1)) ; BadType"
+            "(= (foo \\$x) (+ \\$x 1)) ; BadType"
         ],
         "description": "Type Checking with Pragma"
     },
@@ -720,14 +719,14 @@
             "(Green Sam)",
             "(Likes Sam Emi)",
             "(Likes Tod Kat)",
-            "! (match &self (Green $who)",
-            "    (match &self (Likes $who $x) $x))",
-            "! (match &self (Green $who)",
-            "    (match &self (Likes $boo $x) $x))",
-            "! (match &self (Likes $who $x)",
-            "    (match &self (Green $x) $x))",
-            "! (match &self (Likes $who $x)",
-            "    (match &self (Green $boo) $boo))",
+            "! (match &self (Green \\$who)",
+            "    (match &self (Likes \\$who \\$x) \\$x))",
+            "! (match &self (Green \\$who)",
+            "    (match &self (Likes \\$boo \\$x) \\$x))",
+            "! (match &self (Likes \\$who \\$x)",
+            "    (match &self (Green \\$x) \\$x))",
+            "! (match &self (Likes \\$who \\$x)",
+            "    (match &self (Green \\$boo) \\$boo))",
             "",
             "[Emi]",
             "[Kat, Emi]",
@@ -741,7 +740,7 @@
         "body": [
             "(+ 1 False)",
             "! (match &self (+ 1 False) OK) ; OK",
-            "! (match &self (+ 1 $x) $x) ; False"
+            "! (match &self (+ 1 \\$x) \\$x) ; False"
         ],
         "description": "Badly Typed Expression"
     },
@@ -749,27 +748,27 @@
         "prefix": "type_guarantee_with_equalities",
         "body": [
             "(: foo (-> Number Bool))",
-            "(= (foo $x) (+ $x 1))",
-            "! (get-type (foo $x)) ; Bool",
-            "! (get-type (+ $x 1)) ; Number",
-            "! (get-type =) ; (-> $t $t Atom)",
-            "! (= (foo $x) (+ $x 1)) ; BadType",
+            "(= (foo \\$x) (+ \\$x 1))",
+            "! (get-type (foo \\$x)) ; Bool",
+            "! (get-type (+ \\$x 1)) ; Number",
+            "! (get-type =) ; (-> \\$t \\$t Atom)",
+            "! (= (foo \\$x) (+ \\$x 1)) ; BadType",
             "",
             "Reset",
             "[Bool]",
             "[Number]",
-            "[(-> $t#1926 $t#1926 Atom)]",
-            "[(Error (+ $x 1) BadType)]"
+            "[(-> \\$t#1926 \\$t#1926 Atom)]",
+            "[(Error (+ \\$x 1) BadType)]"
         ],
         "description": "Type Guarantee with Equalities"
     },
     "Let Expressions": {
         "prefix": "let_expressions",
         "body": [
-            "! (let $x (+ 1 2) (quote $x)) ; (quote 3)",
+            "! (let \\$x (+ 1 2) (quote \\$x)) ; (quote 3)",
             "(: Z Nat)",
             "! (get-metatype (get-type Z)) ; (get-type Z) is Expression",
-            "! (let $x (get-type Z) (get-metatype $x)) ; Nat is Symbol",
+            "! (let \\$x (get-type Z) (get-metatype \\$x)) ; Nat is Symbol",
             "",
             "Reset",
             "[(quote 3)]",
@@ -785,36 +784,36 @@
             "(= (age Sam) 8)",
             "(= (age Ann) 3)",
             "(= (age Tom) 5)",
-            "(= (of-same-age $who)",
-            "   (let $age (age $who)",
-            "        (match &self (= (age $other) $age)",
-            "               $other)))",
+            "(= (of-same-age \\$who)",
+            "   (let \\$age (age \\$who)",
+            "        (match &self (= (age \\$other) \\$age)",
+            "               \\$other)))",
             "! (of-same-age Bob) ; [Bob, Tom]",
             "; without `of-same-age`:",
-            "! (let $age (age Bob)",
-            "       (match &self (= (age $other) $age)",
-            "              $other)) ; also [Bob, Tom]",
-            "! (match &self (= (age $other) (age Bob))",
-            "         $other) ; does not pattern-match",
+            "! (let \\$age (age Bob)",
+            "       (match &self (= (age \\$other) \\$age)",
+            "              \\$other)) ; also [Bob, Tom]",
+            "! (match &self (= (age \\$other) (age Bob))",
+            "         \\$other) ; does not pattern-match",
             "; evaluating the whole pattern is a bad idea",
-            "! (let $pattern (= (age $other) (age Bob))",
-            "       $pattern) ; [(= 5 5), (= 8 5), (= 5 5), (= 3 5)]",
-            "! (let $pattern (= (age $other) (age Bob))",
-            "       (match &self $pattern $other)) ; does not pattern-match"
+            "! (let \\$pattern (= (age \\$other) (age Bob))",
+            "       \\$pattern) ; [(= 5 5), (= 8 5), (= 5 5), (= 3 5)]",
+            "! (let \\$pattern (= (age \\$other) (age Bob))",
+            "       (match &self \\$pattern \\$other)) ; does not pattern-match"
         ],
         "description": "Evaluate Subexpressions for Pattern-Matching"
     },
     "Personal Assistant System Knowledge Base": {
         "prefix": "personal_assistant_kb",
         "body": [
-            "(= (message-to-user $task)",
-            "   (Today you have $task))",
-            "(= (add-task-and-notify $task)",
-            "    (let () (add-atom &self (TASK $task))",
-            "            (message-to-user $task)))",
+            "(= (message-to-user \\$task)",
+            "   (Today you have \\$task))",
+            "(= (add-task-and-notify \\$task)",
+            "    (let () (add-atom &self (TASK \\$task))",
+            "            (message-to-user \\$task)))",
             "! (get-type add-atom) ; (-> hyperon::space::DynSpace Atom (->))",
             "! (add-task-and-notify (Something to do))",
-            "! (match &self (TASK $t) $t) ; (Something to do)"
+            "! (match &self (TASK \\$t) \\$t) ; (Something to do)"
         ],
         "description": "Personal Assistant System Knowledge Base"
     },
@@ -837,10 +836,10 @@
         "prefix": "println_function",
         "body": [
             "! (println! \"This is a string\")",
-            "! (println! ($v1 \"string\" 5))",
+            "! (println! (\\$v1 \"string\" 5))",
             "Reset",
             "[STDOUT] \"This is a string\"",
-            "[STDOUT] ($v1 \"string\" 5)",
+            "[STDOUT] (\\$v1 \"string\" 5)",
             "[()]",
             "[()]",
             "",
@@ -855,22 +854,22 @@
         "body": [
             "! (get-type (trace! (Expecting 3) (+ 1 2))) ; Number",
             "",
-            "(: my-trace (-> %Undefined% $a $a))",
-            "(= (my-trace $out $res)",
-            "   (let () (println! $out) $res))",
+            "(: my-trace (-> %Undefined% \\$a \\$a))",
+            "(= (my-trace \\$out \\$res)",
+            "   (let () (println! \\$out) \\$res))",
             "! (my-trace (Expecting 3) (+ 1 2))",
             "",
             "(Parent Bob Ann)",
             "! (trace! \"Who is Anna`s parent?\"",
-            "   (match &self (Parent $x Ann)",
-            "          ($x is Ann`s parent)))",
+            "   (match &self (Parent \\$x Ann)",
+            "          (\\$x is Ann`s parent)))",
             "! (trace! \"Who is Bob`s child?\"",
-            "   (match &self (Parent Bob $x)",
-            "          ($x is Bob`s child)))",
+            "   (match &self (Parent Bob \\$x)",
+            "          (\\$x is Bob`s child)))",
             "",
             "(Parent Bob Ann)",
             "! (trace! ((Expected: (Bob is Ann`s parent))",
-            "           (Got: (match &self (Parent $x Ann) ($x is Ann`s parent))))",
+            "           (Got: (match &self (Parent \\$x Ann) (\\$x is Ann`s parent))))",
             "   ())"
         ],
         "description": "Trace! Function"
@@ -879,23 +878,23 @@
         "prefix": "quote_example",
         "body": [
             "(Fruit apple)",
-            "(= (fruit $x)",
-            "   (match &self (Fruit $x) $x))",
-            "! (fruit $x) ; apple",
-            "! (quote (fruit $x)) ; (quote (fruit $x))"
+            "(= (fruit \\$x)",
+            "   (match &self (Fruit \\$x) \\$x))",
+            "! (fruit \\$x) ; apple",
+            "! (quote (fruit \\$x)) ; (quote (fruit \\$x))"
         ],
         "description": "Quote Example"
     },
     "Trace! with Quote and Let": {
         "prefix": "trace_with_quote_and_let",
         "body": [
-            "(= (add-bin $x)",
-            "   (let $r (+ $x 1)",
-            "        (trace! (quote ((add-bin $x) is $r))",
-            "                $r)))",
-            "(= (add-bin $x)",
-            "   (trace! (quote ((add-bin $x) is $x))",
-            "           $x))",
+            "(= (add-bin \\$x)",
+            "   (let \\$r (+ \\$x 1)",
+            "        (trace! (quote ((add-bin \\$x) is \\$r))",
+            "                \\$r)))",
+            "(= (add-bin \\$x)",
+            "   (trace! (quote ((add-bin \\$x) is \\$x))",
+            "           \\$x))",
             "; (quote ((add-bin 1) is 1)) and (quote ((add-bin 1) is 2)) will be printed",
             "! (add-bin 1) ; [1, 2]"
         ],
@@ -906,8 +905,8 @@
         "body": [
             "(Parent Bob Ann)",
             "! (assertEqual",
-            "   (match &self (Parent $x Ann) $x)",
-            "   (unify (Parent $x Ann) (Parent Bob $y) $x Failed)) ; ()",
+            "   (match &self (Parent \\$x Ann) \\$x)",
+            "   (unify (Parent \\$x Ann) (Parent Bob \\$y) \\$x Failed)) ; ()",
             "! (assertEqual (+ 1 2) 3) ; ()",
             "! (assertEqual (+ 1 2) (+ 1 4)) ; Error-expression"
         ],
@@ -919,7 +918,7 @@
             "(Parent Bob Ann)",
             "(Parent Pam Ann)",
             "! (assertEqualToResult",
-            "   (match &self (Parent $x Ann) $x)",
+            "   (match &self (Parent \\$x Ann) \\$x)",
             "   (Bob Pam))  ; ()",
             "(= (bin) 0)",
             "(= (bin) 1)",
@@ -952,10 +951,10 @@
             "(= (color) (ikb))",
             "",
             "!(assertEqual",
-            "  (match &self (= (color) $x) $x)",
+            "  (match &self (= (color) \\$x) \\$x)",
             "  (superpose ((ikb) yellow green))) ; ()",
             "!(assertEqualToResult",
-            "   (match &self (= (color) $x) $x)",
+            "   (match &self (= (color) \\$x) \\$x)",
             "  ((ikb) yellow green)) ; Error"
         ],
         "description": "Superpose with AssertEqual"
@@ -965,10 +964,10 @@
         "body": [
             "(Parent Bob Ann)",
             "! (assertEqual",
-            "    (match &self (Parent Tom $x) $x)",
+            "    (match &self (Parent Tom \\$x) \\$x)",
             "    (empty)) ; ()",
             "! (assertEqualToResult",
-            "    (match &self (Parent Tom $x) $x)",
+            "    (match &self (Parent Tom \\$x) \\$x)",
             "    ()) ; ()"
         ],
         "description": "AssertEqual and AssertEqualToResult Examples"
@@ -976,9 +975,9 @@
     "Equality Example": {
         "prefix": "eq_example",
         "body": [
-            "(= (eq $x $x) True)",
+            "(= (eq \\$x \\$x) True)",
             "! (eq a b) ; (eq a b)",
-            "(= (eq $x $y) (empty))",
+            "(= (eq \\$x \\$y) (empty))",
             "! (eq a b) ; no result"
         ],
         "description": "Equality Examples"
@@ -1002,12 +1001,12 @@
             "(= (color) red)",
             "! (color) ; [green, yellow, red]",
             "! (collapse (color)) ; [(green yellow red)]",
-            "! (let $x (collapse (color))",
-            "    (superpose $x))  ; [green, yellow, red]",
+            "! (let \\$x (collapse (color))",
+            "    (superpose \\$x))  ; [green, yellow, red]",
             "! (superpose (1 2 3)) ; [1, 2, 3]",
             "! (collapse (superpose (1 2 3)))",
-            "! (let $x (superpose (1 2 3)) ; [(1 2 3)]",
-            "    (collapse $x))    ; [(1), (2), (3)]"
+            "! (let \\$x (superpose (1 2 3)) ; [(1 2 3)]",
+            "    (collapse \\$x))    ; [(1), (2), (3)]"
         ],
         "description": "Superpose and Collapse Examples"
     },
@@ -1015,14 +1014,14 @@
         "prefix": "add_foo_eq_example",
         "body": [
             "(: add-foo-eq (-> Atom (->)))",
-            "(= (add-foo-eq $x)",
-            "   (add-atom &self (= (foo) $x)))",
+            "(= (add-foo-eq \\$x)",
+            "   (add-atom &self (= (foo) \\$x)))",
             "! (foo) ; (foo) - not reduced",
             "! (add-foo-eq (+ 1 2)) ; () - OK",
             "! (add-foo-eq (+ 3 4)) ; () - OK",
             "! (foo) ; [3, 7]",
-            "! (match &self (= (foo) $x)",
-            "    (quote $x)) ; [(quote (+ 1 2)), (quote (+ 3 4))]"
+            "! (match &self (= (foo) \\$x)",
+            "    (quote \\$x)) ; [(quote (+ 1 2)), (quote (+ 3 4))]"
         ],
         "description": "Add Foo Eq Example"
     },
@@ -1045,14 +1044,14 @@
             "(link C A)",
             "(link C E)",
             "",
-            "! (match &self (, (link $x $y)",
-            "                      (link $y $z)",
-            "                      (link $z $x))",
-            "                   (let () (remove-atom &self (link $x $y))",
-            "                           (add-atom &self (link $y $x)))",
+            "! (match &self (, (link \\$x \\$y)",
+            "                      (link \\$y \\$z)",
+            "                      (link \\$z \\$x))",
+            "                   (let () (remove-atom &self (link \\$x \\$y))",
+            "                           (add-atom &self (link \\$y \\$x)))",
             "      ) ; [(), (), ()]",
-            "! (match &self (link $x $y)",
-            "        (link $x $y)) ; [(link A C), (link C B), (link B A), (link C E)]"
+            "! (match &self (link \\$x \\$y)",
+            "        (link \\$x \\$y)) ; [(link A C), (link C B), (link B A), (link C E)]"
         ],
         "description": "Graph Rewriting Example"
     },
@@ -1062,7 +1061,7 @@
             "! (add-reduct &self (= (get-space) (new-space))) ; ()",
             "! (add-atom (get-space) (Parent Bob Ann)) ; ()",
             "! (get-space) ; GroundingSpace-addr",
-            "! (match (get-space) (Parent $x $y) ($x $y)) ; (Bob Ann)"
+            "! (match (get-space) (Parent \\$x \\$y) (\\$x \\$y)) ; (Bob Ann)"
         ],
         "description": "Space Reference Example"
     },
@@ -1078,8 +1077,8 @@
             "! (bind! &space (new-space)) ; ()",
             "! (add-atom &space (Parent Bob Ann)) ; ()",
             "! &space ; GroundingSpace-addr",
-            "! (match &space (Parent $x $y) ($x $y)) ; (Bob Ann)",
-            "! (match &self (Parent $x $y) ($x $y)) ; empty"
+            "! (match &space (Parent \\$x \\$y) (\\$x \\$y)) ; (Bob Ann)",
+            "! (match &self (Parent \\$x \\$y) (\\$x \\$y)) ; empty"
         ],
         "description": "Bind Example"
     },
@@ -1103,12 +1102,12 @@
             "",
             "; main.metta",
             "! (import! &people people_kb)",
-            "(= (get-sister $x)",
+            "(= (get-sister \\$x)",
             "   (match &people",
-            "     (, (Parent $y $x)",
-            "        (Parent $y $z)",
-            "        (Female $z))",
-            "     $z",
+            "     (, (Parent \\$y \\$x)",
+            "        (Parent \\$y \\$z)",
+            "        (Female \\$z))",
+            "     \\$z",
             "   )",
             ")",
             "! (get-sister Bob)"
@@ -1138,10 +1137,10 @@
     "Cons Atom Example": {
         "prefix": "cons_atom_example",
         "body": [
-            "(= (reconstruct $xs)",
-            "   (let* (($head (car-atom $xs))",
-            "          ($tail (cdr-atom $xs)))",
-            "     (cons-atom $head $tail))",
+            "(= (reconstruct \\$xs)",
+            "   (let* ((\\$head (car-atom \\$xs))",
+            "          (\\$tail (cdr-atom \\$xs)))",
+            "     (cons-atom \\$head \\$tail))",
             ")",
             "! (reconstruct (1 2 3)) ; (1 2 3)",
             "! (reconstruct (Cons X Nil)) ; (Cons X Nil)"
@@ -1151,10 +1150,10 @@
     "Map Example": {
         "prefix": "map_example",
         "body": [
-            "(: map (-> (-> $t $t) Expression Expression))",
-            "(= (map $f Nil) Nil)",
-            "(= (map $f (Cons $x $xs))",
-            "   (Cons ($f $x) (map $f $xs)))",
+            "(: map (-> (-> \\$t \\$t) Expression Expression))",
+            "(= (map \\$f Nil) Nil)",
+            "(= (map \\$f (Cons \\$x \\$xs))",
+            "   (Cons (\\$f \\$x) (map \\$f \\$xs)))",
             "! (map not (Cons False (Cons True (Cons False (Cons False Nil)))))"
         ],
         "description": "Map Example"
@@ -1162,10 +1161,10 @@
     "To List Example": {
         "prefix": "to_list_example",
         "body": [
-            "(= (to-list $expr)",
-            "   (if (== $expr ()) Nil",
-            "     (Cons (car-atom $expr)",
-            "           (to-list (cdr-atom $expr)))",
+            "(= (to-list \\$expr)",
+            "   (if (== \\$expr ()) Nil",
+            "     (Cons (car-atom \\$expr)",
+            "           (to-list (cdr-atom \\$expr)))",
             "   )",
             ")",
             "! (to-list (False (True False) False False))"
@@ -1175,14 +1174,14 @@
     "To Tree Example": {
         "prefix": "to_tree_example",
         "body": [
-            "(= (to-tree $expr)",
-            "   (case (get-metatype $expr)",
+            "(= (to-tree \\$expr)",
+            "   (case (get-metatype \\$expr)",
             "      ((Expression",
-            "         (if (== $expr ()) Nil",
-            "             (Cons (to-tree (car-atom $expr))",
-            "                   (to-tree (cdr-atom $expr)))",
+            "         (if (== \\$expr ()) Nil",
+            "             (Cons (to-tree (car-atom \\$expr))",
+            "                   (to-tree (cdr-atom \\$expr)))",
             "         ))",
-            "       ($_ $expr)",
+            "       (\\$_ \\$expr)",
             "      )",
             "   )",
             ")",

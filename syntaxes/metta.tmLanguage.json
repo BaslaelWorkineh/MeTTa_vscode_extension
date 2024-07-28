@@ -76,7 +76,7 @@
           "name": "keyword.numbers.metta"
         },
         {
-          "match": "\\b(match|println!|trace!|assertEqualToResult|car-atom|collapse|superpose|bind!|import!|add-reduct|pragma!|remove-atom|cdr-atom|cons-atom|new-space|quote|assertEqual|add-atom|get-type|get-metatype|mod-space!|unify)\\b",
+          "match": "\\b(match|println|trace|assertEqualToResult|car-atom|collapse|superpose|bind|import|add-reduct|pragma|remove-atom|cdr-atom|cons-atom|new-space|quote|assertEqual|add-atom|get-type|get-metatype|mod-space|unify)\\b",
           "name": "keyword.operator.match.metta"
         },
         {

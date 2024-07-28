@@ -4,7 +4,7 @@ function activate(context) {
     context.subscriptions.push(
         vscode.languages.registerHoverProvider('metta', {
             provideHover(document, position, token) {
-                const range = document.getWordRangeAtPosition(position);
+                const range = getWordRangeAtPosition(document, position);
                 if (range) {
                     const word = document.getText(range);
                     const hoverMessage = getHoverMessage(word);
@@ -16,9 +16,24 @@ function activate(context) {
     );
 }
 
+function getWordRangeAtPosition(document, position) {
+    let start = position;
+    let end = position;
+
+    while (start.character > 0 && /[\w-!]/.test(document.getText(new vscode.Range(start.translate(0, -1), start)))) {
+        start = start.translate(0, -1);
+    }
+
+    while (/[\w-!]/.test(document.getText(new vscode.Range(end, end.translate(0, 1))))) {
+        end = end.translate(0, 1);
+    }
+
+    return new vscode.Range(start, end);
+}
+
 function getHoverMessage(word) {
     const hoverMessages = {
-        'if': 'The `if` keyword is used for conditional statements.`if` works much like if-then-else construction in any other language. ',
+        'if': 'The `if` keyword is used for conditional statements.`if` works much like if-then-else construction in any other language.',
         'case': 'Another conditional statement in MeTTa is case, which pattern-matches the given atom against a number of patterns sequentially in a mutually exclusive way',
         'and': 'The `and` keyword is used to combine multiple conditions in logical expressions.',
         'or': 'The `or` keyword is used to define an alternative condition in logical expressions.',
@@ -31,7 +46,7 @@ function getHoverMessage(word) {
         'superpose': 'If you need to get a nondeterministic result explicitly, use the `superpose` function, which turns a tuple into a nondeterministic result. It is an stdlib function of `(-> Expression Atom)` type.',
         'bind!': '`bind!` registers a new token which is replaced with an atom during the parsing of the rest of the program. Its type is `(-> Symbol %Undefined% (->))`',
         'import!': 'Stdlib has operations for importing scripts and modules. One such operation is `import!`. It accepts two arguments. The first argument is a symbol, which is turned into the token for accessing the imported module. The second argument is the module name. ',
-        'add-reduct': 'Unable to find the defination for `add-reduct` in the documentation',
+        'add-reduct': 'Unable to find the definition for `add-reduct` in the documentation',
         'remove-atom': 'The function `remove-atom` removes an atom from the AtomSpace without reducing it. Its type is `(-> hyperon::space::DynSpace Atom (->))`.',
         'cdr-atom': '`car-atom` and `cdr-atom` are typically used for recursive traversal of an expression. One basic example is creation of lists from tuples.',
         'cons-atom': '`cons-atom` is a function, which constructs an expression using two arguments, the first of which serves as a head and the second serves as a tail.`cons-atom` reverses the results of `car-atom` and `cdr-atom`',
@@ -47,15 +62,15 @@ function getHoverMessage(word) {
         'Bool': 'The `Bool` keyword represents the boolean type.',
         'Number': 'The `Number` keyword represents the number type.',
         '$_': 'The `$_` wildcard is used to represent any value in pattern matching.',
-        '&self' : '`&self` is a reference to the current program Space',
-        'empty':'Since expressions without suitable equalities remain unreduced in MeTTa, `(empty)` can be used to alter this behavior,',
-        'mod-space!':'`mod-space!` returns the space of the module (and tries to load the module if it is not loaded into the module system). Thus, we can explore the module space explicitly.',
-        'let' : 'The `let` function is utilized to establish temporary variable bindings within an expression. It allows introducing variables, assign values to them, and then use these values within the scope of the let block.',
-        'let*' : 'When several consecutive substitutions are required, `let*` can be used for convenience. The first argument of `let*` is Expression, which elements are the required substitutions, while the second argument is the resulting expression',
-        'pragma':'! `(pragma! type-check auto)` can be used to enable automatic detection of such errors:',
-        'quote': ' It does nothing except of wrapping its argument and preventing it from being evaluated.'
-    };    
-    
+        '&self': '`&self` is a reference to the current program Space',
+        'empty': 'Since expressions without suitable equalities remain unreduced in MeTTa, `(empty)` can be used to alter this behavior.',
+        'mod-space!': '`mod-space!` returns the space of the module (and tries to load the module if it is not loaded into the module system). Thus, we can explore the module space explicitly.',
+        'let': 'The `let` function is utilized to establish temporary variable bindings within an expression. It allows introducing variables, assign values to them, and then use these values within the scope of the let block.',
+        'let*': 'When several consecutive substitutions are required, `let*` can be used for convenience. The first argument of `let*` is Expression, which elements are the required substitutions, while the second argument is the resulting expression',
+        'pragma!': '`(pragma! type-check auto)` can be used to enable automatic detection of such errors:',
+        'quote': 'It does nothing except of wrapping its argument and preventing it from being evaluated.'
+    };
+
     return hoverMessages[word] || `No hover information available for ${word}`;
 }
 
