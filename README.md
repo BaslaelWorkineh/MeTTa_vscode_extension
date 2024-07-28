@@ -1,21 +1,28 @@
 # Metta Language Support
 
-This extension provides syntax formatting, highlighting, linting, hovering, snippet, folding and file icon only for the Metta programming language.
+This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering, Snippet, Folding and File-Icon only for the Metta programming language.
+
+## Instructions
+
+- Install the extension 
+- If your code base is only in metta, Set Color Theme provided by the extension
+- To change between themes press: `CTR + SHIFT + P`, search for color theme and click, then choose Dark Modern or Metta Theme.
+- I don't recommend setting file icon theme provided by the extension since it currently doesn't support other file types rather than metta.
 
 ## Features
 
-- Document formatting for Metta files
+- Document Auto-formatting for Metta files by pressing CTR + S or if auto-save mode is enabled it will auto-format your file
 - Syntax highlighting for Metta language
 - Hovering for more detail on keys
 - Linting for Error handling
 - Snippets to give you starter
 - Folding to make you code cleaner
 - Custom file icon for `.metta` files (I only added 1 icon for MeTTa. I will add others later if necessary)
-- More Features will be added
 - Simple Refactor with ctr + shift + R
+- More Features will be added. You can also contribute for more features.
 
 
-## Installation
+## Installation to Test the extension locally
 
 1. Clone this repository.
 2. Run `npm install` to install dependencies.
@@ -25,7 +32,7 @@ This extension provides syntax formatting, highlighting, linting, hovering, snip
 ## Usage
 
 - Open a `.metta` file to see the syntax highlighting and file icon.
-- Press `Ctrl+Shift+F` to format the document.
+- Press `Ctrl+S` to format the document.
 
 ## Contributing
 
