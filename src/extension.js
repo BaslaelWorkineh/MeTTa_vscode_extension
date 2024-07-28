@@ -3,12 +3,15 @@ const { formatMettaCode } = require('./formatter');
 const hoverProvider = require('./hoverProvider');
 const refactor = require('./refactor');
 const linter = require('./linter');
-const MettaFoldingRangeProvider = require('./foldingProvider');
+const MettaFoldingRangeProvider = require('./MettaFoldingRangeProvider');
 
 function activate(context) {
+    console.log('Activating MeTTa extension');
+
     // Set custom theme
     vscode.workspace.getConfiguration().update('workbench.colorTheme', 'Metta Theme', true);
 
+    // Register the formatting provider
     context.subscriptions.push(
         vscode.languages.registerDocumentFormattingEditProvider('metta', {
             provideDocumentFormattingEdits(document) {
@@ -57,8 +60,9 @@ function activate(context) {
     linter.activate(context);
 
     // Activate folding provider
+    console.log('Registering folding range provider');
     context.subscriptions.push(
-        vscode.languages.registerFoldingRangeProvider('metta', new MettaFoldingRangeProvider())
+        vscode.languages.registerFoldingRangeProvider({ language: 'metta' }, new MettaFoldingRangeProvider())
     );
 
     // Format on save
@@ -72,7 +76,9 @@ function activate(context) {
     });
 }
 
-function deactivate() {}
+function deactivate() {
+    console.log('Deactivating MeTTa extension');
+}
 
 module.exports = {
     activate,
