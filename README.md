@@ -1,18 +1,18 @@
-# Metta Language Support
+# MeTTa Language Support
 
-This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering for detail, Code Snippets, Folding and File-Icon only for the Metta programming language.
+This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering for detail, Code Snippets, Folding and File-Icon for the MeTTa programming language.
 
 ## Instructions
 
 - Install the extension 
-- If your code base is only in metta, Set Color Theme provided by the extension
+- If your code base is only in MeTTa, Set Color Theme provided by the extension
 - To change between themes press: `CTR + SHIFT + P`, search for color theme and click, then choose Dark Modern or Metta Theme.
-- I don't recommend setting file icon theme provided by the extension since it currently doesn't support other file types rather than metta.
+- I don't recommend setting file icon theme provided by this extension since it currently doesn't support other file types other than MeTTa.
 
 ## Features
 
-- Document Auto-formatting for Metta files by pressing CTR + S or if auto-save mode is enabled it will auto-format your file
-- Syntax highlighting for Metta language
+- Document Auto-formatting for MeTTa files by pressing CTR + S or if auto-save mode is enabled it will auto-format your file
+- Syntax highlighting for MeTTA language
 - Hovering for more detail on keys
 - Linting for Error handling
 - Snippets to give you starter
@@ -33,7 +33,7 @@ This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering 
 
 - Open a `.metta` file to see the syntax highlighting and file icon.
 - Press `Ctrl+S` to format the document.
-- `CTR + SHIFT + P` then choose Metta Theme for Highlighting Perfectly (Note: It doesn't support other languages)
+- `CTR + SHIFT + P` then choose Metta Theme for Highlighting Perfectly (Note: It doesn't support other languages so you have to shift to Dark Modern theme for other language.)
 - Hover over the Keywords to read the detail on it
 - Go over the Number column to see the Folding arrow.
 
@@ -41,8 +41,4 @@ This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering 
 
 Feel free to submit issues and pull requests for new features and improvements.
 
-## License
-
-[MIT](LICENSE)
-# MeTTa_vscode_extension
 

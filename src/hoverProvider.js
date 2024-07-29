@@ -20,11 +20,11 @@ function getWordRangeAtPosition(document, position) {
     let start = position;
     let end = position;
 
-    while (start.character > 0 && /[\w-!]/.test(document.getText(new vscode.Range(start.translate(0, -1), start)))) {
+    while (start.character > 0 && /[\w-!&*$_=<>+*/-]/.test(document.getText(new vscode.Range(start.translate(0, -1), start)))) {
         start = start.translate(0, -1);
     }
 
-    while (/[\w-!]/.test(document.getText(new vscode.Range(end, end.translate(0, 1))))) {
+    while (/[\w-!&*$_=<>+*/-]/.test(document.getText(new vscode.Range(end, end.translate(0, 1))))) {
         end = end.translate(0, 1);
     }
 
@@ -70,6 +70,28 @@ function getHoverMessage(word) {
         'pragma!': '`(pragma! type-check auto)` can be used to enable automatic detection of such errors:',
         'quote': 'It does nothing except of wrapping its argument and preventing it from being evaluated.'
     };
+
+    const operators = {
+        '=': 'Assignment operator.',
+        '+': 'Addition operator.',
+        '-': 'Subtraction operator.',
+        '*': 'Multiplication operator.',
+        '/': 'Division operator.',
+        '<': 'Less than operator.',
+        '>': 'Greater than operator.',
+        '<=': 'Less than or equal to operator.',
+        '>=': 'Greater than or equal to operator.',
+        '==': 'Equality operator.',
+        '!=': 'Not equal operator.'
+    };
+
+    if (word.startsWith('$') && word !== '$_') {
+        return `${word} is a variable.`;
+    }
+
+    if (operators[word]) {
+        return operators[word];
+    }
 
     return hoverMessages[word] || `No hover information available for ${word}`;
 }

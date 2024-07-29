@@ -21,7 +21,7 @@
         "description": "Factorial Function"
     },
     "Zip Function": {
-        "prefix": "zip",
+        "prefix": "zip_two_list",
         "body": [
             "(= (zip \\$list1 \\$list2)",
             "    (case (\\$list1 \\$list2)",
@@ -37,7 +37,7 @@
         "description": "Zip Function"
     },
     "Square Grid": {
-        "prefix": "grid",
+        "prefix": "grid_3_by_3",
         "body": [
             "((9 9 9) (9 9 9) (9 9 9)) goal",
             "(= (square \\$w) (* \\$w \\$w))",
@@ -48,7 +48,7 @@
         "description": "Square Grid"
     },
     "Binary Functions": {
-        "prefix": "binary",
+        "prefix": "binary_non_determinant",
         "body": [
             "(= (bin) 0)",
             "(= (bin) 1)",
@@ -57,7 +57,7 @@
         "description": "Binary Functions"
     },
     "Sum Function": {
-        "prefix": "sum",
+        "prefix": "sum_of_two_numbers",
         "body": [
             "(= (sum \\$x \\$y) (+ \\$x \\$y))",
             "! (sum 3 4) ; 7"
@@ -65,7 +65,7 @@
         "description": "Sum Function"
     },
     "Non-Deterministic Increment": {
-        "prefix": "incement-binary",
+        "prefix": "incement_binary_non_determinant",
         "body": [
             "(= (bin) 0)",
             "(= (bin) 1)",
@@ -96,7 +96,7 @@
         "description": "Changing List Value"
     },
     "Conditional Statements": {
-        "prefix": "conditional",
+        "prefix": "conditional_if",
         "body": [
             "(= (factorial \\$x)",
             "    (if (> \\$x 0) (* \\$x (factorial (- \\$x 1))) 1))",
@@ -105,7 +105,7 @@
         "description": "Conditional Statements"
     },
     "Merging Two Lists": {
-        "prefix": "Zipping",
+        "prefix": "zipping_two_list",
         "body": [
             "(= (zip () ()) (Zipped))",
             "(= (zip (:: \\$x \\$xs) (:: \\$y \\$ys))",
@@ -115,7 +115,7 @@
         "description": "Merging Two Lists"
     },
     "Pattern Matching": {
-        "prefix": "pattern_match",
+        "prefix": "zip_with_case_pattern_match",
         "body": [
             "(= (Zip \\$list1 \\$list2)",
             "    (case (\\$list1 \\$list2)",
@@ -365,7 +365,7 @@
         "description": "Get Sister"
     },
     "Graph Traversal Recursion": {
-        "prefix": "graph_traversal",
+        "prefix": "predecessor_graph_traversal",
         "body": [
             "(Parent Tom Bob)",
             "(Parent Pam Bob)",
@@ -448,7 +448,7 @@
         "description": "Multiple Arguments Get Type"
     },
     "Nested Expressions": {
-        "prefix": "nested_expressions",
+        "prefix": "get_type_nested_expressions",
         "body": [
             "(: foo (-> A B))",
             "(: bar (-> B B A))",
@@ -470,7 +470,7 @@
         "description": "Nested Type Signatures"
     },
     "Grounded Atoms": {
-        "prefix": "grounded_atoms",
+        "prefix": "get_type_grounded_atoms",
         "body": [
             "! (get-type 1) ; Number",
             "! (get-type 1.1) ; Number",
@@ -486,7 +486,7 @@
         "description": "Grounded Atoms"
     },
     "Peano Numbers": {
-        "prefix": "peano_numbers",
+        "prefix": "get_type_peano_numbers",
         "body": [
             "(: Z Nat) ; Z is \"zero\"",
             "(: S (-> Nat Nat)) ; S \"constructs\" the next number",
@@ -510,7 +510,7 @@
         "description": "Peano Numbers"
     },
     "List of Numbers": {
-        "prefix": "list_of_numbers",
+        "prefix": "get_typeof_list_of_numbers",
         "body": [
             "(: NilNum ListNum)",
             "(: ConsNum (-> Number ListNum ListNum))",
@@ -523,10 +523,7 @@
         "prefix": "comparison_operator",
         "body": [
             "! (get-type ==)",
-            "! (== 1 \"S\")",
-            "",
-            "[(-> \\$t#1665 \\$t#1665 Bool)]",
-            "[(Error \"S\" BadType)]"
+            "! (== 1 \"S\")"
         ],
         "description": "Comparison Operator"
     },
@@ -541,12 +538,7 @@
             "         (-> (-> Bool Bool) Bool \\$result)",
             "         \\$result",
             "         BadType) ; Bool",
-            "! (apply not 1) ; BadType",
-            "",
-            "[True]",
-            "[Bool]",
-            "[Bool]",
-            "[(Error 1 BadType)]"
+            "! (apply not 1) ; BadType"
         ],
         "description": "Variable Output Type"
     },
@@ -556,9 +548,7 @@
             "! (unify (-> \\$t     (List \\$t) (List \\$t))",
             "         (-> Number (List \\$t) \\$result)",
             "         \\$result",
-            "         BadType)",
-            "",
-            "[(List Number)]"
+            "         BadType)"
         ],
         "description": "Type of Cons"
     },
@@ -726,12 +716,7 @@
             "! (match &self (Likes \\$who \\$x)",
             "    (match &self (Green \\$x) \\$x))",
             "! (match &self (Likes \\$who \\$x)",
-            "    (match &self (Green \\$boo) \\$boo))",
-            "",
-            "[Emi]",
-            "[Kat, Emi]",
-            "[]",
-            "[Sam, Sam]"
+            "    (match &self (Green \\$boo) \\$boo))"
         ],
         "description": "Nested Queries"
     },
@@ -752,13 +737,7 @@
             "! (get-type (foo \\$x)) ; Bool",
             "! (get-type (+ \\$x 1)) ; Number",
             "! (get-type =) ; (-> \\$t \\$t Atom)",
-            "! (= (foo \\$x) (+ \\$x 1)) ; BadType",
-            "",
-            "Reset",
-            "[Bool]",
-            "[Number]",
-            "[(-> \\$t#1926 \\$t#1926 Atom)]",
-            "[(Error (+ \\$x 1) BadType)]"
+            "! (= (foo \\$x) (+ \\$x 1)) ; BadType"
         ],
         "description": "Type Guarantee with Equalities"
     },
@@ -768,12 +747,7 @@
             "! (let \\$x (+ 1 2) (quote \\$x)) ; (quote 3)",
             "(: Z Nat)",
             "! (get-metatype (get-type Z)) ; (get-type Z) is Expression",
-            "! (let \\$x (get-type Z) (get-metatype \\$x)) ; Nat is Symbol",
-            "",
-            "Reset",
-            "[(quote 3)]",
-            "[Expression]",
-            "[Symbol]"
+            "! (let \\$x (get-type Z) (get-metatype \\$x)) ; Nat is Symbol"
         ],
         "description": "Let Expressions"
     },
@@ -1159,7 +1133,7 @@
         "description": "Map Example"
     },
     "To List Example": {
-        "prefix": "to_list_example",
+        "prefix": "cdr_car_atom_to_list_example",
         "body": [
             "(= (to-list \\$expr)",
             "   (if (== \\$expr ()) Nil",
@@ -1172,7 +1146,7 @@
         "description": "To List Example"
     },
     "To Tree Example": {
-        "prefix": "to_tree_example",
+        "prefix": "cdr_car_atom_to_tree_example",
         "body": [
             "(= (to-tree \\$expr)",
             "   (case (get-metatype \\$expr)",
