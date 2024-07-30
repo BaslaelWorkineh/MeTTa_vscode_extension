@@ -21,6 +21,21 @@ This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering 
 - Simple Refactor with ctr + shift + R
 - More Features will be added. You can also contribute for more features.
 
+## Before and After Formatting
+
+### Before Formatting
+![Before Formatting](images/beforeFormat.png)
+
+### After Formatting
+![After Formatting](images/afterFormat.png)
+
+## Folding
+
+![Folding](images/folding.png)
+
+## Hover and Snippets
+
+![Hover and Snippets](images/hover-and-snippet.png)
 
 ## Installation to Test the extension locally
 
