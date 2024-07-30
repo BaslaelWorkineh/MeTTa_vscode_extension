@@ -21,21 +21,30 @@ This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering 
 - Simple Refactor with ctr + shift + R
 - More Features will be added. You can also contribute for more features.
 
-## Before and After Formatting
+## Some Screenshots
 
-### Before Formatting
-![Before Formatting](images/beforeFormat.png)
-
-### After Formatting
-![After Formatting](images/afterFormat.png)
-
-## Folding
-
-![Folding](images/folding.png)
-
-## Hover and Snippets
-
-![Hover and Snippets](images/hover-and-snippet.png)
+<table>
+    <tr>
+        <td>
+            <h3 style="text-align: center;">Before Formatting</h3>
+            <img src="images/beforeFormat.png" alt="Before Formatting" style="width: 100%;">
+        </td>
+        <td>
+            <h3 style="text-align: center;">After Formatting</h3>
+            <img src="images/afterFormat.png" alt="After Formatting" style="width: 100%;">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h3 style="text-align: center;">Folding</h3>
+            <img src="images/folding.png" alt="Folding" style="width: 100%;">
+        </td>
+        <td>
+            <h3 style="text-align: center;">Hover and Snippets</h3>
+            <img src="images/hover-and-snippet.png" alt="Hover and Snippets" style="width: 100%;">
+        </td>
+    </tr>
+</table>
 
 ## Installation to Test the extension locally
 
