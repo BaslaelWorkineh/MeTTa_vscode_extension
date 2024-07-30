@@ -20,13 +20,20 @@ function formatMettaCode(text) {
         }
 
         let commentIndex = trimmedLine.indexOf(';');
+        let beforeComment = trimmedLine;
+        let comment = '';
         if (commentIndex !== -1) {
-            let beforeComment = trimmedLine.slice(0, commentIndex).trim();
-            let comment = trimmedLine.slice(commentIndex).trim();
-            trimmedLine = beforeComment + ' ' + comment; // Preserve the comment text
+            beforeComment = trimmedLine.slice(0, commentIndex).trim();
+            comment = ' ' + trimmedLine.slice(commentIndex).trim(); // Preserve the comment text
         }
 
-        trimmedLine = trimmedLine.replace(/\s+/g, ' ');
+        // Ensure space after '(='
+        beforeComment = beforeComment.replace(/\(\s*=\s*/g, '(= ');
+
+        // Ensure space after '->' if followed by a word without space
+        beforeComment = beforeComment.replace(/->(?=\S)/g, '-> ');
+
+        trimmedLine = beforeComment + comment;
 
         formattedLines.push(' '.repeat(indentLevel * 4) + trimmedLine);
 

@@ -1,14 +1,10 @@
 {
-    "iconDefinitions": {
-      "metta-icon": {
-        "iconPath": "./icon.png"
-      }
-    },
-    "fileExtensions": {
-      "metta": "metta-icon"
-    },
-    "fileNames": {
-      "test.metta": "metta-icon"
+  "iconDefinitions": {
+    "metta-icon": {
+      "iconPath": "./icon.png"
     }
+  },
+  "fileExtensions": {
+    "metta": "metta-icon"
   }
-  
+}

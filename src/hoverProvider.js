@@ -68,11 +68,12 @@ function getHoverMessage(word) {
         'let': 'The `let` function is utilized to establish temporary variable bindings within an expression. It allows introducing variables, assign values to them, and then use these values within the scope of the let block.',
         'let*': 'When several consecutive substitutions are required, `let*` can be used for convenience. The first argument of `let*` is Expression, which elements are the required substitutions, while the second argument is the resulting expression',
         'pragma!': '`(pragma! type-check auto)` can be used to enable automatic detection of such errors:',
-        'quote': 'It does nothing except of wrapping its argument and preventing it from being evaluated.'
+        'quote': 'It does nothing except of wrapping its argument and preventing it from being evaluated.',
+        'not' : 'A grounded function that has `(-> Bool Bool)` type'
     };
 
     const operators = {
-        '=': 'Assignment operator.',
+        '=': "Equality symbol `=` defines evaluation rules for expressions and can be read as `can be evaluated as` or `can be reduced to`.",
         '+': 'Addition operator.',
         '-': 'Subtraction operator.',
         '*': 'Multiplication operator.',
@@ -81,8 +82,10 @@ function getHoverMessage(word) {
         '>': 'Greater than operator.',
         '<=': 'Less than or equal to operator.',
         '>=': 'Greater than or equal to operator.',
-        '==': 'Equality operator.',
-        '!=': 'Not equal operator.'
+        '==': '`==` has the type `(-> $t $t Bool)`. This means that the arguments can be of an arbitrary but same type.',
+        '!=': 'Not equal operator.',
+        ':' : 'Colon symbol `:` is used for type declarations.',
+        '->': 'Arrow symbol `->` defines type restrictions for evaluable expressions.' 
     };
 
     if (word.startsWith('$') && word !== '$_') {

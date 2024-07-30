@@ -4,9 +4,16 @@ const hoverProvider = require('./hoverProvider');
 const refactor = require('./refactor');
 const linter = require('./linter');
 const MettaFoldingRangeProvider = require('./MettaFoldingRangeProvider');
+const { activateIcons } = require('vscode-icons');
 
 function activate(context) {
     console.log('Activating MeTTa extension');
+
+    activateIcons({
+        defaultExtension: 'metta',
+        customIcon: 'metta-icon',
+        path: './icons/icon.png'
+      });
 
     // Set custom theme
     vscode.workspace.getConfiguration().update('workbench.colorTheme', 'Metta Theme', true);
