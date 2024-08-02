@@ -5,67 +5,67 @@
         {
             "scope": "keyword.control.metta",
             "settings": {
-                "foreground": "#ff7c7c" // Control keywords color
+                "foreground": "#ff7c7c" 
             }
         },
         {
             "scope": "variable.parameter.metta",
             "settings": {
-                "foreground": "#dd9762" // Variable color
+                "foreground": "#dd9762"
             }
         },
         {
             "scope": "punctuation.section.parens.metta",
             "settings": {
-                "foreground": "#D4D4D4" // Parentheses color
+                "foreground": "#D4D4D4"
             }
         },
         {
             "scope": "punctuation.section.braces.metta",
             "settings": {
-                "foreground": "#D4D4D4" // Braces color
+                "foreground": "#D4D4D4" 
             }
         },
         {
             "scope": "punctuation.section.brackets.metta",
             "settings": {
-                "foreground": "#D4D4D4" // Brackets color
+                "foreground": "#D4D4D4"
             }
         },
         {
             "scope": "comment.line.semicolon.metta",
             "settings": {
-                "foreground": "#6A9955" // Comments color
+                "foreground": "#6A9955"
             }
         },
         {
             "scope": "keyword.error.metta",
             "settings": {
-                "foreground": "#ff3737" // Error keywords color
+                "foreground": "#ff3737" 
             }
         },
         {
             "scope": "keyword.operator.match.metta",
             "settings": {
-                "foreground": "#b66fb6" // Purple color for match keyword
+                "foreground": "#b66fb6" 
             }
         },
         {
             "scope": "keyword.operator.metta",
             "settings": {
-                "foreground": "#fe7171" // Red color for operators
+                "foreground": "#fe7171" 
             }
         },
         {
             "scope": "keyword.numbers.metta",
             "settings": {
-                "foreground": "#8da2f5" // Red color for operators
+                "foreground": "#8da2f5" 
             }
         },
         {
             "scope": "keyword.string.metta",
             "settings": {
-                "foreground": "#92a7ff" // Red color for operators
+                "foreground": "#92a7ff" 
             }
         }
     ]

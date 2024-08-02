@@ -92,7 +92,7 @@
     "controllers": {
       "patterns": [
         {
-          "match": "[+\\-*/=><]",
+          "match": "[+\\-*/=><%]",
           "name": "keyword.operator.metta"
         }
       ]

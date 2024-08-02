@@ -68,8 +68,10 @@ function getHoverMessage(word) {
         'let': 'The `let` function is utilized to establish temporary variable bindings within an expression. It allows introducing variables, assign values to them, and then use these values within the scope of the let block.',
         'let*': 'When several consecutive substitutions are required, `let*` can be used for convenience. The first argument of `let*` is Expression, which elements are the required substitutions, while the second argument is the resulting expression',
         'pragma!': '`(pragma! type-check auto)` can be used to enable automatic detection of such errors:',
-        'quote': 'It does nothing except of wrapping its argument and preventing it from being evaluated.',
-        'not' : 'A grounded function that has `(-> Bool Bool)` type'
+        'quote': 'Another very simple constructor from stdlib is `quote`, which is defined just as `(: quote (-> Atom Atom))`. It does nothing except of wrapping its argument and preventing it from being evaluated.',
+        'not' : 'A grounded function that has `(-> Bool Bool)` type',
+        'Error' :"`Error` is not a grounded atom, it is just a symbol. It doesn't even have defined equalities, so it works just an expression constructor, which prevents its arguments from being evaluated and which has a return type, which can be used to catch errors. `Error` expects the arguments of `Atom` type:",
+        'Atom' : 'Atom is a supertype for Symbol, Expression, Variable, Grounded.'
     };
 
     const operators = {
@@ -83,9 +85,9 @@ function getHoverMessage(word) {
         '<=': 'Less than or equal to operator.',
         '>=': 'Greater than or equal to operator.',
         '==': '`==` has the type `(-> $t $t Bool)`. This means that the arguments can be of an arbitrary but same type.',
-        '!=': 'Not equal operator.',
         ':' : 'Colon symbol `:` is used for type declarations.',
-        '->': 'Arrow symbol `->` defines type restrictions for evaluable expressions.' 
+        '->': 'Arrow symbol `->` defines type restrictions for evaluable expressions.',
+        '%' : 'Modulus operator'
     };
 
     if (word.startsWith('$') && word !== '$_') {
