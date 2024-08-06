@@ -8,6 +8,9 @@ const MettaFoldingRangeProvider = require('./MettaFoldingRangeProvider');
 function activate(context) {
     console.log('Activating MeTTa extension');
 
+    // Set the initial theme to Default Dark+
+    vscode.workspace.getConfiguration().update('workbench.colorTheme', 'Default Dark+', vscode.ConfigurationTarget.Workspace);
+    
     function updateThemeBasedOnActiveEditor() {
         const activeEditor = vscode.window.activeTextEditor;
         if (activeEditor && activeEditor.document.languageId === 'metta') {
