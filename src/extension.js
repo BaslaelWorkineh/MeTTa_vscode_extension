@@ -8,7 +8,26 @@ const MettaFoldingRangeProvider = require('./MettaFoldingRangeProvider');
 function activate(context) {
     console.log('Activating MeTTa extension');
 
-    vscode.workspace.getConfiguration().update('workbench.colorTheme', 'Metta Theme', true);
+    function updateThemeBasedOnActiveEditor() {
+        const activeEditor = vscode.window.activeTextEditor;
+        if (activeEditor && activeEditor.document.languageId === 'metta') {
+            vscode.workspace.getConfiguration().update('workbench.colorTheme', 'Metta Theme', vscode.ConfigurationTarget.Workspace);
+        } else {
+            vscode.workspace.getConfiguration().update('workbench.colorTheme', 'Default Dark+', vscode.ConfigurationTarget.Workspace);
+        }
+    }
+    // vscode.workspace.getConfiguration().update('workbench.colorTheme', 'Metta Theme', vscode.ConfigurationTarget.Workspace);
+
+    vscode.window.onDidChangeActiveTextEditor(() => {
+        updateThemeBasedOnActiveEditor();
+    });
+
+    vscode.workspace.onDidOpenTextDocument(() => {
+        updateThemeBasedOnActiveEditor();
+    });
+
+    // Initial theme update based on the currently active editor
+    updateThemeBasedOnActiveEditor();
 
     context.subscriptions.push(
         vscode.languages.registerDocumentFormattingEditProvider('metta', {
@@ -43,7 +62,6 @@ function activate(context) {
     hoverProvider.activate(context);
     refactor.activate(context);
     linter.activate(context);
-
 
     console.log('Registering folding range provider');
     context.subscriptions.push(

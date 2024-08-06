@@ -1162,5 +1162,251 @@
             "! (to-tree (False (True False) False False))"
         ],
         "description": "To Tree Example"
+    },
+    "Multiples of 3 or 5" : {
+        "prefix": "multiple-of-3-or-5",
+        "body" : [
+            "(= (sum-multiple \\$x \\$sum)",
+            "(if (> \\$x 0)",
+            "    (if (or (== (% \\$x 3) 0) (== (% \\$x 5) 0))",
+            "        (if (and (== (% \\$x 3) 0) (== (% \\$x 5) 0))",
+            "            (sum-multiple (- \\$x 1) \\$sum)",
+            "            (sum-multiple (- \\$x 1) (+ \\$sum \\$x)))",
+            "        (sum-multiple (- \\$x 1) \\$sum))",
+            "    \\$sum",
+            ")",
+        ")",
+        "",
+        "! (sum-multiple 15 0)"
+        ],
+        "description" : "Multiples of 3 or 5"
+    },
+    "Even Fibonacci Numbers Sum" : {
+        "prefix": "even-fibonacci-sum",
+        "body" : [
+            "(= (fibo \\$prev1 \\$prev2 \\$x \\$cnt)",
+            "(if (< \\$x \\$cnt)",
+            "    (:: \\$prev1 (fibo \\$prev2 (+ \\$prev1 \\$prev2) (+ \\$x 1) \\$cnt))",
+            "    0)",
+        ")",
+        "(= (even-fibo-sum 0 \\$_) \\$_)",
+        "(= (even-fibo-sum (:: \\$x \\$xs) \\$sum)",
+        "    (if (and (== (% \\$x 2) 0) (> \\$x 0))",
+        "        (even-fibo-sum \\$xs (+ \\$sum \\$x))",
+        "        (even-fibo-sum \\$xs \\$sum))",
+        ")",
+        
+        "! (even-fibo-sum (fibo 1 2 0 10) 0)"
+        ],
+        "description" : "Even Fibonacci Numbers Sum"
+    },
+    "Search List" : {
+        "prefix" : "search-list",
+        "body" : [
+            "(= (is-member \\$y ()) False)",
+            "(= (is-member \\$y (:: \\$x \\$xs))",
+            "    (if (== \\$y \\$x)",
+            "        True",
+            "        (is-member \\$y \\$xs)",
+            "    )",
+            ")",
+            
+            "! (is-member 4 (:: 1 (:: 2 (:: 3 (:: 4 (:: 5 ()))))))"
+        ],
+        "description" : "Search List"
+    },
+    "Append to List" : {
+        "prefix" : "append-to-list",
+        "body" : [
+            "(= (append \\$y ()) (:: \\$y))",
+            "(= (append \\$y (:: \\$x \\$xs))",
+            "    (:: \\$x (append \\$y \\$xs))",
+            ")",
+            "",
+            "! (append 3 (:: 1 (:: 2 ())))"
+        ],
+        "description" : "Append to List"
+    },
+    "Max Value of List" : {
+        "prefix" : "max-value-of-list",
+        "body" : [
+            "(= (first-element (:: \\$x \\$xs)) \\$x)",
+            "(= (max-value \\$max ()) \\$max)",
+            "(= (max-value \\$max (:: \\$x \\$xs))",
+            "    (if (> \\$max \\$x)",
+            "        (max-value \\$max \\$xs)",
+            "        (max-value \\$x \\$xs)",
+            "    )",
+            ")",
+            
+            "! (max-value (first-element (:: 1 (:: 2 (:: 5 (:: 3 ()))))) (:: 1 (:: 2 (:: 5 (:: 3 ())))))"
+        ],
+        "description" : "Max Value of List"
+    },
+    "Min Value of List" : {
+        "prefix" : "min-value-of-list",
+        "body" : [
+            "(= (first-element (:: \\$x \\$xs)) \\$x)",
+            "(= (max-value \\$max ()) \\$max)",
+            "(= (max-value \\$max (:: \\$x \\$xs))",
+            "    (if (> \\$max \\$x)",
+            "        (max-value \\$max \\$xs)",
+            "        (max-value \\$x \\$xs)",
+            "    )",
+            ")",
+            
+            "! (max-value (first-element (:: 1 (:: 2 (:: 5 (:: 3 ()))))) (:: 1 (:: 2 (:: 5 (:: 3 ())))))"
+        ],
+        "description" : "Min Value of List"
+    },
+    "Remove Element from List" : {
+        "prefix" : "remove-element-from-list",
+        "body" : [
+            "(= (remove \\$rm ()) ())",
+            "(= (remove \\$rm (:: \\$x \\$xs))",
+            "    (if (== \\$rm \\$x)",
+            "        (remove \\$rm \\$xs)",
+            "        (:: \\$x (remove \\$rm \\$xs))",
+            "    )",
+            ")",
+            "! (remove 2 (:: 1 (:: 2 (:: 5 (:: 3 ())))))"
+        ],
+        "description" : "Remove Element from List"
+    },
+    "Map Lists" : {
+        "prefix" : "map-lists",
+        "body" : [
+            "(= (map () ()) ())",
+            "(= (map (:: \\$x \\$xs) (:: \\$y \\$ys))",
+            "    (:: \\$x \\$y (map \\$xs \\$ys))",
+            ")",
+            
+            "! (map (:: A (:: B (:: C ()))) (:: 1 (:: 2 (:: 3 ()))))"
+        ],
+        "description" : "Map 2 Lists"
+    },
+    "Filter List" : {
+        "prefix" : "filter-list",
+        "body" : [
+            "(= (filter \\$filter ()) ())",
+            "(= (filter \\$filter (:: \\$x \\$xs))",
+            "    (if (== \\$filter \\$x)",
+            "        (filter \\$filter \\$xs)",
+            "        (:: \\$x (filter \\$filter \\$xs))",
+            "    )",
+            ")",
+            "",
+            "! (filter 2 (:: 1 (:: 2 (:: 5 (:: 2 ())))))"
+        ],
+        "description" : "Filter List"
+    },
+    "Reverse List" : {
+        "prefix" : "reverse-list",
+        "body" : [
+            "(= (reverse ()) ())",
+            "(= (reverse (:: \\$x \\$xs))",
+            "    (append (reverse \\$xs) \\$x))",
+            
+            "(= (append () \\$ele) (:: \\$ele ()))",
+            "(= (append (:: \\$x \\$xs) \\$ele)",
+            "    (:: \\$x (append \\$xs \\$ele)))",
+            "",
+            " ; Test case",
+            " ; ! (reverse (:: 1 (:: 2 (:: 3 ()))))"
+            
+        ],
+        "description" : "Reverse List"
+    },
+    "Sort List" : {
+        "prefix" : "sort-list",
+        "body" : [
+            "(= (sort ()) ())",
+            "(= (sort (| \\$x \\$xs))",
+            "    (place \\$x (sort \\$xs)))",
+            
+            "(= (place \\$val ()) (| \\$val ()))  ; placing the value in the right place[index]",
+            "(= (place \\$val (| \\$x \\$xs))",
+            "    (if (> \\$val \\$x)",
+            "    (| \\$x (place \\$val \\$xs))",
+            "    (| \\$val (| \\$x \\$xs))))",
+            "",
+            "; Test Cases",
+            "; !(sort (| 4 (| 2 (| 1 (| 5 (| 3 (| 6 (| 7 (| 8 (| 9 ()))))))))))  ; => (| 1 (| 2 (| 3 (| 4 (| 5 (| 6 (| 7 (| 8 (| 9 ())))))))))",
+            "; !(sort (| 9 (| 8 (| 7 (| 6 (| 5 (| 4 (| 3 (| 2 (| 1 ()))))))))))  ; => (| 1 (| 2 (| 3 (| 4 (| 5 (| 6 (| 7 (| 8 (| 9 ()))))))))))"  
+        ],
+        "description" : "Sort List"
+    },
+    "Remove duplicate" : {
+        "prefix" : "remove-duplicate",
+        "body" : [
+            "(= (is-member \\$a ()) False)",
+            "(= (is-member \\$a (| \\$x \\$xs))",
+            "    (or (== \\$a \\$x)",
+            "        (is-member \\$a \\$xs)))",
+            "",
+            "(= (remove-duplicate () \\$seen) ())",
+            "(= (remove-duplicate (| \\$x \\$xs) \\$seen)",
+            "    (if (is-member \\$x \\$seen)",
+            "        (remove-duplicate \\$xs \\$seen)",
+            "        (| \\$x (remove-duplicate \\$xs (| \\$x \\$seen)))))",
+            
+            " ; Test Cases",
+            " ; !(remove-duplicate (| 1 (| 2 (| 3 (| 2 (| 4 ()))))) ())  ; => (| 1 (| 2 (| 3 (| 4 ()))))",
+            " ; !(remove-duplicate (| 1 (| 1 (| 1 (| 1 (| 1 ()))))) ())  ; => (| 1 ()))"
+            
+        ],
+        "description" : "Remove duplicate"
+    },
+    "FoldL" : {
+        "prefix" : "foldl",
+        "body" : [
+            "(= (foldl \\$f \\$acc ()) \\$acc)",
+            "(= (foldl \\$f \\$acc (| \\$x \\$xs))",
+            "    (foldl \\$f (\\$f \\$acc \\$x) \\$xs))",
+            "",
+            "; Test Cases",
+            "; (= (sum \\$a \\$b) (+ \\$a \\$b))",
+            "; !(foldl sum 0 (| 1 (| 2 (| 3 ()))))  ; => 6",
+            "; !(foldl sum 10 (| 1 (| 2 (| 3 ()))))  ; => 16"
+        ],
+        "description" : "FoldL"
+    },
+    "FoldR" : {
+        "prefix" : "foldr",
+        "body" : [
+            "(= (foldr \\$f \\$acc ()) \\$acc)",
+            "(= (foldr \\$f \\$acc (| \\$x \\$xs))",
+            "    (\\$f \\$x (foldr \\$f \\$acc \\$xs)))",
+            "",
+            "; Test Cases",
+            "; !(foldr sum 0 (| 1 (| 2 (| 3 ()))))  ; => 6",
+            "; !(foldr sum 10 (| 1 (| 2 (| 3 ()))))  ; => 16"      
+        ],
+        "description" : "FoldR"
+    },
+    "Pop" : {
+        "prefix" : "pop",
+        "body" : [
+            "(= (pop (| \\$x \\$xs)) \\$xs) ",
+            
+            "; Test Cases",
+            "; !(pop (| 1 (| 2 (| 3 ()))))  ; => (| 2 (| 3 ()))",
+            "; !(pop (| 1 ()))  ; => ()"
+            
+        ],
+        "description" : "Pop from list"
+    },
+    "Push" : {
+        "prefix" : "push",
+        "body" : [
+            "(= (push \\$ele \\$list) (| \\$ele \\$list)) ; pushing associated with adding an element to the beginning (front) of a list or to the top of a stack.",
+            
+            "; Test Cases",
+            "; !(push 0 (| 1 (| 2 (| 3 ()))))  ; => (| 0 (| 1 (| 2 (| 3 ()))))",
+            "; !(push 1 ())  ; => (| 1 ())"
+            
+        ],
+        "description" : "Pop from list"
     }
+
 }
