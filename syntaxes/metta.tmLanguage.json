@@ -76,7 +76,7 @@
           "name": "keyword.numbers.metta"
         },
         {
-          "match": "\\b(match|println|trace|assertEqualToResult|car-atom|collapse|superpose|bind|import|add-reduct|pragma|remove-atom|cdr-atom|cons-atom|new-space|quote|assertEqual|add-atom|get-type|get-metatype|mod-space|unify|Nil|True|False|Bool|Number|\\$_|&self|empty|pow-math|sqrt-math|abs-math|log-math|trunc-math|ceil-math|floor-math|round-math|sin-math|asin-math|cos-math|acos-math|tan-math|atan-math|isnan-math|isinf-math|PI|EXP|print-mods|register-module|git-module|random-int|random-float|flip|new-state|change-state|get-state|get-type-space|min-atom|max-atom|size-atom|index-atom|unique-atom|subtraction-atom|intersection-atom|union-atom|=alpha|assertAlphaEqualToResult|assertAlphaEqual|filter-atom)\\b",
+          "match": "\\b(match\\!?|println\\!?|trace\\!?|assertEqualToResult|car-atom|collapse|superpose|bind\\!?|import\\!?|add-reduct|pragma\\!?|remove-atom|cdr-atom|cons-atom|new-space|quote|assertEqual|add-atom|get-type|get-metatype|mod-space\\!?|unify|Nil|True|False|Bool|Number|\\$_|&self|empty|pow-math|sqrt-math|abs-math|log-math|trunc-math|ceil-math|floor-math|round-math|sin-math|asin-math|cos-math|acos-math|tan-math|atan-math|isnan-math|isinf-math|PI|EXP|print-mods\\!?|register-module\\!?|git-module\\!?|random-int|random-float|flip|new-state|change-state\\!?|get-state|get-type-space|min-atom|max-atom|size-atom|index-atom|unique-atom|subtraction-atom|intersection-atom|union-atom|=alpha|assertAlphaEqualToResult|assertAlphaEqual|filter-atom|map-atom|foldl-atom|unquote|noreduce-eq|first-from-pair|match-type-or)\\b",
           "name": "keyword.operator.match.metta"
         },
         {

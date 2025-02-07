@@ -2,7 +2,7 @@
   "name": "metta-formatter-highlighter",
   "displayName": "MeTTa Lang Formatter + Linter + Highlighter + Hover-Detail + Snippets + etc...",
   "description": "This extension provides Syntax Formatting, Linting, Code Snippet, Highlighting, Code Folding, Simple Refactor and File-Icon for MeTTa programming language.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "BaslaelWorkinehAyele",
   "engines": {
     "vscode": "^1.60.0"
