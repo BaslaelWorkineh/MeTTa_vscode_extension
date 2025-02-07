@@ -18,7 +18,7 @@ function formatMettaCode(text) {
         } else {
             previousLineEmpty = false;
         }
-
+console.log("hello world")
         // Separate comments from the rest of the line
         let commentIndex = trimmedLine.indexOf(';');
         let beforeComment = trimmedLine;

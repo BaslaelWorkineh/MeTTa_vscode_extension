@@ -1,10 +1,10 @@
 {
   "iconDefinitions": {
-    "metta-icon": {  // Changed to match fileExtensions
-      "iconPath": "./icon.png"  // Corrected path
+    "metta-icon": {
+      "iconPath": "./icon.png"
     }
   },
   "fileExtensions": {
-    "metta": "metta-icon" // Changed to match iconDefinitions
+    "metta": "metta-icon"
   }
 }
