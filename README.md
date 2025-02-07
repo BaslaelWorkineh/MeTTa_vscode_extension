@@ -11,7 +11,7 @@ This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering 
 
 ## Features
 
-- Document Auto-formatting for MeTTa files by pressing CTR + S or if auto-save mode is enabled it will auto-format your file
+- Document Auto-formatting for MeTTa files by pressing CTR + SHIFT + P Then Choosing MeTTa: Enable Formatter
 - Syntax highlighting for MeTTA language
 - Hovering for more detail on keys
 - Linting for Error handling
@@ -56,7 +56,7 @@ This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering 
 ## Usage
 
 - Open a `.metta` file to see the syntax highlighting and file icon.
-- Press `Ctrl+S` to format the document.
+- Press `Ctrl+Shift+P the choose MeTTa: Enable Formatter` to format the document.
 - `CTR + SHIFT + P` then choose Metta Theme for Highlighting Perfectly (Note: It doesn't support other languages so you have to shift to Dark Modern theme for other language.)
 - Hover over the Keywords to read the detail on it
 - Go over the Number column to see the Folding arrow.
