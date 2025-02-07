@@ -1,45 +1,47 @@
 const vscode = require('vscode');
-const { formatMettaCode } = require('./formatter');
 const hoverProvider = require('./hoverProvider');
 const refactor = require('./refactor');
 const linter = require('./linter');
 const MettaFoldingRangeProvider = require('./MettaFoldingRangeProvider');
+const { formatMettaCode } = require('./formatter'); // Import the formatter
+
+let previousTheme = null;
 
 function activate(context) {
     console.log('Activating MeTTa extension');
 
-    // Set the initial theme to Default Dark+
-    vscode.workspace.getConfiguration().update('workbench.colorTheme', 'Default Dark+', vscode.ConfigurationTarget.Workspace);
-    
-    function updateThemeBasedOnActiveEditor() {
+    function applyThemeForLanguage() {
         const activeEditor = vscode.window.activeTextEditor;
-        if (activeEditor && activeEditor.document.languageId === 'metta') {
-            vscode.workspace.getConfiguration().update('workbench.colorTheme', 'Metta Theme', vscode.ConfigurationTarget.Workspace);
-        } else {
-            vscode.workspace.getConfiguration().update('workbench.colorTheme', 'Default Dark+', vscode.ConfigurationTarget.Workspace);
+        if (!activeEditor) {
+            return;
+        }
+
+        const languageId = activeEditor.document.languageId;
+        let themeToApply = null;
+
+        switch (languageId) {
+            case 'metta':
+                themeToApply = 'Metta Theme';
+                break;
+            default:
+                themeToApply = 'Default Dark+'
+                break;
+        }
+
+        if (themeToApply) {
+            // Get the current theme
+            previousTheme = vscode.workspace.getConfiguration().get('workbench.colorTheme');
+
+            // Apply the new theme
+            vscode.workspace.getConfiguration().update('workbench.colorTheme', themeToApply, vscode.ConfigurationTarget.Workspace);
         }
     }
-    // vscode.workspace.getConfiguration().update('workbench.colorTheme', 'Metta Theme', vscode.ConfigurationTarget.Workspace);
 
-    vscode.window.onDidChangeActiveTextEditor(() => {
-        updateThemeBasedOnActiveEditor();
-    });
+    // Apply the theme when the extension is activated
+    applyThemeForLanguage();
 
-    vscode.workspace.onDidOpenTextDocument(() => {
-        updateThemeBasedOnActiveEditor();
-    });
-
-    // Initial theme update based on the currently active editor
-    updateThemeBasedOnActiveEditor();
-
-    context.subscriptions.push(
-        vscode.languages.registerDocumentFormattingEditProvider('metta', {
-            provideDocumentFormattingEdits(document) {
-                const formattedText = formatMettaCode(document.getText());
-                return [vscode.TextEdit.replace(new vscode.Range(0, 0, document.lineCount, 0), formattedText)];
-            }
-        })
-    );
+    // Listen for changes to the active text editor
+    vscode.window.onDidChangeActiveTextEditor(applyThemeForLanguage);
 
     // Register the comment selection command
     context.subscriptions.push(
@@ -71,10 +73,39 @@ function activate(context) {
         vscode.languages.registerFoldingRangeProvider({ language: 'metta' }, new MettaFoldingRangeProvider())
     );
 
-    // Format on save
+     // Register the formatter but initially deactivated
+     let formatterEnabled = false; // Initially disabled
+    context.subscriptions.push(
+        vscode.commands.registerCommand('metta.enableFormatter', () => {
+            formatterEnabled = true;
+            vscode.window.showInformationMessage('MeTTa formatter enabled.');
+        })
+    );
+    
+    context.subscriptions.push(
+        vscode.commands.registerCommand('metta.disableFormatter', () => {
+            formatterEnabled = false;
+            vscode.window.showInformationMessage('MeTTa formatter disabled.');
+        })
+    );
+
+    context.subscriptions.push(
+        vscode.languages.registerDocumentFormattingEditProvider('metta', {
+            provideDocumentFormattingEdits(document) {
+                if (formatterEnabled) {
+                    const formattedText = formatMettaCode(document.getText());
+                    return [vscode.TextEdit.replace(new vscode.Range(0, 0, document.lineCount, 0), formattedText)];
+                } else {
+                    return []; // Don't format if disabled
+                }
+            }
+        })
+    );
+
+    // Format on save (Conditionally)
     vscode.workspace.onWillSaveTextDocument((event) => {
         const document = event.document;
-        if (document.languageId === 'metta') {
+        if (document.languageId === 'metta' && formatterEnabled) {
             const formattedText = formatMettaCode(document.getText());
             const edit = vscode.TextEdit.replace(new vscode.Range(0, 0, document.lineCount, 0), formattedText);
             event.waitUntil(Promise.resolve([edit]));
@@ -82,8 +113,13 @@ function activate(context) {
     });
 }
 
-function deactivate() {
+function deactivate(context) {
     console.log('Deactivating MeTTa extension');
+
+    // Restore the previous theme
+    if (previousTheme) {
+        vscode.workspace.getConfiguration().update('workbench.colorTheme', previousTheme, vscode.ConfigurationTarget.Workspace);
+    }
 }
 
 module.exports = {

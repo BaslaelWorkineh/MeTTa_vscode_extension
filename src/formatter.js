@@ -2,13 +2,13 @@ function formatMettaCode(text) {
     const lines = text.split('\n');
     let formattedLines = [];
     let indentLevel = 0;
-    let inTopLevelExpression = false;
     let bracketStack = [];
     let previousLineEmpty = false;
 
     lines.forEach((line) => {
         let trimmedLine = line.trim();
 
+        // Handle empty lines
         if (trimmedLine === "") {
             if (!previousLineEmpty) {
                 formattedLines.push('');
@@ -19,6 +19,7 @@ function formatMettaCode(text) {
             previousLineEmpty = false;
         }
 
+        // Separate comments from the rest of the line
         let commentIndex = trimmedLine.indexOf(';');
         let beforeComment = trimmedLine;
         let comment = '';
@@ -43,23 +44,20 @@ function formatMettaCode(text) {
             indentLevel = Math.max(indentLevel - 1, 0);
         }
 
+        // Add the line with proper indentation
         formattedLines.push(' '.repeat(indentLevel * 4) + trimmedLine);
 
+        // Update the bracket stack and indentation level
         for (let char of beforeComment) {
             if (char === '(') {
                 bracketStack.push('(');
                 indentLevel++;
-                inTopLevelExpression = true;
             } else if (char === ')') {
                 if (bracketStack.length > 0) {
                     bracketStack.pop();
                     indentLevel = Math.max(indentLevel - 1, 0);
                 }
             }
-        }
-
-        if (bracketStack.length === 0 && inTopLevelExpression) {
-            inTopLevelExpression = false;
         }
     });
 

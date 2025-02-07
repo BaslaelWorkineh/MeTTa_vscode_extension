@@ -2,7 +2,7 @@
   "name": "metta-formatter-highlighter",
   "displayName": "MeTTa Lang Formatter + Linter + Highlighter + Hover-Detail + Snippets + etc...",
   "description": "This extension provides Syntax Formatting, Linting, Code Snippet, Highlighting, Code Folding, Simple Refactor and File-Icon for MeTTa programming language.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "BaslaelWorkinehAyele",
   "engines": {
     "vscode": "^1.60.0"
@@ -10,13 +10,18 @@
   "categories": [
     "Programming Languages"
   ],
-  "icon": "icons/metta-icon.png",
+  "icon": "./icons/metta-icon.png",
   "contributes": {
     "languages": [
       {
         "id": "metta",
-        "aliases": ["MeTTa", "metta"],
-        "extensions": [".metta"],
+        "aliases": [
+          "MeTTa",
+          "metta"
+        ],
+        "extensions": [
+          ".metta"
+        ],
         "configuration": "./language-configuration.json"
       }
     ],
@@ -27,13 +32,7 @@
         "path": "./syntaxes/metta.tmLanguage.json"
       }
     ],
-    "iconThemes": [
-      {
-        "id": "metta-icon-theme",
-        "label": "MeTTa Icon Theme",
-        "path": "./icons/icon-theme.json"
-      }
-    ],
+    "iconThemes": [],
     "themes": [
       {
         "label": "Metta Theme",
@@ -53,6 +52,14 @@
       {
         "command": "metta.refactor",
         "title": "Refactor Code"
+      },
+      {
+        "command": "metta.enableFormatter",
+        "title": "Enable Formatter"
+      },
+      {
+        "command": "metta.disableFormatter",
+        "title": "Disable Formatter"
       }
     ],
     "keybindings": [
@@ -63,11 +70,11 @@
       }
     ],
     "snippets": [
-    {
-      "language": "metta",
-      "path": "./snippets/metta.json"
-    }
-  ]
+      {
+        "language": "metta",
+        "path": "./snippets/metta.json"
+      }
+    ]
   },
   "activationEvents": [
     "onLanguage:metta",
@@ -78,7 +85,8 @@
   "main": "./src/extension.js",
   "scripts": {
     "vscode:prepublish": "npm run build",
-    "build": "echo 'No build step required.'"
+    "build": "echo 'No build step required.'",
+    "test": "vscode-test"
   },
   "repository": {
     "type": "git",
@@ -95,5 +103,9 @@
     "code snippets",
     "file icons",
     "metta-lang"
-  ]
+  ],
+  "devDependencies": {
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
 }

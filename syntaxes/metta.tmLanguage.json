@@ -24,7 +24,7 @@
     "keywords": {
       "patterns": [
         {
-          "match": "\\b(if|let|let*|not|else|case|then|while|for|def|return|and|or|empty)\\b",
+          "match": "\\b(if|if-error|if-equal|==|let|not|else|case|then|while|for|def|return|and|or|empty)\\b",
           "name": "keyword.control.metta"
         }
       ]
@@ -32,7 +32,7 @@
     "variables": {
       "patterns": [
         {
-          "match": "\\$(\\w+)",
+          "match": "\\$([a-zA-Z0-9-]+)",
           "captures": {
             "1": {
               "name": "variable.parameter.metta"
@@ -76,7 +76,7 @@
           "name": "keyword.numbers.metta"
         },
         {
-          "match": "\\b(match|println|trace|assertEqualToResult|car-atom|collapse|superpose|bind|import|add-reduct|pragma|remove-atom|cdr-atom|cons-atom|new-space|quote|assertEqual|add-atom|get-type|get-metatype|mod-space|unify)\\b",
+          "match": "\\b(match|println|trace|assertEqualToResult|car-atom|collapse|superpose|bind|import|add-reduct|pragma|remove-atom|cdr-atom|cons-atom|new-space|quote|assertEqual|add-atom|get-type|get-metatype|mod-space|unify|Nil|True|False|Bool|Number|\\$_|&self|empty|pow-math|sqrt-math|abs-math|log-math|trunc-math|ceil-math|floor-math|round-math|sin-math|asin-math|cos-math|acos-math|tan-math|atan-math|isnan-math|isinf-math|PI|EXP|print-mods|register-module|git-module|random-int|random-float|flip|new-state|change-state|get-state|get-type-space|min-atom|max-atom|size-atom|index-atom|unique-atom|subtraction-atom|intersection-atom|union-atom|=alpha|assertAlphaEqualToResult|assertAlphaEqual|filter-atom)\\b",
           "name": "keyword.operator.match.metta"
         },
         {
@@ -92,7 +92,7 @@
     "controllers": {
       "patterns": [
         {
-          "match": "[+\\-*/=><%]",
+          "match": "[+\\*/=><%]",
           "name": "keyword.operator.metta"
         }
       ]
