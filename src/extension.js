@@ -5,43 +5,8 @@ const linter = require('./linter');
 const MettaFoldingRangeProvider = require('./MettaFoldingRangeProvider');
 const { formatMettaCode } = require('./formatter'); // Import the formatter
 
-let previousTheme = null;
-
 function activate(context) {
     console.log('Activating MeTTa extension');
-
-    function applyThemeForLanguage() {
-        const activeEditor = vscode.window.activeTextEditor;
-        if (!activeEditor) {
-            return;
-        }
-
-        const languageId = activeEditor.document.languageId;
-        let themeToApply = null;
-
-        switch (languageId) {
-            case 'metta':
-                themeToApply = 'Metta Theme';
-                break;
-            default:
-                themeToApply = 'Default Dark+'
-                break;
-        }
-
-        if (themeToApply) {
-            // Get the current theme
-            previousTheme = vscode.workspace.getConfiguration().get('workbench.colorTheme');
-
-            // Apply the new theme
-            vscode.workspace.getConfiguration().update('workbench.colorTheme', themeToApply, vscode.ConfigurationTarget.Workspace);
-        }
-    }
-
-    // Apply the theme when the extension is activated
-    applyThemeForLanguage();
-
-    // Listen for changes to the active text editor
-    vscode.window.onDidChangeActiveTextEditor(applyThemeForLanguage);
 
     // Register the comment selection command
     context.subscriptions.push(
@@ -115,11 +80,6 @@ function activate(context) {
 
 function deactivate(context) {
     console.log('Deactivating MeTTa extension');
-
-    // Restore the previous theme
-    if (previousTheme) {
-        vscode.workspace.getConfiguration().update('workbench.colorTheme', previousTheme, vscode.ConfigurationTarget.Workspace);
-    }
 }
 
 module.exports = {
