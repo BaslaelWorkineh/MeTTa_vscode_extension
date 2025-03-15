@@ -1,4 +1,84 @@
 {
+   "Let declaration": {
+     "prefix": "let",
+     "body": ["let \\$var (\\$exp)()"],
+     "description": "let declaration"
+      },
+   "Let* declaration":{
+    "prefix": "let*",
+    "body":[
+          "let* ((\\$var1, \\$var2)(\\$exp))"
+       ],
+       "description": "let* declaration"
+    },
+    "Add atom": {
+        "prefix" : "add-atom",
+        "body": ["add-atom &space (Atom to be added)"],
+        "description": "add atom to space"
+    },
+    "Add-reduct": {
+        "prefix" : "add-reduct",
+        "body": ["add-reduct &space (Atom to be reduced and added to space) "],
+        "description": "add reducible to space"
+    },
+    "remove-atom": {
+        "prefix" : "remove-atom",
+        "body": ["remove-atom &space (Atom to remove)"],
+        "description": "remove atom from space"
+    },
+    "New-space": {
+        "prefix" : "new-space",
+        "body": ["new-space"],
+        "description": "create new space"
+    },
+    "Bind": {
+        "prefix" : "bind!",
+        "body": ["bind! &token (Atom to bind)"],
+        "description": "bind token to atom"
+    },
+    "Import": {
+        "prefix" : "import",
+        "body": ["import! &space module"],
+        "description": "import and bind atoms in the given module"
+    },
+    "Mod-space": {
+        "prefix" : "mod-space",
+        "body": ["mod-space! module"],
+        "description": "load space from module"
+    },
+    "If": {
+        "prefix" : "if",
+        "body": ["if()"],
+        "description": "if statement"
+    },
+    "Case": {
+        "prefix" : "case",
+        "body": ["case ($exp)(",
+                  "(case1 rs)",
+                "(case2 rs)",
+            "(case3 rs)"],
+        "description": "case statement"
+    },
+    "Car-atom": {
+        "prefix" : "car-atom",
+        "body": ["car-atom (\\$exp)"],
+        "description": "rerurns the first atom from \\$exp"
+    },
+    "Cdr-atom": {
+        "prefix" : "cdr-atom",
+        "body": ["cdr-atom ($exp)"],
+        "description": "returns the last atom from \\$exp"
+    },
+    "Cons-atom": {
+        "prefix" : "cons-atom",
+        "body": ["cons-atom \\$exp1 \\$exp2"],
+        "description": "constructs an expression using two arguments, \\$exp1 and \\$exp2"
+    },
+    "Match": {
+        "prefix" : "match",
+        "body": ["match &space (\\$exp)"],
+        "description": "matches space against \\$exp and returns the result"
+    },
     "List Length": {
         "prefix": "length",
         "body": [

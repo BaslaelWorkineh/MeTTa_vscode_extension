@@ -3,43 +3,70 @@ const hoverProvider = require('./hoverProvider');
 const refactor = require('./refactor');
 const linter = require('./linter');
 const MettaFoldingRangeProvider = require('./MettaFoldingRangeProvider');
-const { formatMettaCode } = require('./formatter'); // Import the formatter
+const { formatMettaCode } = require('./formatter');
+const lineStartChecker = require('./lineStartChecker')
+
+// Debounce function to limit the frequency of operations
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
 
 function activate(context) {
     console.log('Activating MeTTa extension');
 
-    // Register the comment selection command
+    let formatterEnabled = false;
+    let isProcessing = false; // Lock to prevent concurrent formatting
+
+    // Optimize comment selection command with a processing lock
     context.subscriptions.push(
-        vscode.commands.registerCommand('metta.commentSelection', () => {
+        vscode.commands.registerCommand('metta.commentSelection', async () => {
+            if (isProcessing) return;
+            
             const editor = vscode.window.activeTextEditor;
-            if (!editor) {
-                return;
+            if (!editor) return;
+
+            isProcessing = true;
+            try {
+                const document = editor.document;
+                const selection = editor.selection;
+                const selectedText = document.getText(selection);
+                const lines = selectedText.split('\n');
+                const commentedLines = lines.map(line => ';' + line);
+                const commentedText = commentedLines.join('\n');
+
+                await editor.edit(editBuilder => {
+                    editBuilder.replace(selection, commentedText);
+                });
+            } finally {
+                isProcessing = false;
             }
-
-            const document = editor.document;
-            const selection = editor.selection;
-            const selectedText = document.getText(selection);
-            const lines = selectedText.split('\n');
-            const commentedLines = lines.map(line => ';' + line);
-            const commentedText = commentedLines.join('\n');
-
-            editor.edit(editBuilder => {
-                editBuilder.replace(selection, commentedText);
-            });
         })
     );
 
+    // Initialize other providers
     hoverProvider.activate(context);
     refactor.activate(context);
     linter.activate(context);
+    lineStartChecker.activate(context);
 
-    console.log('Registering folding range provider');
+
+    // Register folding range provider
     context.subscriptions.push(
-        vscode.languages.registerFoldingRangeProvider({ language: 'metta' }, new MettaFoldingRangeProvider())
+        vscode.languages.registerFoldingRangeProvider(
+            { language: 'metta' }, 
+            new MettaFoldingRangeProvider()
+        )
     );
 
-     // Register the formatter but initially deactivated
-     let formatterEnabled = false; // Initially disabled
+    // Formatter commands
     context.subscriptions.push(
         vscode.commands.registerCommand('metta.enableFormatter', () => {
             formatterEnabled = true;
@@ -54,31 +81,62 @@ function activate(context) {
         })
     );
 
+    // Debounced format function
+    const debouncedFormat = debounce((document) => {
+        if (!formatterEnabled || isProcessing) return [];
+        
+        try {
+            isProcessing = true;
+            const formattedText = formatMettaCode(document.getText());
+            return [vscode.TextEdit.replace(
+                new vscode.Range(0, 0, document.lineCount, 0),
+                formattedText
+            )];
+        } finally {
+            isProcessing = false;
+        }
+    }, 250); // 250ms debounce
+
+    // Document formatting provider
     context.subscriptions.push(
         vscode.languages.registerDocumentFormattingEditProvider('metta', {
             provideDocumentFormattingEdits(document) {
-                if (formatterEnabled) {
-                    const formattedText = formatMettaCode(document.getText());
-                    return [vscode.TextEdit.replace(new vscode.Range(0, 0, document.lineCount, 0), formattedText)];
-                } else {
-                    return []; // Don't format if disabled
-                }
+                return debouncedFormat(document);
             }
         })
     );
 
-    // Format on save (Conditionally)
-    vscode.workspace.onWillSaveTextDocument((event) => {
-        const document = event.document;
-        if (document.languageId === 'metta' && formatterEnabled) {
-            const formattedText = formatMettaCode(document.getText());
-            const edit = vscode.TextEdit.replace(new vscode.Range(0, 0, document.lineCount, 0), formattedText);
-            event.waitUntil(Promise.resolve([edit]));
-        }
-    });
+    // Optimized format on save
+    let saveTimeout;
+    context.subscriptions.push(
+        vscode.workspace.onWillSaveTextDocument((event) => {
+            const document = event.document;
+            if (document.languageId !== 'metta' || !formatterEnabled || isProcessing) return;
+
+            // Clear any pending save operations
+            if (saveTimeout) {
+                clearTimeout(saveTimeout);
+            }
+
+            event.waitUntil(new Promise((resolve) => {
+                saveTimeout = setTimeout(() => {
+                    try {
+                        isProcessing = true;
+                        const formattedText = formatMettaCode(document.getText());
+                        resolve([vscode.TextEdit.replace(
+                            new vscode.Range(0, 0, document.lineCount, 0),
+                            formattedText
+                        )]);
+                    } finally {
+                        isProcessing = false;
+                    }
+                }, 100);
+            }));
+        })
+    );
 }
 
-function deactivate(context) {
+function deactivate() {
     console.log('Deactivating MeTTa extension');
 }
 

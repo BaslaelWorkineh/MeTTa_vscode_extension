@@ -18,6 +18,9 @@
     },
     {
       "include": "#controllers"
+    },
+    {
+      "include": "#localFunction"
     }
   ],
   "repository": {
@@ -94,6 +97,14 @@
         {
           "match": "[+\\*/=><%]",
           "name": "keyword.operator.metta"
+        }
+      ]
+    },
+    "localFunction": {
+      "patterns": [
+         {
+          "match": "/^\\(:\\s*(\\w+)\\s+([^)]*)\\)/|/^\\(=\\s*(?:\\()?\b\\w+\b/",
+          "name": "keyword.localFunction.metta"
         }
       ]
     }

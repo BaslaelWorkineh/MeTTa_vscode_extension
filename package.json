@@ -60,7 +60,11 @@
       {
         "command": "metta.disableFormatter",
         "title": "Disable Formatter"
-      }
+      },
+      {
+        "command": "extension.validateLines",
+        "title": "Validate Line Starts"
+     }
     ],
     "keybindings": [
       {
@@ -80,7 +84,8 @@
     "onLanguage:metta",
     "onCommand:metta.commentSelection",
     "onCommand:metta.runLinter",
-    "onCommand:metta.refactor"
+    "onCommand:metta.refactor",
+    "onCommand:extension.validateLines"
   ],
   "main": "./src/extension.js",
   "scripts": {
@@ -106,6 +111,7 @@
   ],
   "devDependencies": {
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "yo": "^5.1.0"
   }
 }

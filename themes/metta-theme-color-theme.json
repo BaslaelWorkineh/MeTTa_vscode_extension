@@ -8,7 +8,13 @@
             "settings": {
                 "foreground": "#ff7c7c" 
             }
-        },
+        },{
+			"scope": "keyword.localFunction.metta",
+			"settings": {
+				"foreground": "#3f69f5"
+			}
+
+		},
         {
             "scope": "variable.parameter.metta",
             "settings": {
