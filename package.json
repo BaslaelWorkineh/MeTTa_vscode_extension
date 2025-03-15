@@ -60,7 +60,11 @@
       {
         "command": "metta.disableFormatter",
         "title": "Disable Formatter"
-      }
+      },
+      {
+        "command": "extension.validateLines",
+        "title": "Validate Line Starts"
+     }
     ],
     "keybindings": [
       {
@@ -80,7 +84,8 @@
     "onLanguage:metta",
     "onCommand:metta.commentSelection",
     "onCommand:metta.runLinter",
-    "onCommand:metta.refactor"
+    "onCommand:metta.refactor",
+    "onCommand:extension.validateLines"
   ],
   "main": "./src/extension.js",
   "scripts": {

@@ -6,8 +6,8 @@ const MAX_CACHE_SIZE = 1000;
 
 // Precompile the regex pattern
 const WORD_PATTERN = /[\w-!&*$_=<>+*/-]/;
-const REDUCIBLE_PATTERN = /^\(=\s*(?:\()?\s*(\w+)/;  // Modified to better capture function name
-const DECLARATION_PATTERN = /^\(:\s*(\w+)\s+([^)]*)\)/; 
+const REDUCIBLE_PATTERN = /^\(=\s*(?:\()?\s*([\w-]+)/;
+const DECLARATION_PATTERN = /^\(:\s*([\w-]+)\s+([^)]*)\)/;
 
 const localFunctions = new Map();
 let documentVersion = -1;  // Track document version

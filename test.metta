@@ -50,9 +50,8 @@
  (= (inc $x) (+ 1 $x))
  (= (inc $x) (+ 0 $x))
  ! (inc (bin))
-
  ;Always remember about base case
- base case
+
  (= (Length (Nil)) 0)
  ;recursion
  (= (Length (Cons $x $xs)) (+ 1 (Length $xs)))
@@ -76,7 +75,8 @@
  ;merging two lists
  (= (zip () ()) (Zipped))
  (= (zip (:: $x $xs) (:: $y $ys))
-     ( (:: $x $y) (zip $xs $ys)))
+     ( (:: $x $y) (zip $xs $ys))
+     )
 
  ! (zip (:: A (:: B (:: C ()))) (:: 1 (:: 2 (:: 3 ()))))
 
@@ -119,8 +119,8 @@
          ()
      )
  )
- ! (gen_rand_bin 3)
 
+ ! (gen_rand_bin 3)
  (= (bin) 0)
  (= (bin) 1)
  (= (gen-bin-list ()) ())
@@ -130,7 +130,7 @@
 
  ! (gen-bin-list (:: it (:: it (:: it ()))))
 
- ;Target sum finding Problem( )
+;Target sum finding Problem
 
  (= (bin) 0)
  (= (bin) 1)
@@ -144,6 +144,7 @@
  (= (Scalar-Multiple (:: $x $xs) (:: $y $ys))
      (+ (* $x $y) (Scalar-Multiple $xs $ys))
  )
+
 
  (= (Final-Comb $solution $list $target)
      (if (== (Scalar-Multiple $solution $list ) $target)
@@ -216,13 +217,11 @@
                ($a $b (- $b $a))
                ($b $a (- $a $b))))
           ($younger (person-by-age $age-min))
-          ($older   (person-by-age $age-max))
-         )
+          ($older   (person-by-age $age-max)))
          ($younger is younger than $older by $diff years))
 )
 ! (persons-of-age 34 14)
-
-let $var ($exp)()
+;let $var ($exp)()
 (= (add $x $y) (+ $x $y))
 (add)
 (: a A)

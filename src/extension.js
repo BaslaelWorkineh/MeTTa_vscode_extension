@@ -4,6 +4,7 @@ const refactor = require('./refactor');
 const linter = require('./linter');
 const MettaFoldingRangeProvider = require('./MettaFoldingRangeProvider');
 const { formatMettaCode } = require('./formatter');
+const lineStartChecker = require('./lineStartChecker')
 
 // Debounce function to limit the frequency of operations
 function debounce(func, wait) {
@@ -54,6 +55,8 @@ function activate(context) {
     hoverProvider.activate(context);
     refactor.activate(context);
     linter.activate(context);
+    lineStartChecker.activate(context);
+
 
     // Register folding range provider
     context.subscriptions.push(
