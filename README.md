@@ -70,4 +70,5 @@ This extension provides Goto Definition ,Syntax Auto-Formatting, Highlighting, L
 Feel free to submit issues and pull requests for new features and improvements.
 
 ## Contributers
-- Nardos Amakele Demissie
+- Baslael Workineh
+- Nardos Amakele
