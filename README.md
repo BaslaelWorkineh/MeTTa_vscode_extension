@@ -1,6 +1,6 @@
 # MeTTa Language Support
 
-This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering for detail, Code Snippets, Folding and File-Icon for the MeTTa programming language.
+This extension provides Goto Definition ,Syntax Auto-Formatting, Highlighting, Linting, Hovering for detail, Code Snippets, Folding and File-Icon for the MeTTa programming language.
 
 ## Instructions
 
@@ -12,6 +12,10 @@ This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering 
 ## Features
 
 - Document Auto-formatting for MeTTa files by pressing CTR + SHIFT + P Then Choosing MeTTa: Enable Formatter
+- Goto Definition: Navigate directly to function definitions by holding `Ctrl` (or `Cmd` on macOS) and clicking on function calls.
+
+ [Click to view Goto Definition in action!](images/goto-definition.webm)
+
 - Syntax highlighting for MeTTA language
 - Hovering for more detail on keys
 - Linting for Error handling
@@ -65,4 +69,5 @@ This extension provides Syntax Auto-Formatting, Highlighting, Linting, Hovering 
 
 Feel free to submit issues and pull requests for new features and improvements.
 
-
+## Contributers
+- Nardos Amakele Demissie
