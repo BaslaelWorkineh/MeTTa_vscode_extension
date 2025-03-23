@@ -8,13 +8,6 @@ function lintMettaCode(document) {
     const bracketLineStack = [];
 
     lines.forEach((line, lineIndex) => {
-        // Check for trailing spaces
-        if (/\s+$/.test(line)) {
-            const range = new vscode.Range(lineIndex, line.length - line.match(/\s+$/)[0].length, lineIndex, line.length);
-            const diagnostic = new vscode.Diagnostic(range, 'Trailing spaces', vscode.DiagnosticSeverity.Warning);
-            diagnostics.push(diagnostic);
-        }
-
         // Check for unclosed brackets
         for (let charIndex = 0; charIndex < line.length; charIndex++) {
             const char = line[charIndex];
