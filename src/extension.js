@@ -4,6 +4,7 @@ const refactor = require('./refactor');
 const linter = require('./linter');
 const MettaFoldingRangeProvider = require('./MettaFoldingRangeProvider');
 const { formatMettaCode } = require('./formatter'); // Import the formatter
+const MettaDefinitionProvider = require("./definitionProvider");
 
 function activate(context) {
     console.log('Activating MeTTa extension');
@@ -66,7 +67,10 @@ function activate(context) {
             }
         })
     );
-
+    context.subscriptions.push(
+        vscode.languages.registerDefinitionProvider({ scheme: "file", language: "metta" }, new MettaDefinitionProvider())
+    );
+    
     // Format on save (Conditionally)
     vscode.workspace.onWillSaveTextDocument((event) => {
         const document = event.document;
